@@ -169,3 +169,14 @@ pub fn format_log_message(level: LogLevel, message: String, include_timestamp: B
     "[\{level_str}] \{message}"
   }
 }
+
+pub fn parse_log_level_string(level: String) -> LogLevel {
+  match level {
+    "DEBUG" => LogLevel::Debug
+    "INFO" => LogLevel::Info
+    "WARNING" => LogLevel::Warning
+    "ERROR" => LogLevel::Error
+    "CRITICAL" => LogLevel::Critical
+    _ => LogLevel::Info
+  }
+}
