@@ -168,3 +168,8 @@ pub fn is_valid_database_operation(operation: String) -> Bool {
 pub fn validate_database_config(config: DatabaseConfig) -> Bool {
   config.database.length() > 0 && config.username.length() > 0 && config.port > 0
 }
+
+pub fn build_connection_string(config: DatabaseConfig) -> String {
+  let type_str = format_database_type(config.db_type)
+  "\{type_str}://\{config.username}@\{config.host}:\{config.port}/\{config.database}"
+}
