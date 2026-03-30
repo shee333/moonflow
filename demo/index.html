@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MoonAgent Workflow Demo</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "PingFang SC", Arial, sans-serif;
+      background: #0b1020;
+      color: #e5e7eb;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .title {
+      margin: 0 0 8px;
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .desc {
+      margin: 0 0 16px;
+      color: #9ca3af;
+      font-size: 14px;
+    }
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    button {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button:hover {
+      background: #1d4ed8;
+    }
+    .card {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    #board {
+      position: relative;
+      min-height: 520px;
+      padding: 20px;
+    }
+    #edgeLayer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .node {
+      position: absolute;
+      width: 180px;
+      min-height: 80px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 10px 12px;
+      box-sizing: border-box;
+    }
+    .node-id {
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: #93c5fd;
+    }
+    .node-type {
+      font-size: 12px;
+      color: #cbd5e1;
+      word-break: break-all;
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin: 14px 0 6px;
+    }
+    .meta-item {
+      background: #0f172a;
+      border: 1px solid #1f2937;
+      border-radius: 10px;
+      padding: 10px;
+    }
+    .meta-item .k {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+    .meta-item .v {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .raw {
+      margin-top: 16px;
+      background: #0f172a;
+      border: 1px solid #1f2937;
+      border-radius: 10px;
+      padding: 10px;
+      font-family: Consolas, monospace;
+      font-size: 12px;
+      color: #d1d5db;
+      max-height: 240px;
+      overflow: auto;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">MoonAgent 工作流可视化 Demo</h1>
+    <p class="desc">读取 workflow.json，按 DAG 层级展示节点与依赖边。</p>
+    <div class="toolbar">
+      <button id="reloadBtn">重新加载工作流</button>
+    </div>
+    <div class="meta">
+      <div class="meta-item">
+        <div class="k">节点数</div>
+        <div class="v" id="nodeCount">0</div>
+      </div>
+      <div class="meta-item">
+        <div class="k">依赖边数</div>
+        <div class="v" id="edgeCount">0</div>
+      </div>
+      <div class="meta-item">
+        <div class="k">层级深度</div>
+        <div class="v" id="layerCount">0</div>
+      </div>
+    </div>
+    <div class="card">
+      <div id="board">
+        <svg id="edgeLayer"></svg>
+      </div>
+    </div>
+    <pre class="raw" id="rawJson"></pre>
+  </div>
+
+  <script>
+    const board = document.getElementById("board");
+    const edgeLayer = document.getElementById("edgeLayer");
+    const nodeCountEl = document.getElementById("nodeCount");
+    const edgeCountEl = document.getElementById("edgeCount");
+    const layerCountEl = document.getElementById("layerCount");
+    const rawJsonEl = document.getElementById("rawJson");
+    const reloadBtn = document.getElementById("reloadBtn");
+
+    async function loadWorkflow() {
+      const r = await fetch("./workflow.json?ts=" + Date.now());
+      if (!r.ok) {
+        throw new Error("加载 workflow.json 失败");
+      }
+      return r.json();
+    }
+
+    function buildLayers(nodes) {
+      const map = new Map(nodes.map(n => [n.id, n]));
+      const indeg = new Map();
+      const next = new Map();
+      nodes.forEach(n => {
+        indeg.set(n.id, (n.depends_on || []).length);
+        next.set(n.id, []);
+      });
+      nodes.forEach(n => {
+        (n.depends_on || []).forEach(dep => {
+          if (!map.has(dep)) {
+            throw new Error(`节点 ${n.id} 依赖不存在节点 ${dep}`);
+          }
+          next.get(dep).push(n.id);
+        });
+      });
+
+      const q = [];
+      indeg.forEach((d, id) => { if (d === 0) q.push(id); });
+      const level = new Map();
+      q.forEach(id => level.set(id, 0));
+      let visited = 0;
+      while (q.length) {
+        const cur = q.shift();
+        visited += 1;
+        const curLv = level.get(cur) || 0;
+        for (const nxt of next.get(cur)) {
+          indeg.set(nxt, indeg.get(nxt) - 1);
+          level.set(nxt, Math.max(level.get(nxt) || 0, curLv + 1));
+          if (indeg.get(nxt) === 0) q.push(nxt);
+        }
+      }
+      if (visited !== nodes.length) {
+        throw new Error("检测到环，无法渲染");
+      }
+
+      const groups = new Map();
+      nodes.forEach(n => {
+        const lv = level.get(n.id) || 0;
+        if (!groups.has(lv)) groups.set(lv, []);
+        groups.get(lv).push(n);
+      });
+
+      const ordered = [...groups.entries()].sort((a, b) => a[0] - b[0]);
+      return ordered.map(x => x[1]);
+    }
+
+    function render(workflow) {
+      board.querySelectorAll(".node").forEach(el => el.remove());
+      while (edgeLayer.firstChild) edgeLayer.removeChild(edgeLayer.firstChild);
+
+      const nodes = workflow.nodes || [];
+      const edges = [];
+      nodes.forEach(n => (n.depends_on || []).forEach(dep => edges.push([dep, n.id])));
+      nodeCountEl.textContent = String(nodes.length);
+      edgeCountEl.textContent = String(edges.length);
+      rawJsonEl.textContent = JSON.stringify(workflow, null, 2);
+
+      const layers = buildLayers(nodes);
+      layerCountEl.textContent = String(layers.length);
+      const xGap = 240;
+      const yGap = 120;
+      const originX = 40;
+      const originY = 30;
+      const position = new Map();
+
+      layers.forEach((layerNodes, layerIdx) => {
+        layerNodes.forEach((n, idx) => {
+          const x = originX + layerIdx * xGap;
+          const y = originY + idx * yGap;
+          position.set(n.id, { x, y });
+
+          const div = document.createElement("div");
+          div.className = "node";
+          div.style.left = x + "px";
+          div.style.top = y + "px";
+          div.innerHTML = `<div class="node-id">${n.id}</div><div class="node-type">type: ${n.type}</div>`;
+          board.appendChild(div);
+        });
+      });
+
+      const boardRect = board.getBoundingClientRect();
+      let maxX = 0;
+      let maxY = 0;
+      position.forEach(p => {
+        maxX = Math.max(maxX, p.x + 220);
+        maxY = Math.max(maxY, p.y + 120);
+      });
+      board.style.minHeight = Math.max(520, maxY) + "px";
+      edgeLayer.setAttribute("viewBox", `0 0 ${Math.max(900, maxX)} ${Math.max(520, maxY)}`);
+
+      edges.forEach(([from, to]) => {
+        const a = position.get(from);
+        const b = position.get(to);
+        if (!a || !b) return;
+        const x1 = a.x + 180;
+        const y1 = a.y + 40;
+        const x2 = b.x;
+        const y2 = b.y + 40;
+        const c1x = x1 + 40;
+        const c1y = y1;
+        const c2x = x2 - 40;
+        const c2y = y2;
+
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("d", `M ${x1} ${y1} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${x2} ${y2}`);
+        path.setAttribute("fill", "none");
+        path.setAttribute("stroke", "#60a5fa");
+        path.setAttribute("stroke-width", "2");
+        edgeLayer.appendChild(path);
+      });
+    }
+
+    async function boot() {
+      try {
+        const workflow = await loadWorkflow();
+        render(workflow);
+      } catch (e) {
+        rawJsonEl.textContent = String(e);
+      }
+    }
+
+    reloadBtn.addEventListener("click", boot);
+    boot();
+  </script>
+</body>
+</html>

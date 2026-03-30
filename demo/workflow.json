@@ -1,0 +1,62 @@
+{
+  "nodes": [
+    {
+      "id": "a_fetch",
+      "type": "sleep_value",
+      "config": {
+        "delay_sec": 2,
+        "value": 10
+      },
+      "depends_on": []
+    },
+    {
+      "id": "b_fetch",
+      "type": "sleep_value",
+      "config": {
+        "delay_sec": 2,
+        "value": 20
+      },
+      "depends_on": []
+    },
+    {
+      "id": "c_sum",
+      "type": "sum",
+      "depends_on": [
+        "a_fetch",
+        "b_fetch"
+      ]
+    },
+    {
+      "id": "d_flaky",
+      "type": "flaky_increment",
+      "config": {
+        "fail_times": 1,
+        "increment": 5
+      },
+      "retry": {
+        "max_retries": 2,
+        "delay_sec": 1
+      },
+      "depends_on": [
+        "c_sum"
+      ]
+    },
+    {
+      "id": "e_format",
+      "type": "format",
+      "config": {
+        "template": "MoonAgent Demo 最终结果: {value}"
+      },
+      "depends_on": [
+        "d_flaky"
+      ]
+    },
+    {
+      "id": "f_print",
+      "type": "print",
+      "depends_on": [
+        "e_format"
+      ]
+    }
+  ]
+}
