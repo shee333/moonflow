@@ -169,3 +169,13 @@ pub fn format_cache_info(key: String, backend: CacheBackend, ttl: Int) -> String
 pub fn validate_cache_config(config: CacheConfig) -> Bool {
   config.ttl > 0 && config.max_size > 0 && config.prefix.length() > 0
 }
+
+pub fn parse_cache_backend_string(backend: String) -> CacheBackend {
+  match backend {
+    "memory" => CacheBackend::Memory
+    "redis" => CacheBackend::Redis
+    "memcached" => CacheBackend::Memcached
+    "file" => CacheBackend::File
+    _ => CacheBackend::Memory
+  }
+}
