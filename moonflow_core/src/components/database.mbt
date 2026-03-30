@@ -151,3 +151,12 @@ pub fn format_database_type(db_type: DatabaseType) -> String {
     DatabaseType::SQLite => "SQLite"
   }
 }
+
+pub fn parse_database_type(type_str: String) -> DatabaseType {
+  match type_str {
+    "postgresql" => DatabaseType::PostgreSQL
+    "mysql" => DatabaseType::MySQL
+    "sqlite" => DatabaseType::SQLite
+    _ => DatabaseType::PostgreSQL
+  }
+}
