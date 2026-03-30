@@ -9,6 +9,10 @@ pub fn init_registry() {
   register_component("email", create_email_component().get_metadata())
   register_component("feishu", create_feishu_component().get_metadata())
   register_component("llm", create_llm_component().get_metadata())
+  register_component("file", create_file_component().get_metadata())
+  register_component("json", create_json_component().get_metadata())
+  register_component("transform", create_transform_component().get_metadata())
+  register_component("timer", create_timer_component().get_metadata())
 }
 
 pub fn register_component(name: String, metadata: ComponentMetadata) {
