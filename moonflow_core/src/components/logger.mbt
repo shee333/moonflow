@@ -159,3 +159,13 @@ fn format_log_target(target: LogTarget) -> String {
     LogTarget::Http => "http"
   }
 }
+
+pub fn format_log_message(level: LogLevel, message: String, include_timestamp: Bool) -> String {
+  let timestamp = if include_timestamp { "2024-01-01 00:00:00" } else { "" }
+  let level_str = format_log_level(level)
+  if include_timestamp {
+    "[\{timestamp}] [\{level_str}] \{message}"
+  } else {
+    "[\{level_str}] \{message}"
+  }
+}
