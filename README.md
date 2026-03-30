@@ -95,7 +95,7 @@ moonflow/
 
 ```bash
 # 克隆仓库
-git clone https://github.com/yourusername/moonflow.git
+git clone https://github.com/shee333/moonflow.git
 cd moonflow
 
 # 安装 MoonBit 依赖 (如果需要)
@@ -218,5 +218,5 @@ moon test ./tests/integration/
 
 ## 联系方式
 
-- 项目主页：https://github.com/yourusername/moonflow
-- 问题反馈：https://github.com/yourusername/moonflow/issues
+- 项目主页：https://github.com/shee333/moonflow
+- 问题反馈：https://github.com/shee333/moonflow/issues

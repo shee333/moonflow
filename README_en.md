@@ -95,7 +95,7 @@ moonflow/
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/moonflow.git
+git clone https://github.com/shee333/moonflow.git
 cd moonflow
 
 # Install MoonBit dependencies (if needed)
@@ -218,5 +218,5 @@ Issues and Pull Requests are welcome!
 
 ## Contact
 
-- Project Home: https://github.com/yourusername/moonflow
-- Issue Tracker: https://github.com/yourusername/moonflow/issues
+- Project Home: https://github.com/shee333/moonflow
+- Issue Tracker: https://github.com/shee333/moonflow/issues

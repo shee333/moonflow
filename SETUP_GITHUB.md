@@ -37,7 +37,7 @@ git push -u origin master
 ## 验证
 
 创建成功后，你可以访问：
-https://github.com/YOUR_USERNAME/moonagent
+https://github.com/shee333/moonagent
 
 ## 常见问题
 
@@ -59,5 +59,5 @@ https://github.com/YOUR_USERNAME/moonagent
 
 然后修改本地 git remote：
 ```powershell
-git remote set-url origin https://github.com/YOUR_USERNAME/moonagent-v2.git
+git remote set-url origin https://github.com/shee333/moonagent-v2.git
 ```

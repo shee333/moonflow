@@ -64,7 +64,7 @@ git push -u origin master
 
 仓库创建成功后，可以克隆到本地：
 ```bash
-git clone https://github.com/YOUR_USERNAME/moonflow.git
+git clone https://github.com/shee333/moonflow.git
 ```
 
 ## 故障排除
