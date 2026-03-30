@@ -160,3 +160,7 @@ pub fn parse_database_type(type_str: String) -> DatabaseType {
     _ => DatabaseType::PostgreSQL
   }
 }
+
+pub fn is_valid_database_operation(operation: String) -> Bool {
+  operation == "query" || operation == "insert" || operation == "update" || operation == "delete"
+}
