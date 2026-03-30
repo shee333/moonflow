@@ -160,3 +160,8 @@ fn format_cache_backend(backend: CacheBackend) -> String {
     CacheBackend::File => "file"
   }
 }
+
+pub fn format_cache_info(key: String, backend: CacheBackend, ttl: Int) -> String {
+  let backend_str = format_cache_backend(backend)
+  "Cache key '\{key}' in \{backend_str} with TTL \{ttl}s"
+}
