@@ -180,3 +180,7 @@ pub fn parse_log_level_string(level: String) -> LogLevel {
     _ => LogLevel::Info
   }
 }
+
+pub fn validate_log_config(config: LogConfig) -> Bool {
+  config.level >= LogLevel::Debug && config.targets.length() > 0 && config.format.length() > 0
+}
