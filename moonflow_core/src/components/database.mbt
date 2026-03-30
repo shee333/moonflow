@@ -164,3 +164,7 @@ pub fn parse_database_type(type_str: String) -> DatabaseType {
 pub fn is_valid_database_operation(operation: String) -> Bool {
   operation == "query" || operation == "insert" || operation == "update" || operation == "delete"
 }
+
+pub fn validate_database_config(config: DatabaseConfig) -> Bool {
+  config.database.length() > 0 && config.username.length() > 0 && config.port > 0
+}
