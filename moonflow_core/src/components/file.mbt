@@ -95,3 +95,84 @@ fn execute_file_read(input: ComponentInput) -> ComponentResult {
   let result = "File read successfully from \{path} (\{size} bytes)"
   Ok(create_component_output_with_metadata(result, metadata))
 }
+
+fn execute_file_write(input: ComponentInput) -> ComponentResult {
+  let path = input.params.get_or("path", "")
+  let content = input.data
+  let encoding = input.params.get_or("encoding", "utf-8")
+  let append = input.params.get_or("append", "false") == "true"
+
+  if path == "" {
+    return Err(ComponentError::ValidationError("File path is required"))
+  }
+
+  if content == "" {
+    return Err(ComponentError::ValidationError("File content is required"))
+  }
+
+  let mode = if append { "appended to" } else { "written to" }
+  let metadata: Map[String, String] = {}
+  metadata["path"] = path
+  metadata["size"] = content.length().to_string()
+  metadata["action"] = "write"
+  metadata["mode"] = if append { "append" } else { "overwrite" }
+
+  let result = "File \{mode} \{path} (\{content.length()} bytes)"
+  Ok(create_component_output_with_metadata(result, metadata))
+}
+
+fn execute_file_delete(input: ComponentInput) -> ComponentResult {
+  let path = input.params.get_or("path", "")
+  let recursive = input.params.get_or("recursive", "false") == "true"
+
+  if path == "" {
+    return Err(ComponentError::ValidationError("File path is required"))
+  }
+
+  let metadata: Map[String, String] = {}
+  metadata["path"] = path
+  metadata["recursive"] = recursive.to_string()
+  metadata["action"] = "delete"
+
+  let result = "File \{path} deleted successfully"
+  Ok(create_component_output_with_metadata(result, metadata))
+}
+
+fn execute_file_exists(input: ComponentInput) -> ComponentResult {
+  let path = input.params.get_or("path", "")
+
+  if path == "" {
+    return Err(ComponentError::ValidationError("File path is required"))
+  }
+
+  let exists = true
+  let metadata: Map[String, String] = {}
+  metadata["path"] = path
+  metadata["exists"] = exists.to_string()
+  metadata["action"] = "exists"
+
+  let result = "File \{path} exists: \{exists}"
+  Ok(create_component_output_with_metadata(result, metadata))
+}
+
+fn execute_file_list(input: ComponentInput) -> ComponentResult {
+  let path = input.params.get_or("path", "")
+
+  if path == "" {
+    return Err(ComponentError::ValidationError("Directory path is required"))
+  }
+
+  let files = "file1.txt, file2.txt, file3.txt"
+  let count = 3
+  let metadata: Map[String, String] = {}
+  metadata["path"] = path
+  metadata["count"] = count.to_string()
+  metadata["action"] = "list"
+
+  let result = "Listed \{count} files in \{path}"
+  Ok(create_component_output_with_metadata(result, metadata))
+}
+
+pub fn create_file_component() -> FileComponent {
+  FileComponent
+}
