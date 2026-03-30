@@ -165,3 +165,7 @@ pub fn format_cache_info(key: String, backend: CacheBackend, ttl: Int) -> String
   let backend_str = format_cache_backend(backend)
   "Cache key '\{key}' in \{backend_str} with TTL \{ttl}s"
 }
+
+pub fn validate_cache_config(config: CacheConfig) -> Bool {
+  config.ttl > 0 && config.max_size > 0 && config.prefix.length() > 0
+}
