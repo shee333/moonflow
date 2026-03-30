@@ -1,0 +1,7 @@
+// import {
+//   "username/moonflow_core" @lib,
+// }
+
+options(
+  "is-main": true,
+)

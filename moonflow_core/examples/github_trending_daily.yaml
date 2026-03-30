@@ -1,0 +1,68 @@
+version: v1
+name: github_trending_daily
+description: Daily fetch GitHub Trending, generate Chinese summary, send notification
+
+metadata:
+  author: MoonFlow Team
+  version: 1.0.0
+  tags: [自动化, GitHub, 每日推送]
+
+nodes:
+  - id: timer
+    type: trigger.timer
+    with:
+      schedule: '0 9 * * *'
+
+  - id: fetch_trending
+    type: tool.http_get
+    with:
+      url: 'https://github.com/trending'
+      timeout: 10000
+    retry:
+      max_attempts: 3
+      strategy: exponential_backoff
+      initial_delay: 1000
+
+  - id: parse_html
+    type: tool.html_parse
+    with:
+      selector: '.repo-list-item h3 a'
+
+  - id: summarize
+    type: agent.llm
+    with:
+      model: gpt-4
+      prompt: |
+        Please summarize the following GitHub trending projects in Chinese (no more than 500 words):
+        {$.parse_html.result}
+      temperature: 0.5
+      max_tokens: 1000
+
+  - id: send_feishu
+    type: tool.feishu.send
+    with:
+      webhook: '{secret.feishu_webhook}'
+      message_type: text
+      content:
+        text: |
+          📊 GitHub Trending Daily Summary
+
+          {$.summarize.result}
+
+          🕐 Generated at: {$.meta.timestamp}
+
+edges:
+  - from: timer
+    to: fetch_trending
+  - from: fetch_trending
+    to: parse_html
+  - from: parse_html
+    to: summarize
+  - from: summarize
+    to: send_feishu
+
+config:
+  timeout: 120000
+  retry:
+    max_attempts: 2
+    initial_delay: 1000
