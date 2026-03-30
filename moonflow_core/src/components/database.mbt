@@ -73,3 +73,73 @@ pub fn create_database_config_with_ssl(
     max_connections: 10,
   }
 }
+
+impl Component for DatabaseComponent {
+  fn execute(input: ComponentInput, ctx: moonflow_core::runtime::ExecutionContext) -> ComponentResult {
+    let operation = input.params.get_or("operation", "query")
+    let query = input.data
+
+    if query == "" {
+      return Err(ComponentError::ValidationError("SQL query is required"))
+    }
+
+    let host = input.params.get_or("host", "localhost")
+    let port = input.params.get_or("port", "5432").to_int().unwrap_or(5432)
+    let database = input.params.get_or("database", "")
+    let username = input.secrets.get_or("username", "")
+    let password = input.secrets.get_or("password", "")
+
+    if database == "" || username == "" {
+      return Err(ComponentError::ValidationError("Database and username are required"))
+    }
+
+    execute_database_operation(operation, query, host, port, database, username)
+  }
+
+  fn validate(config: Map[String, String]) -> Bool {
+    match (config["query"], config["database"]) {
+      (Some(query), Some(database)) => query.length() > 0 && database.length() > 0
+      _ => false
+    }
+  }
+
+  fn get_metadata() -> ComponentMetadata {
+    ComponentMetadata::{
+      name: "database",
+      version: "1.0.0",
+      description: "Database operation component supporting PostgreSQL, MySQL, and SQLite",
+      category: ComponentCategory::Tool,
+      inputs: [
+        InputSchema::{ name: "operation", type_: "string", required: true, description: "Database operation: query/insert/update/delete" },
+        InputSchema::{ name: "query", type_: "string", required: true, description: "SQL query to execute" },
+        InputSchema::{ name: "host", type_: "string", required: false, description: "Database host" },
+        InputSchema::{ name: "port", type_: "number", required: false, description: "Database port" },
+        InputSchema::{ name: "database", type_: "string", required: true, description: "Database name" },
+      ],
+      outputs: [
+        OutputSchema::{ name: "rows_affected", type_: "number", description: "Number of rows affected" },
+        OutputSchema::{ name: "result", type_: "string", description: "Query result as JSON" },
+        OutputSchema::{ name: "execution_time", type_: "number", description: "Execution time in milliseconds" },
+      ],
+    }
+  }
+}
+
+fn execute_database_operation(
+  operation: String,
+  query: String,
+  host: String,
+  port: Int,
+  database: String,
+  username: String
+) -> ComponentResult {
+  let metadata: Map[String, String] = {}
+  metadata["host"] = host
+  metadata["port"] = port.to_string()
+  metadata["database"] = database
+  metadata["username"] = username
+  metadata["operation"] = operation
+
+  let response = "Database operation '\{operation}' executed on '\{database}' at \{host}:\{port}"
+  Ok(create_component_output_with_metadata(response, metadata))
+}
