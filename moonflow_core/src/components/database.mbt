@@ -143,3 +143,11 @@ fn execute_database_operation(
   let response = "Database operation '\{operation}' executed on '\{database}' at \{host}:\{port}"
   Ok(create_component_output_with_metadata(response, metadata))
 }
+
+pub fn format_database_type(db_type: DatabaseType) -> String {
+  match db_type {
+    DatabaseType::PostgreSQL => "PostgreSQL"
+    DatabaseType::MySQL => "MySQL"
+    DatabaseType::SQLite => "SQLite"
+  }
+}
