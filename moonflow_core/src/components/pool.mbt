@@ -7,3 +7,9 @@ pub enum PoolStrategy {
   | Fifo
   | Random
 }
+
+pub struct PoolConfig {
+  strategy: PoolStrategy
+  min_size: Int
+  max_size: Int
+}
