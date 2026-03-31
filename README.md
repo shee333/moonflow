@@ -1,6 +1,6 @@
 # MoonFlow: 基于 MoonBit 的 Dify 式 AI 智能体编排平台
 
-[English](README_en.md) | 简体中文
+简体中文
 
 ## 项目简介
 
