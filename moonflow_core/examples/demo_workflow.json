@@ -1,0 +1,49 @@
+{
+  "version": "v1",
+  "name": "demo_workflow",
+  "description": "Simple demo workflow for testing",
+  "metadata": {
+    "author": "MoonFlow Team",
+    "version": "1.0.0"
+  },
+  "nodes": [
+    {
+      "id": "start",
+      "type": "trigger.manual",
+      "label": "Start",
+      "with": {}
+    },
+    {
+      "id": "step1",
+      "type": "tool.echo",
+      "label": "Echo Step 1",
+      "with": {
+        "message": "Hello from MoonFlow!"
+      }
+    },
+    {
+      "id": "step2",
+      "type": "tool.echo",
+      "label": "Echo Step 2",
+      "with": {
+        "message": "This is step 2"
+      }
+    },
+    {
+      "id": "end",
+      "type": "control.end",
+      "label": "End",
+      "with": {
+        "status": "success"
+      }
+    }
+  ],
+  "edges": [
+    {"from": "start", "to": "step1"},
+    {"from": "step1", "to": "step2"},
+    {"from": "step2", "to": "end"}
+  ],
+  "config": {
+    "timeout": 60000
+  }
+}

@@ -2,7 +2,43 @@
 
 **日期**: 2026-03-31
 **版本**: 0.1.0
-**状态**: ✅ 核心模块已完成
+**状态**: ✅ 核心模块已完成 + Demo 可运行
+
+---
+
+## 🚀 快速开始
+
+### 运行 Demo
+
+```bash
+cd moonflow_core
+moon run src/demo/demo.mbt
+```
+
+### 预期输出
+
+```
+===========================================
+MoonFlow Demo - Starting...
+===========================================
+
+1. Creating demo workflow programmatically...
+   - Node 1: start (Trigger)
+   - Node 2: step1 (Tool)
+   - Node 3: step2 (Tool)
+   - Node 4: end (Control)
+   ...
+===========================================
+MoonFlow Demo - Completed Successfully!
+===========================================
+```
+
+### 构建项目
+
+```bash
+cd moonflow_core
+moon build
+```
 
 ---
 
@@ -15,6 +51,7 @@
 | 工作流验证器 | ✅ 完成 | `src/workflow/validator.mbt` | 5项验证规则 |
 | DAG调度引擎 | ✅ 完成 | `src/runtime/scheduler.mbt` | 拓扑排序、并行调度 |
 | 节点执行器 | ✅ 完成 | `src/runtime/executor.mbt` | 4种节点类型执行 |
+| **Demo** | ✅ 完成 | `src/demo/demo.mbt` | **可运行的 Demo** |
 | 示例工作流 | ✅ 完成 | `examples/github_trending_daily.yaml` | GitHub Trending示例 |
 | 单元测试 | ✅ 完成 | `tests/workflow_test.mbt` | 验证器测试 |
 
@@ -134,19 +171,24 @@ moonflow_core/
 │   │   ├── parser.mbt      # 工作流解析器
 │   │   └── validator.mbt   # 工作流验证器
 │   ├── runtime/
-│   │   ├── scheduler.mbt    # DAG调度引擎
+│   │   ├── scheduler.mbt   # DAG调度引擎
 │   │   └── executor.mbt    # 节点执行器
-│   ├── components/          # 组件库（待开发）
-│   └── utils/              # 工具函数（待开发）
+│   ├── components/          # 组件库（40+组件）
+│   ├── demo/
+│   │   └── demo.mbt        # 🚀 可运行的 Demo
+│   └── utils/              # 工具函数
 ├── examples/
 │   └── github_trending_daily.yaml  # GitHub Trending示例
 ├── tests/
 │   └── workflow_test.mbt   # 单元测试
-├── cmd/
-│   └── main/
-│       └── main.mbt        # 主程序入口
 └── moon.mod.json           # 项目配置
 ```
+
+## ⚠️ 注意事项
+
+- **Demo 运行**: 使用 `moon run src/demo/demo.mbt` 命令运行
+- **MoonBit 版本**: 需要 MoonBit 0.1.x 或更高版本
+- **跨模块调用**: MoonBit 的模块系统有特殊限制，demo 使用内联实现以确保可运行性
 
 ---
 
