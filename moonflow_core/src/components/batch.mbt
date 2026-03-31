@@ -50,3 +50,29 @@ impl Component for BatchComponent {
 
     execute_batch_operation(batch_mode, batch_size, data)
   }
+
+  fn validate(config: Map[String, String]) -> Bool {
+    match config["batch_mode"] {
+      Some(bmode) => is_valid_batch_mode(bmode)
+      None => true
+    }
+  }
+
+  fn get_metadata() -> ComponentMetadata {
+    ComponentMetadata::{
+      name: "batch",
+      version: "1.0.0",
+      description: "Batch processing component with sequential, parallel, and chunked modes",
+      category: ComponentCategory::Flow,
+      inputs: [
+        InputSchema::{ name: "batch_mode", type_: "string", required: true, description: "Batch mode: sequential/parallel/chunked" },
+        InputSchema::{ name: "batch_size", type_: "number", required: false, description: "Batch size" },
+        InputSchema::{ name: "data", type_: "string", required: true, description: "Data to batch" },
+      ],
+      outputs: [
+        OutputSchema::{ name: "batches", type_: "array", description: "Batch results" },
+        OutputSchema::{ name: "count", type_: "number", description: "Number of batches" },
+      ],
+    }
+  }
+}
