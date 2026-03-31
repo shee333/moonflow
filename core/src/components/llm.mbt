@@ -7,6 +7,7 @@ pub type LLMProvider =
   | Claude
   | Gemini
   | Custom
+} derive(Show, Eq)
 
 pub struct LLMConfig {
   provider: LLMProvider
@@ -16,7 +17,7 @@ pub struct LLMConfig {
   temperature: Double
   max_tokens: Int
   timeout: Int
-}
+} derive(Show, Eq)
 
 pub struct LLMRequest {
   prompt: String
@@ -30,7 +31,7 @@ pub struct LLMRequest {
 pub struct ChatMessage {
   role: String
   content: String
-}
+} derive(Show, Eq)
 
 pub struct LLMResponse {
   content: String
@@ -43,7 +44,7 @@ pub struct TokenUsage {
   prompt_tokens: Int
   completion_tokens: Int
   total_tokens: Int
-}
+} derive(Show, Eq)
 
 impl Component for LLMComponent {
   fn execute(input: ComponentInput, ctx: moonflow_core::runtime::ExecutionContext) -> ComponentResult {
