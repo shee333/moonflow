@@ -29,6 +29,51 @@ pub fn create_splitter_config(splitter_type: SplitterType, delimiter: String) ->
   }
 }
 
+fn execute_split_operation(splitter_type: String, delimiter: String, data: String) -> ComponentResult {
+  let metadata: Map[String, String] = {}
+  metadata["splitter_type"] = splitter_type
+  metadata["delimiter"] = delimiter
+  metadata["status"] = "split"
+
+  let chunks = count_chunks(splitter_type, delimiter, data)
+  metadata["count"] = chunks.to_string()
+
+  let response = "Split '\{data}' into \{chunks} chunks using '\{splitter_type}'"
+  Ok(create_component_output_with_metadata(response, metadata))
+}
+
+fn count_chunks(splitter_type: String, delimiter: String, data: String) -> Int {
+  match splitter_type {
+    "by_delimiter" => {
+      let count = 1
+      let len = delimiter.length()
+      if len > 0 {
+        let mut i = 0
+        while i < data.length() {
+          let pos = data.find(delimiter, i)
+          match pos {
+            Some(_) => count + 1
+            None => break
+          }
+          i = i + len
+        }
+      } else {
+        count
+      }
+    }
+    "by_length" => {
+      let chunk_size = 1024
+      (data.length() + chunk_size - 1) / chunk_size
+    }
+    _ => 1
+  }
+}
+
+fn is_valid_splitter_type(splitter_type: String) -> Bool {
+  splitter_type == "by_delimiter" || splitter_type == "by_length" ||
+  splitter_type == "by_pattern" || splitter_type == "by_json_path"
+}
+
 pub fn create_splitter_config_with_chunks(
   splitter_type: SplitterType,
   delimiter: String,
