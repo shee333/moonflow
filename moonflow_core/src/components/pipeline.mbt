@@ -27,6 +27,37 @@ pub fn create_pipeline_config(stages: Array[PipelineStage]) -> PipelineConfig {
   }
 }
 
+fn execute_pipeline_operation(parallel: Bool, data: String) -> ComponentResult {
+  let metadata: Map[String, String] = {}
+  metadata["parallel"] = parallel.to_string()
+  metadata["status"] = "executed"
+
+  let result = process_pipeline(data, parallel)
+  metadata["stages"] = count_stages(data).to_string()
+
+  let response = "Pipeline executed on '\{data}' (parallel: \{parallel})"
+  Ok(create_component_output_with_metadata(response, metadata))
+}
+
+fn process_pipeline(data: String, parallel: Bool) -> String {
+  if parallel {
+    data + " [processed in parallel]"
+  } else {
+    data + " [processed sequentially]"
+  }
+}
+
+fn count_stages(data: String) -> Int {
+  let len = data.length()
+  if len < 10 {
+    1
+  } else if len < 100 {
+    2
+  } else {
+    3
+  }
+}
+
 pub fn create_pipeline_config_with_options(
   stages: Array[PipelineStage],
   parallel: Bool,
