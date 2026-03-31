@@ -25,3 +25,15 @@ pub fn create_debounce_config(strategy: DebounceStrategy, delay_ms: Int) -> Debo
     max_wait_ms: delay_ms * 10,
   }
 }
+
+pub fn create_debounce_config_with_max_wait(
+  strategy: DebounceStrategy,
+  delay_ms: Int,
+  max_wait_ms: Int
+) -> DebounceConfig {
+  DebounceConfig::{
+    strategy,
+    delay_ms,
+    max_wait_ms,
+  }
+}
