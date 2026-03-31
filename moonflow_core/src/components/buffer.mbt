@@ -77,3 +77,32 @@ impl Component for BufferComponent {
     }
   }
 }
+
+fn execute_buffer_operation(strategy: String, max_size: Int, operation: String) -> ComponentResult {
+  let metadata: Map[String, String] = {}
+  metadata["strategy"] = strategy
+  metadata["max_size"] = max_size.to_string()
+  metadata["status"] = "buffered"
+
+  let flush_needed = should_flush_buffer(strategy, max_size, 1)
+  metadata["buffered"] = "true"
+  metadata["flush_needed"] = flush_needed.to_string()
+
+  let response = "Buffered '\{operation}' using '\{strategy}' (\{max_size} max size)"
+  Ok(create_component_output_with_metadata(response, metadata))
+}
+
+fn should_flush_buffer(strategy: String, max_size: Int, current_size: Int) -> Bool {
+  match strategy {
+    "flush_on_size" => current_size >= max_size
+    "flush_on_time" => false
+    "flush_on_size_or_time" => current_size >= max_size
+    "manual" => false
+    _ => false
+  }
+}
+
+fn is_valid_buffer_strategy(strategy: String) -> Bool {
+  strategy == "flush_on_size" || strategy == "flush_on_time" ||
+  strategy == "flush_on_size_or_time" || strategy == "manual"
+}
