@@ -9,6 +9,12 @@ pub enum RouterType {
   | Hash
 }
 
+pub struct RouterConfig {
+  router_type: RouterType
+  targets: Array[String]
+  weights: Array[Int]?
+}
+
 pub fn create_router_component() -> RouterComponent {
   RouterComponent
 }
