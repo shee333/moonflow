@@ -76,3 +76,29 @@ impl Component for DebounceComponent {
     }
   }
 }
+
+fn execute_debounce_operation(strategy: String, delay_ms: Int, operation: String) -> ComponentResult {
+  let metadata: Map[String, String] = {}
+  metadata["strategy"] = strategy
+  metadata["delay_ms"] = delay_ms.to_string()
+  metadata["status"] = "debounced"
+
+  metadata["executed"] = "true"
+  metadata["delay"] = delay_ms.to_string()
+
+  let response = "Debounced '\{operation}' using '\{strategy}' strategy (\{delay_ms}ms delay)"
+  Ok(create_component_output_with_metadata(response, metadata))
+}
+
+fn calculate_debounce_time(strategy: String, delay_ms: Int) -> Int {
+  match strategy {
+    "leading" => delay_ms
+    "trailing" => delay_ms
+    "both" => delay_ms * 2
+    _ => delay_ms
+  }
+}
+
+fn is_valid_debounce_strategy(strategy: String) -> Bool {
+  strategy == "leading" || strategy == "trailing" || strategy == "both"
+}
