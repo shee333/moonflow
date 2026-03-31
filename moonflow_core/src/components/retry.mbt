@@ -9,6 +9,13 @@ pub enum RetryStrategy {
   | Fibonacci
 }
 
+pub struct RetryConfig {
+  strategy: RetryStrategy
+  max_attempts: Int
+  base_delay: Int
+  max_delay: Int
+}
+
 pub fn create_retry_component() -> RetryComponent {
   RetryComponent
 }
