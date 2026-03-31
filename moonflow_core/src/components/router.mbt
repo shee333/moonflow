@@ -18,3 +18,11 @@ pub struct RouterConfig {
 pub fn create_router_component() -> RouterComponent {
   RouterComponent
 }
+
+pub fn create_router_config(router_type: RouterType, targets: Array[String]) -> RouterConfig {
+  RouterConfig::{
+    router_type,
+    targets,
+    weights: None,
+  }
+}
