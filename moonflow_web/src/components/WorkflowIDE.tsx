@@ -6,6 +6,7 @@ import { CodePreview } from './CodePreview';
 import { WorkflowManager } from './WorkflowManager';
 import { KeyboardShortcutsHelp } from './KeyboardShortcutsHelp';
 import { AnalyticsDashboard } from './AnalyticsDashboard';
+import { LLMTester } from './LLMTester';
 import { generateMoonBitCode, validateWorkflow } from '../utils/codeGenerator';
 import { Workflow } from './types';
 import { useTheme } from '../context';
@@ -17,10 +18,11 @@ type ViewMode = 'dag' | 'code' | 'split';
 export function WorkflowIDE() {
   const [viewMode, setViewMode] = useState<ViewMode>('split');
   const [showExecutionPanel, setShowExecutionPanel] = useState(true);
+  const [showLLMTester, setShowLLMTester] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   const [validationResult, setValidationResult] = useState<{ valid: boolean; errors: string[] } | null>(null);
   const { theme, toggleTheme } = useTheme();
-  const { nodes, edges } = useWorkflow();
+  const { nodes, edges, addNode } = useWorkflow();
   const [workflowCode, setWorkflowCode] = useState<string>(JSON.stringify({
     id: 'workflow-1',
     name: 'Example Workflow',
@@ -269,6 +271,13 @@ export function WorkflowIDE() {
             📋 {showExecutionPanel ? '隐藏' : '显示'} 日志
           </button>
           <button
+            onClick={() => setShowLLMTester(!showLLMTester)}
+            className={showLLMTester ? 'active' : ''}
+            title="LLM 测试工具"
+          >
+            🤖 LLM 测试
+          </button>
+          <button
             onClick={toggleTheme}
             className="secondary"
             title={`切换到 ${theme === 'dark' ? '浅色' : '深色'} 主题`}
@@ -322,6 +331,43 @@ export function WorkflowIDE() {
             nodes={nodes}
             edges={edges}
           />
+        )}
+
+        {showLLMTester && (
+          <div className="llm-tester-container">
+            <div className="llm-tester-header">
+              <h3>🤖 LLM 测试工具</h3>
+              <button
+                onClick={() => setShowLLMTester(false)}
+                className="close-btn"
+              >
+                ✕
+              </button>
+            </div>
+            <LLMTester
+              onInsertToWorkflow={(config, prompt) => {
+                const newNode = {
+                  id: `llm-${Date.now()}`,
+                  type: 'moonflow',
+                  position: { x: Math.random() * 400 + 100, y: Math.random() * 300 + 100 },
+                  data: {
+                    label: 'LLM 节点',
+                    component: 'llm',
+                    description: 'LLM 处理器',
+                    provider: config.provider || 'openai',
+                    model: config.model || 'gpt-3.5-turbo',
+                    api_key: config.apiKey || '',
+                    system_prompt: config.systemPrompt || '',
+                    user_prompt: prompt || '',
+                    temperature: config.temperature || 0.7,
+                    max_tokens: config.maxTokens || 1000,
+                  },
+                };
+                addNode(newNode);
+                setShowLLMTester(false);
+              }}
+            />
+          </div>
         )}
       </div>
 
