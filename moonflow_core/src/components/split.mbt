@@ -25,3 +25,15 @@ pub fn create_split_config(split_type: SplitType, chunk_size: Int) -> SplitConfi
     pattern: "",
   }
 }
+
+pub fn create_split_config_with_pattern(
+  split_type: SplitType,
+  chunk_size: Int,
+  pattern: String
+) -> SplitConfig {
+  SplitConfig::{
+    split_type,
+    chunk_size,
+    pattern,
+  }
+}
