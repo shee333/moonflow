@@ -27,6 +27,39 @@ pub fn create_router_config(router_type: RouterType, targets: Array[String]) -> 
   }
 }
 
+fn execute_routing(operation: String, router_type: String, key: String) -> ComponentResult {
+  let metadata: Map[String, String] = {}
+  metadata["operation"] = operation
+  metadata["router_type"] = router_type
+  metadata["status"] = "routed"
+
+  let target = select_target(router_type, key)
+  metadata["target"] = target
+
+  let response = "Routed using '\{router_type}' strategy to target '\{target}'"
+  Ok(create_component_output_with_metadata(response, metadata))
+}
+
+fn select_target(router_type: String, key: String) -> String {
+  match router_type {
+    "round_robin" => "target_1"
+    "random" => "target_2"
+    "hash" => "target_\{hash_key(key)}"
+    _ => "default_target"
+  }
+}
+
+fn hash_key(key: String) -> String {
+  let len = key.length()
+  let hash = len % 3 + 1
+  hash.to_string()
+}
+
+fn is_valid_router_type(router_type: String) -> Bool {
+  router_type == "round_robin" || router_type == "random" ||
+  router_type == "weighted" || router_type == "hash"
+}
+
 pub fn create_weighted_router_config(
   router_type: RouterType,
   targets: Array[String],
