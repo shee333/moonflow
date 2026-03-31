@@ -55,3 +55,29 @@ impl Component for RetryComponent {
 
     execute_retry_operation(strategy, max_attempts, operation)
   }
+
+  fn validate(config: Map[String, String]) -> Bool {
+    match config["strategy"] {
+      Some(s) => is_valid_retry_strategy(s)
+      None => true
+    }
+  }
+
+  fn get_metadata() -> ComponentMetadata {
+    ComponentMetadata::{
+      name: "retry",
+      version: "1.0.0",
+      description: "Retry component with fixed, linear, exponential, and fibonacci strategies",
+      category: ComponentCategory::Flow,
+      inputs: [
+        InputSchema::{ name: "strategy", type_: "string", required: true, description: "Retry strategy: fixed/linear/exponential/fibonacci" },
+        InputSchema::{ name: "max_attempts", type_: "number", required: false, description: "Maximum retry attempts" },
+        InputSchema::{ name: "operation", type_: "string", required: true, description: "Operation to retry" },
+      ],
+      outputs: [
+        OutputSchema::{ name: "attempts", type_: "number", description: "Number of attempts made" },
+        OutputSchema::{ name: "success", type_: "boolean", description: "Whether retry succeeded" },
+      ],
+    }
+  }
+}
