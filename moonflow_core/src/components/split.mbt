@@ -7,3 +7,9 @@ pub enum SplitType {
   | ByPattern
   | ByDelimiter
 }
+
+pub struct SplitConfig {
+  split_type: SplitType
+  chunk_size: Int
+  pattern: String
+}
