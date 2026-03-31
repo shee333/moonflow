@@ -8,3 +8,9 @@ pub enum BufferStrategy {
   | FlushOnSizeOrTime
   | Manual
 }
+
+pub struct BufferConfig {
+  strategy: BufferStrategy
+  max_size: Int
+  flush_interval_ms: Int
+}
