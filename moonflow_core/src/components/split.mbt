@@ -76,3 +76,29 @@ impl Component for SplitComponent {
     }
   }
 }
+
+fn execute_split_operation(split_type: String, chunk_size: Int, operation: String) -> ComponentResult {
+  let metadata: Map[String, String] = {}
+  metadata["split_type"] = split_type
+  metadata["chunk_size"] = chunk_size.to_string()
+  metadata["status"] = "split"
+
+  let chunk_count = calculate_chunk_count(split_type, chunk_size, operation.length())
+  metadata["chunk_count"] = chunk_count.to_string()
+
+  let response = "Split '\{operation}' into \{chunk_count} chunks using '\{split_type}'"
+  Ok(create_component_output_with_metadata(response, metadata))
+}
+
+fn calculate_chunk_count(split_type: String, chunk_size: Int, data_length: Int) -> Int {
+  match split_type {
+    "by_size" => (data_length / chunk_size) + 1
+    "by_pattern" => data_length / chunk_size
+    "by_delimiter" => data_length / chunk_size
+    _ => 1
+  }
+}
+
+fn is_valid_split_type(split_type: String) -> Bool {
+  split_type == "by_size" || split_type == "by_pattern" || split_type == "by_delimiter"
+}
