@@ -2,9 +2,9 @@ package moonflow_core::components
 
 pub struct LLMComponent
 
-pub type LLMProvider =
+pub type LLMProvider = 
   | OpenAI
-  | Claude
+  | Claude  
   | Gemini
   | Custom
 } derive(Show, Eq)
@@ -46,7 +46,7 @@ pub struct TokenUsage {
   total_tokens: Int
 } derive(Show, Eq)
 
-impl Component for LLMComponent {
+impl LLMComponent for Component {
   fn execute(input: ComponentInput, ctx: moonflow_core::runtime::ExecutionContext) -> ComponentResult {
     let model = input.params.get_or("model", "gpt-4")
     let prompt = input.data
@@ -81,16 +81,16 @@ impl Component for LLMComponent {
       description: "Large Language Model component supporting OpenAI, Claude, and Gemini",
       category: ComponentCategory::Agent,
       inputs: [
-        InputSchema::{ name: "model", type_: "string", required: true, description: "Model name (e.g., gpt-4, claude-3-opus)" },
+        InputSchema::{ name: "model", type_: "string", required: true, description: "Model name" },
         InputSchema::{ name: "prompt", type_: "string", required: true, description: "User prompt" },
-        InputSchema::{ name: "system_prompt", type_: "string", required: false, description: "System prompt for context" },
-        InputSchema::{ name: "temperature", type_: "number", required: false, description: "Sampling temperature (0.0-2.0)" },
-        InputSchema::{ name: "max_tokens", type_: "number", required: false, description: "Maximum tokens to generate" },
+        InputSchema::{ name: "system_prompt", type_: "string", required: false, description: "System prompt" },
+        InputSchema::{ name: "temperature", type_: "number", required: false, description: "Sampling temperature" },
+        InputSchema::{ name: "max_tokens", type_: "number", required: false, description: "Maximum tokens" },
       ],
       outputs: [
         OutputSchema::{ name: "content", type_: "string", description: "Generated content" },
         OutputSchema::{ name: "model", type_: "string", description: "Model used" },
-        OutputSchema::{ name: "usage", type_: "string", description: "Token usage information" },
+        OutputSchema::{ name: "usage", type_: "string", description: "Token usage" },
         OutputSchema::{ name: "finish_reason", type_: "string", description: "Completion reason" },
       ],
     }
@@ -98,11 +98,11 @@ impl Component for LLMComponent {
 }
 
 fn detect_provider(model: String) -> LLMProvider {
-  if model.starts_with("gpt-") || model.starts_with("o1-") || model.starts_with("o3-") {
+  if model.has_prefix("gpt-") || model.has_prefix("o1-") || model.has_prefix("o3-") {
     LLMProvider::OpenAI
-  } else if model.starts_with("claude-") {
+  } else if model.has_prefix("claude-") {
     LLMProvider::Claude
-  } else if model.starts_with("gemini-") {
+  } else if model.has_prefix("gemini-") {
     LLMProvider::Gemini
   } else {
     LLMProvider::Custom
@@ -135,7 +135,7 @@ fn execute_llm_call(
     total_tokens: count_tokens(prompt) + count_tokens(response_content),
   }
 
-  metadata["usage"] = "Tokens: \{usage.total_tokens} (prompt: \{usage.prompt_tokens}, completion: \{usage.completion_tokens})"
+  metadata["usage"] = "Tokens: \{usage.total_tokens}"
   metadata["finish_reason"] = "stop"
 
   let response = "LLM Response from \{model}: \{response_content}"
@@ -144,12 +144,16 @@ fn execute_llm_call(
 
 fn count_tokens(text: String) -> Int {
   let words = text.split(" ")
-  words.length() * 4 / 3
+  let count = words.iter().fold(init=0, fn(acc, _){ acc + 1 })
+  count * 4 / 3
 }
 
 fn generate_mock_llm_response(model: String, prompt: String) -> String {
   let truncated_prompt = if prompt.length() > 50 {
-    prompt.substring(0, 50) + "..."
+    try! prompt.substring(start~: 0, end~: 50) + "..."
+    catch {
+      _ => prompt
+    }
   } else {
     prompt
   }
@@ -167,7 +171,6 @@ pub fn call_llm(
   max_tokens: Int,
   api_key: String
 ) -> ComponentResult {
-  let component = create_llm_component()
   let provider = detect_provider(model)
   execute_llm_call(provider, model, prompt, temperature, max_tokens, api_key)
 }
@@ -198,7 +201,14 @@ pub fn add_message_to_request(req: LLMRequest, role: String, content: String) ->
 }
 
 pub fn set_system_prompt(req: LLMRequest, system_prompt: String) -> LLMRequest {
-  LLMRequest::{ system_prompt: Some(system_prompt), ..req }
+  LLMRequest::{
+    prompt: req.prompt,
+    system_prompt: Some(system_prompt),
+    messages: req.messages,
+    temperature: req.temperature,
+    max_tokens: req.max_tokens,
+    stop: req.stop,
+  }
 }
 
 pub type IntentResult = Result[IntentClassification, ComponentError]
