@@ -7,3 +7,9 @@ pub enum MulticastStrategy {
   | RoundRobin
   | Random
 }
+
+pub struct MulticastConfig {
+  strategy: MulticastStrategy
+  target_count: Int
+  timeout_ms: Int
+}
