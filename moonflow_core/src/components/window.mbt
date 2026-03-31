@@ -7,3 +7,9 @@ pub enum WindowType {
   | Sliding
   | Session
 }
+
+pub struct WindowConfig {
+  window_type: WindowType
+  size_ms: Int
+  slide_ms: Int
+}
