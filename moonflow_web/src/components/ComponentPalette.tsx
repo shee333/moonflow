@@ -12,6 +12,24 @@ const components: ComponentType[] = [
     category: 'trigger',
   },
   {
+    type: 'websocket',
+    label: 'WebSocket',
+    description: 'Real-time bidirectional communication',
+    category: 'trigger',
+  },
+  {
+    type: 'grpc',
+    label: 'gRPC',
+    description: 'High-performance RPC communication',
+    category: 'trigger',
+  },
+  {
+    type: 'graphql',
+    label: 'GraphQL',
+    description: 'Query and mutate data with GraphQL',
+    category: 'trigger',
+  },
+  {
     type: 'llm',
     label: 'LLM Processor',
     description: 'Process with AI language model',
@@ -27,6 +45,12 @@ const components: ComponentType[] = [
     type: 'database',
     label: 'Database',
     description: 'Connect to databases',
+    category: 'storage',
+  },
+  {
+    type: 'cache',
+    label: 'Cache',
+    description: 'Cache data for fast access',
     category: 'storage',
   },
   {
@@ -77,6 +101,12 @@ const components: ComponentType[] = [
     description: 'Route to different paths',
     category: 'control',
   },
+  {
+    type: 'response',
+    label: 'Response',
+    description: 'Return result to caller',
+    category: 'output',
+  },
 ];
 
 export function ComponentPalette({ onAdd }: ComponentPaletteProps) {
@@ -99,67 +129,57 @@ export function ComponentPalette({ onAdd }: ComponentPaletteProps) {
         minWidth: '280px',
       }}
     >
-      <h3 style={{ marginTop: 0, marginBottom: '12px' }}>Components</h3>
-      <div style={{ fontSize: '11px', color: '#666', marginBottom: '16px' }}>
-        Drag components to the canvas or click to add
-      </div>
+      <h3 style={{ marginTop: 0, marginBottom: '16px', fontSize: '16px', fontWeight: 600 }}>
+        Components
+      </h3>
       {categories.map((category) => (
         <div key={category} style={{ marginBottom: '16px' }}>
           <h4
             style={{
               fontSize: '12px',
-              textTransform: 'uppercase',
-              color: '#666',
-              marginBottom: '8px',
               fontWeight: 600,
+              color: '#666',
+              textTransform: 'uppercase',
+              marginBottom: '8px',
             }}
           >
             {category}
           </h4>
-          {components
-            .filter((c) => c.category === category)
-            .map((component) => (
-              <div
-                key={component.type}
-                draggable
-                onDragStart={(e) => handleDragStart(e, component)}
-                onClick={() => onAdd(component.type, component.label, component.description)}
-                style={{
-                  display: 'block',
-                  width: '100%',
-                  padding: '8px 12px',
-                  marginBottom: '6px',
-                  backgroundColor: '#f8f9fa',
-                  border: '1px solid #ddd',
-                  borderRadius: '6px',
-                  cursor: 'grab',
-                  textAlign: 'left',
-                  transition: 'all 0.2s',
-                  userSelect: 'none',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#e9ecef';
-                  e.currentTarget.style.borderColor = '#007bff';
-                  e.currentTarget.style.transform = 'translateX(4px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#f8f9fa';
-                  e.currentTarget.style.borderColor = '#ddd';
-                  e.currentTarget.style.transform = 'translateX(0)';
-                }}
-                onMouseDown={(e) => {
-                  e.currentTarget.style.cursor = 'grabbing';
-                }}
-                onMouseUp={(e) => {
-                  e.currentTarget.style.cursor = 'grab';
-                }}
-              >
-                <div style={{ fontWeight: 600, fontSize: '13px' }}>{component.label}</div>
-                <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>
-                  {component.description}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {components
+              .filter((c) => c.category === category)
+              .map((component) => (
+                <div
+                  key={component.type}
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, component)}
+                  onClick={() => onAdd(component.type, component.label, component.description)}
+                  style={{
+                    padding: '10px 12px',
+                    backgroundColor: '#f5f5f5',
+                    border: '1px solid #ddd',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#e8e8e8';
+                    e.currentTarget.style.borderColor = '#007acc';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#f5f5f5';
+                    e.currentTarget.style.borderColor = '#ddd';
+                  }}
+                >
+                  <div style={{ fontSize: '14px', fontWeight: 500, marginBottom: '2px' }}>
+                    {component.label}
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#666' }}>
+                    {component.description}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+          </div>
         </div>
       ))}
     </div>

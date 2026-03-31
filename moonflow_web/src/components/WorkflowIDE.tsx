@@ -2,8 +2,13 @@ import { useState, useCallback } from 'react';
 import { DAGEditor } from './DAGEditor';
 import { CodeEditor } from './CodeEditor';
 import { ExecutionPanel } from './ExecutionPanel';
+import { CodePreview } from './CodePreview';
+import { WorkflowManager } from './WorkflowManager';
+import { KeyboardShortcutsHelp } from './KeyboardShortcutsHelp';
+import { AnalyticsDashboard } from './AnalyticsDashboard';
 import { generateMoonBitCode, validateWorkflow } from '../utils/codeGenerator';
 import { Workflow } from './types';
+import { useTheme } from '../context';
 import './WorkflowIDE.css';
 
 type ViewMode = 'dag' | 'code' | 'split';
@@ -13,6 +18,7 @@ export function WorkflowIDE() {
   const [showExecutionPanel, setShowExecutionPanel] = useState(true);
   const [isRunning, setIsRunning] = useState(false);
   const [validationResult, setValidationResult] = useState<{ valid: boolean; errors: string[] } | null>(null);
+  const { theme, toggleTheme } = useTheme();
   const [workflowCode, setWorkflowCode] = useState<string>(JSON.stringify({
     id: 'workflow-1',
     name: 'Example Workflow',
@@ -57,6 +63,32 @@ export function WorkflowIDE() {
       }
     };
     input.click();
+  }, []);
+
+  const handleLoadWorkflow = useCallback((workflowId: string) => {
+    const stored = localStorage.getItem('moonflow_workflows');
+    if (stored) {
+      try {
+        const workflows = JSON.parse(stored);
+        const workflow = workflows.find((w: any) => w.id === workflowId);
+        if (workflow) {
+          const workflowData = {
+            id: workflow.id,
+            name: workflow.name,
+            nodes: [],
+            edges: [],
+          };
+          setWorkflowCode(JSON.stringify(workflowData, null, 2));
+          setValidationResult(null);
+        }
+      } catch (e) {
+        console.error('Failed to load workflow:', e);
+      }
+    }
+  }, []);
+
+  const handleSaveWorkflow = useCallback((name: string, description: string) => {
+    alert(`工作流 "${name}" 已保存！`);
   }, []);
 
   const handleValidate = useCallback(() => {
@@ -128,7 +160,8 @@ export function WorkflowIDE() {
   }, []);
 
   return (
-    <div className="workflow-ide">
+    <div className="workflow-ide" data-theme={theme}>
+      <CodePreview />
       {validationResult && (
         <div
           style={{
@@ -233,6 +266,13 @@ export function WorkflowIDE() {
           >
             📋 {showExecutionPanel ? 'Hide' : 'Show'} Logs
           </button>
+          <button
+            onClick={toggleTheme}
+            className="secondary"
+            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+          >
+            {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
+          </button>
         </div>
       </div>
 
@@ -287,9 +327,32 @@ export function WorkflowIDE() {
           {isRunning ? 'Running' : 'Ready'}
         </div>
         <div className="info">
-          MoonFlow Studio v0.1.0 | Node.js 20.18.0
+          MoonFlow Studio v0.1.0 | {theme === 'dark' ? '🌙 Dark' : '☀️ Light'} Theme | Node.js 20.18.0
         </div>
       </div>
+
+      <WorkflowManager
+        onLoad={handleLoadWorkflow}
+        onSave={handleSaveWorkflow}
+        onExport={handleExport}
+        onImport={(file) => {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const content = event.target?.result as string;
+            setWorkflowCode(content);
+            setValidationResult(null);
+          };
+          reader.readAsText(file);
+        }}
+        currentWorkflow={{
+          id: 'workflow-1',
+          name: 'Current Workflow',
+          nodeCount: 4,
+          edgeCount: 4,
+        }}
+      />
+      <KeyboardShortcutsHelp />
+      <AnalyticsDashboard />
     </div>
   );
 }
