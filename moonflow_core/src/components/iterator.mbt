@@ -9,6 +9,13 @@ pub enum IteratorType {
   | Skip
 }
 
+pub struct IteratorConfig {
+  iterator_type: IteratorType
+  start_index: Int
+  end_index: Int?
+  step: Int
+}
+
 pub fn create_iterator_component() -> IteratorComponent {
   IteratorComponent
 }
