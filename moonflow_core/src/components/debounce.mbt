@@ -7,3 +7,9 @@ pub enum DebounceStrategy {
   | Trailing
   | Both
 }
+
+pub struct DebounceConfig {
+  strategy: DebounceStrategy
+  delay_ms: Int
+  max_wait_ms: Int
+}
