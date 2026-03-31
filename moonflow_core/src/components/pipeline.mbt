@@ -50,3 +50,28 @@ impl Component for PipelineComponent {
 
     execute_pipeline_operation(parallel, data)
   }
+
+  fn validate(config: Map[String, String]) -> Bool {
+    match config["parallel"] {
+      Some(_) => true
+      None => true
+    }
+  }
+
+  fn get_metadata() -> ComponentMetadata {
+    ComponentMetadata::{
+      name: "pipeline",
+      version: "1.0.0",
+      description: "Pipeline orchestration component for sequential and parallel processing",
+      category: ComponentCategory::Flow,
+      inputs: [
+        InputSchema::{ name: "parallel", type_: "boolean", required: false, description: "Enable parallel execution" },
+        InputSchema::{ name: "data", type_: "string", required: true, description: "Pipeline input data" },
+      ],
+      outputs: [
+        OutputSchema::{ name: "result", type_: "string", description: "Pipeline output" },
+        OutputSchema::{ name: "stages", type_: "number", description: "Number of stages" },
+      ],
+    }
+  }
+}
