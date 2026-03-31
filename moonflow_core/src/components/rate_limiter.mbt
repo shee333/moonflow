@@ -74,3 +74,32 @@ impl Component for RateLimitComponent {
     }
   }
 }
+
+fn execute_rate_limit_operation(rate_limit_type: String, max_requests: Int, operation: String) -> ComponentResult {
+  let metadata: Map[String, String] = {}
+  metadata["rate_limit_type"] = rate_limit_type
+  metadata["max_requests"] = max_requests.to_string()
+  metadata["status"] = "rate_limited"
+
+  let remaining = calculate_remaining_requests(rate_limit_type, max_requests)
+  metadata["remaining"] = remaining.to_string()
+  metadata["allowed"] = "true"
+
+  let response = "Rate limited '\{operation}' at '\{rate_limit_type}' (\{max_requests} max requests)"
+  Ok(create_component_output_with_metadata(response, metadata))
+}
+
+fn calculate_remaining_requests(rate_limit_type: String, max_requests: Int) -> Int {
+  match rate_limit_type {
+    "per_second" => max_requests - 1
+    "per_minute" => max_requests - 1
+    "per_hour" => max_requests - 1
+    "per_day" => max_requests - 1
+    _ => max_requests
+  }
+}
+
+fn is_valid_rate_limit_type(rate_limit_type: String) -> Bool {
+  rate_limit_type == "per_second" || rate_limit_type == "per_minute" ||
+  rate_limit_type == "per_hour" || rate_limit_type == "per_day"
+}
