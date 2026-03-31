@@ -29,6 +29,35 @@ pub fn create_retry_config(strategy: RetryStrategy, max_attempts: Int) -> RetryC
   }
 }
 
+fn execute_retry_operation(strategy: String, max_attempts: Int, operation: String) -> ComponentResult {
+  let metadata: Map[String, String] = {}
+  metadata["strategy"] = strategy
+  metadata["max_attempts"] = max_attempts.to_string()
+  metadata["status"] = "retried"
+
+  let attempts = calculate_retry_attempts(strategy, max_attempts)
+  metadata["attempts"] = attempts.to_string()
+  metadata["success"] = "true"
+
+  let response = "Retried '\{operation}' using '\{strategy}' strategy (\{attempts} attempts)"
+  Ok(create_component_output_with_metadata(response, metadata))
+}
+
+fn calculate_retry_attempts(strategy: String, max_attempts: Int) -> Int {
+  match strategy {
+    "fixed" => max_attempts
+    "linear" => max_attempts
+    "exponential" => max_attempts
+    "fibonacci" => max_attempts
+    _ => 1
+  }
+}
+
+fn is_valid_retry_strategy(strategy: String) -> Bool {
+  strategy == "fixed" || strategy == "linear" ||
+  strategy == "exponential" || strategy == "fibonacci"
+}
+
 pub fn create_retry_config_with_delays(
   strategy: RetryStrategy,
   max_attempts: Int,
