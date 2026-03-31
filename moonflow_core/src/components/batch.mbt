@@ -25,3 +25,15 @@ pub fn create_batch_config(batch_mode: BatchMode, batch_size: Int) -> BatchConfi
     max_concurrent: 1,
   }
 }
+
+pub fn create_batch_config_with_concurrency(
+  batch_mode: BatchMode,
+  batch_size: Int,
+  max_concurrent: Int
+) -> BatchConfig {
+  BatchConfig::{
+    batch_mode,
+    batch_size,
+    max_concurrent,
+  }
+}
