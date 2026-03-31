@@ -54,3 +54,28 @@ impl Component for IteratorComponent {
 
     execute_iterate_operation(iterator_type, data)
   }
+
+  fn validate(config: Map[String, String]) -> Bool {
+    match config["iterator_type"] {
+      Some(itype) => is_valid_iterator_type(itype)
+      None => false
+    }
+  }
+
+  fn get_metadata() -> ComponentMetadata {
+    ComponentMetadata::{
+      name: "iterator",
+      version: "1.0.0",
+      description: "Data iteration component with forward, backward, random, and skip support",
+      category: ComponentCategory::Tool,
+      inputs: [
+        InputSchema::{ name: "iterator_type", type_: "string", required: true, description: "Iterator type: forward/backward/random/skip" },
+        InputSchema::{ name: "data", type_: "string", required: true, description: "Data to iterate" },
+      ],
+      outputs: [
+        OutputSchema::{ name: "iterations", type_: "array", description: "Iteration results" },
+        OutputSchema::{ name: "count", type_: "number", description: "Number of iterations" },
+      ],
+    }
+  }
+}
