@@ -29,6 +29,33 @@ pub fn create_iterator_config(iterator_type: IteratorType) -> IteratorConfig {
   }
 }
 
+fn execute_iterate_operation(iterator_type: String, data: String) -> ComponentResult {
+  let metadata: Map[String, String] = {}
+  metadata["iterator_type"] = iterator_type
+  metadata["status"] = "iterated"
+
+  let count = count_iterations(iterator_type, data)
+  metadata["count"] = count.to_string()
+
+  let response = "Iterated '\{data}' using '\{iterator_type}' strategy"
+  Ok(create_component_output_with_metadata(response, metadata))
+}
+
+fn count_iterations(iterator_type: String, data: String) -> Int {
+  let len = data.length()
+  match iterator_type {
+    "forward" => len
+    "backward" => len
+    "skip" => (len + 1) / 2
+    _ => len
+  }
+}
+
+fn is_valid_iterator_type(iterator_type: String) -> Bool {
+  iterator_type == "forward" || iterator_type == "backward" ||
+  iterator_type == "random" || iterator_type == "skip"
+}
+
 pub fn create_iterator_config_with_range(
   iterator_type: IteratorType,
   start_index: Int,
