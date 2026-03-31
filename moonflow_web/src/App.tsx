@@ -1,12 +1,8 @@
-import { DAGEditor } from './components/DAGEditor';
+import { WorkflowIDE } from './components/WorkflowIDE';
 import './App.css';
 
 function App() {
-  return (
-    <div>
-      <DAGEditor />
-    </div>
-  );
+  return <WorkflowIDE />;
 }
 
 export default App;
