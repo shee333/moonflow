@@ -13,3 +13,15 @@ pub struct WindowConfig {
   size_ms: Int
   slide_ms: Int
 }
+
+pub fn create_window_component() -> WindowComponent {
+  WindowComponent
+}
+
+pub fn create_window_config(window_type: WindowType, size_ms: Int) -> WindowConfig {
+  WindowConfig::{
+    window_type,
+    size_ms,
+    slide_ms: size_ms / 2,
+  }
+}
