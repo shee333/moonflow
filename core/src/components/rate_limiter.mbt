@@ -7,13 +7,13 @@ pub enum RateLimitType {
   | PerMinute
   | PerHour
   | PerDay
-}
+} derive(Show, Eq)
 
 pub struct RateLimitConfig {
   rate_limit_type: RateLimitType
   max_requests: Int
   burst_size: Int
-}
+} derive(Show, Eq)
 
 pub fn create_rate_limit_component() -> RateLimitComponent {
   RateLimitComponent
