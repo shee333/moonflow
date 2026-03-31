@@ -42,3 +42,16 @@ pub fn create_retry_config_with_delays(
     max_delay,
   }
 }
+
+impl Component for RetryComponent {
+  fn execute(input: ComponentInput, ctx: moonflow_core::runtime::ExecutionContext) -> ComponentResult {
+    let strategy = input.params.get_or("strategy", "fixed")
+    let max_attempts = input.params.get_or("max_attempts", "3").to_int()
+    let operation = input.data
+
+    if operation == "" {
+      return Err(ComponentError::ValidationError("Operation is required"))
+    }
+
+    execute_retry_operation(strategy, max_attempts, operation)
+  }
