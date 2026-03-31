@@ -25,3 +25,15 @@ pub fn create_pool_config(strategy: PoolStrategy, max_size: Int) -> PoolConfig {
     max_size,
   }
 }
+
+pub fn create_pool_config_with_min_max(
+  strategy: PoolStrategy,
+  min_size: Int,
+  max_size: Int
+) -> PoolConfig {
+  PoolConfig::{
+    strategy,
+    min_size,
+    max_size,
+  }
+}
