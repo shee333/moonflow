@@ -26,3 +26,15 @@ pub fn create_buffer_config(strategy: BufferStrategy, max_size: Int) -> BufferCo
     flush_interval_ms: 1000,
   }
 }
+
+pub fn create_buffer_config_with_interval(
+  strategy: BufferStrategy,
+  max_size: Int,
+  flush_interval_ms: Int
+) -> BufferConfig {
+  BufferConfig::{
+    strategy,
+    max_size,
+    flush_interval_ms,
+  }
+}
