@@ -19,3 +19,12 @@ pub struct ThrottleConfig {
 pub fn create_throttle_component() -> ThrottleComponent {
   ThrottleComponent
 }
+
+pub fn create_throttle_config(throttle_type: ThrottleType, rate: Int) -> ThrottleConfig {
+  ThrottleConfig::{
+    throttle_type,
+    rate,
+    capacity: rate * 2,
+    window_ms: 1000,
+  }
+}
