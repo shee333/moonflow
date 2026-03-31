@@ -204,8 +204,12 @@ struct LlmNode {
 struct LlmConfig {
   model: String
   provider: String
+  api_key: String
+  system_prompt: String
+  user_prompt: String
   temperature: Float
   max_tokens: Int
+  base_url: String
 }
 
 struct DatabaseNode {
@@ -284,8 +288,12 @@ fn init_llm_node(label: String) -> LlmNode {
   LlmNode::{ label, component: "llm", config: LlmConfig::{
     model: "gpt-4",
     provider: "openai",
+    api_key: "",
+    system_prompt: "",
+    user_prompt: "",
     temperature: 0.7,
-    max_tokens: 2048
+    max_tokens: 2048,
+    base_url: ""
   }}
 }
 
@@ -400,21 +408,70 @@ function generateExecutionFunctions(errorHandling: boolean, logging: boolean): s
     code += 'fn execute_llm(node: GenericNode, ctx: WorkflowContext) -> Result[Unit, Error] {\n';
     code += '  Logger.info(`Executing LLM inference: $\{node.label}`)\n';
     code += '  let config = node.config\n';
+    code += '  let provider = config.get("provider").or("openai")\n';
     code += '  let model = config.get("model").or("gpt-4")\n';
-    code += '  let prompt = config.get("prompt").or("")\n';
+    code += '  let api_key = config.get("api_key").or("")\n';
+    code += '  let system_prompt = config.get("system_prompt").or("")\n';
+    code += '  let user_prompt = config.get("user_prompt").or("")\n';
+    code += '  let temperature = config.get("temperature").or("0.7").to_float()\n';
+    code += '  let max_tokens = config.get("max_tokens").or("2048").to_int()\n';
+    code += '  let base_url = config.get("base_url").or("")\n';
     code += '  \n';
+    code += '  // Resolve user prompt with context variables\n';
     code += '  let input = ctx.get("last_response").or("")\n';
-    code += '  let full_prompt = prompt + " " + input\n';
+    code += '  let resolved_prompt = replace_variables(user_prompt, input)\n';
     code += '  \n';
-    code += '  match LLMClient::complete(model, full_prompt) {\n';
-    code += '    Ok(result) => {\n';
-    code += '      Logger.info(`LLM inference successful`)\n';
-    code += '      ctx.set("llm_result", result)\n';
-    code += '      Ok(())\n';
+    code += '  Logger.info(`LLM request: provider=\{provider}, model=\{model}`)\n';
+    code += '  \n';
+    code += '  match provider {\n';
+    code += '    "openai" => {\n';
+    code += '      let client = OpenAIClient::new(api_key, base_url)\n';
+    code += '      match client.complete(model, system_prompt, resolved_prompt, temperature, max_tokens) {\n';
+    code += '        Ok(result) => {\n';
+    code += '          Logger.info(`LLM inference successful`)\n';
+    code += '          ctx.set("llm_result", result.content)\n';
+    code += '          ctx.set("llm_usage", result.usage)\n';
+    code += '          Ok(())\n';
+    code += '        }\n';
+    code += '        Err(e) => {\n';
+    code += '          Logger.error(`OpenAI API failed: $\{e.message}`)\n';
+    code += '          Err(Error::{ code: 501, message: e.message, details: Map::() })\n';
+    code += '        }\n';
+    code += '      }\n';
     code += '    }\n';
-    code += '    Err(e) => {\n';
-    code += '      Logger.error(`LLM inference failed: $\{e.message}`)\n';
-    code += '      Err(Error::{ code: 501, message: e.message, details: Map::() })\n';
+    code += '    "claude" => {\n';
+    code += '      let client = ClaudeClient::new(api_key)\n';
+    code += '      match client.complete(model, system_prompt, resolved_prompt, max_tokens) {\n';
+    code += '        Ok(result) => {\n';
+    code += '          Logger.info(`Claude API successful`)\n';
+    code += '          ctx.set("llm_result", result.content)\n';
+    code += '          ctx.set("llm_usage", result.usage)\n';
+    code += '          Ok(())\n';
+    code += '        }\n';
+    code += '        Err(e) => {\n';
+    code += '          Logger.error(`Claude API failed: $\{e.message}`)\n';
+    code += '          Err(Error::{ code: 501, message: e.message, details: Map::() })\n';
+    code += '        }\n';
+    code += '      }\n';
+    code += '    }\n';
+    code += '    "gemini" => {\n';
+    code += '      let client = GeminiClient::new(api_key, base_url)\n';
+    code += '      match client.complete(model, resolved_prompt, temperature, max_tokens) {\n';
+    code += '        Ok(result) => {\n';
+    code += '          Logger.info(`Gemini API successful`)\n';
+    code += '          ctx.set("llm_result", result.content)\n';
+    code += '          ctx.set("llm_usage", result.usage)\n';
+    code += '          Ok(())\n';
+    code += '        }\n';
+    code += '        Err(e) => {\n';
+    code += '          Logger.error(`Gemini API failed: $\{e.message}`)\n';
+    code += '          Err(Error::{ code: 501, message: e.message, details: Map::() })\n';
+    code += '        }\n';
+    code += '      }\n';
+    code += '    }\n';
+    code += '    _ => {\n';
+    code += '      Logger.error(`Unsupported LLM provider: \{provider}`)\n';
+    code += '      Err(Error::{ code: 501, message: "Unsupported LLM provider: \{provider}", details: Map::() })\n';
     code += '    }\n';
     code += '  }\n';
     code += '}\n\n';
@@ -640,13 +697,51 @@ fn get_incoming_edges(node_id: String) -> Array[Edge] {
     code += `  edges.push(Edge::{ source: "${edge.source}", target: "${edge.target}" })\n`;
   });
 
-  code += `  edges.filter(fn(e: Edge) => e.target == node_id)
+  code += `edges.filter(fn(e: Edge) => e.target == node_id)
 }
 
 // Edge structure
 struct Edge {
   source: String
   target: String
+}
+
+// Replace context variables in prompt templates
+// Variables are in format {{variable_name}} and are replaced with actual values
+fn replace_variables(template: String, context: String) -> String {
+  let result = template
+  // Replace {{last_response}} or {{last_output}} with context
+  result = result.replace("{{last_response}}", context)
+  result = result.replace("{{last_output}}", context)
+  result = result.replace("{{input}}", context)
+  // Replace timestamp placeholder
+  let timestamp = to_string(timestamp_now())
+  result = result.replace("{{timestamp}}", timestamp)
+  // Replace other common variables
+  result
+}
+
+// Get current timestamp
+fn timestamp_now() -> Int64 {
+  // This would use system time in real implementation
+  0
+}
+
+// Validate LLM configuration
+fn validate_llm_config(config: LlmConfig) -> Result[Unit, String] {
+  if config.api_key == "" {
+    return Err("API key is required for LLM node")
+  }
+  if config.model == "" {
+    return Err("Model name is required for LLM node")
+  }
+  if config.temperature < 0.0 || config.temperature > 2.0 {
+    return Err("Temperature must be between 0.0 and 2.0")
+  }
+  if config.max_tokens < 1 || config.max_tokens > 100000 {
+    return Err("Max tokens must be between 1 and 100000")
+  }
+  Ok(())
 }`;
 
   return code;

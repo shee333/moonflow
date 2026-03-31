@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { Node, Edge } from '@xyflow/react';
+import { executeWorkflow, NodeExecutionResult, WorkflowExecutionResult } from '../utils/executionEngine';
 import './ExecutionPanel.css';
 
 export type ExecutionStatus = 'idle' | 'running' | 'paused' | 'completed' | 'error';
@@ -9,7 +11,14 @@ export interface ExecutionLog {
   level: 'info' | 'warning' | 'error' | 'success';
   message: string;
   nodeId?: string;
+  details?: any;
 }
+
+export type NodeData = {
+  label?: string;
+  type?: string;
+  [key: string]: any;
+};
 
 interface ExecutionPanelProps {
   isRunning: boolean;
@@ -17,6 +26,8 @@ interface ExecutionPanelProps {
   onPause: () => void;
   onStop: () => void;
   onReset: () => void;
+  nodes: Node<NodeData>[];
+  edges: Edge[];
 }
 
 export function ExecutionPanel({
@@ -25,34 +36,66 @@ export function ExecutionPanel({
   onPause,
   onStop,
   onReset,
+  nodes,
+  edges,
 }: ExecutionPanelProps) {
   const [status, setStatus] = useState<ExecutionStatus>('idle');
   const [logs, setLogs] = useState<ExecutionLog[]>([]);
   const [logIdCounter, setLogIdCounter] = useState(0);
+  const [executionResult, setExecutionResult] = useState<WorkflowExecutionResult | null>(null);
+
+  const runWorkflow = useCallback(async () => {
+    if (nodes.length === 0) {
+      addLog('warning', '没有可执行的节点');
+      return;
+    }
+
+    setStatus('running');
+    setLogs([]);
+    setExecutionResult(null);
+    addLog('info', `开始执行工作流 (${nodes.length} 个节点)`);
+
+    try {
+      const result = await executeWorkflow(
+        nodes,
+        edges,
+        (nodeId) => {
+          const node = nodes.find(n => n.id === nodeId);
+          addLog('info', `开始执行节点: ${node?.data?.label || nodeId}`, nodeId);
+        },
+        (result: NodeExecutionResult) => {
+          if (result.success) {
+            addLog('success', `节点 ${result.nodeId} 执行成功 (${result.duration}ms)`, result.nodeId);
+            if (result.output?.content) {
+              addLog('info', `  输出: ${result.output.content.substring(0, 100)}${result.output.content.length > 100 ? '...' : ''}`, result.nodeId);
+            }
+          } else {
+            addLog('error', `节点 ${result.nodeId} 执行失败: ${result.error}`, result.nodeId);
+          }
+        }
+      );
+
+      setExecutionResult(result);
+      
+      if (result.success) {
+        setStatus('completed');
+        addLog('success', `工作流执行完成! 总耗时: ${result.totalDuration}ms`);
+      } else {
+        setStatus('error');
+        addLog('error', '工作流执行失败');
+      }
+    } catch (error) {
+      setStatus('error');
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      addLog('error', `执行错误: ${errorMessage}`);
+    }
+  }, [nodes, edges]);
 
   useEffect(() => {
     if (isRunning && status === 'idle') {
-      setStatus('running');
-      addLog('info', '工作流执行已开始');
-      
-      const interval = setInterval(() => {
-        const progress = Math.random();
-        if (progress > 0.9) {
-          addLog('success', '节点执行成功');
-        } else if (progress > 0.7) {
-          addLog('info', '处理中...');
-        }
-      }, 2000);
-
-      setTimeout(() => {
-        clearInterval(interval);
-        setStatus('completed');
-        addLog('success', '工作流执行完成');
-      }, 10000);
-
-      return () => clearInterval(interval);
+      runWorkflow();
     }
-  }, [isRunning, status]);
+  }, [isRunning, status, runWorkflow]);
 
   const addLog = (level: ExecutionLog['level'], message: string, nodeId?: string) => {
     const newLog: ExecutionLog = {

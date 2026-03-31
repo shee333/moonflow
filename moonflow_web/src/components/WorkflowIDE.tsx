@@ -9,6 +9,7 @@ import { AnalyticsDashboard } from './AnalyticsDashboard';
 import { generateMoonBitCode, validateWorkflow } from '../utils/codeGenerator';
 import { Workflow } from './types';
 import { useTheme } from '../context';
+import { useWorkflow } from '../context/WorkflowContext';
 import './WorkflowIDE.css';
 
 type ViewMode = 'dag' | 'code' | 'split';
@@ -19,6 +20,7 @@ export function WorkflowIDE() {
   const [isRunning, setIsRunning] = useState(false);
   const [validationResult, setValidationResult] = useState<{ valid: boolean; errors: string[] } | null>(null);
   const { theme, toggleTheme } = useTheme();
+  const { nodes, edges } = useWorkflow();
   const [workflowCode, setWorkflowCode] = useState<string>(JSON.stringify({
     id: 'workflow-1',
     name: 'Example Workflow',
@@ -317,6 +319,8 @@ export function WorkflowIDE() {
             onResume={handleRun}
             onStop={handleStop}
             onReset={handleReset}
+            nodes={nodes}
+            edges={edges}
           />
         )}
       </div>

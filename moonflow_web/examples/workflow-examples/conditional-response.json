@@ -1,0 +1,115 @@
+{
+  "id": "conditional-response",
+  "name": "Conditional Response Workflow",
+  "description": "Workflow that processes input and returns different responses based on conditions",
+  "nodes": [
+    {
+      "id": "trigger",
+      "type": "moonflow",
+      "position": { "x": 400, "y": 50 },
+      "data": {
+        "label": "HTTP Trigger",
+        "component": "http",
+        "description": "Receive input via HTTP",
+        "method": "POST",
+        "path": "/process"
+      }
+    },
+    {
+      "id": "condition",
+      "type": "moonflow",
+      "position": { "x": 400, "y": 200 },
+      "data": {
+        "label": "Check Type",
+        "component": "condition",
+        "description": "Check input type",
+        "condition": "type === 'urgent'"
+      }
+    },
+    {
+      "id": "urgent-response",
+      "type": "moonflow",
+      "position": { "x": 150, "y": 400 },
+      "data": {
+        "label": "Urgent Handler",
+        "component": "llm",
+        "description": "Handle urgent requests",
+        "provider": "openai",
+        "model": "gpt-4",
+        "api_key": "",
+        "system_prompt": "这是一条紧急请求。请立即处理并提供帮助。",
+        "user_prompt": "紧急请求内容：{{last_response}}",
+        "temperature": 0.3,
+        "max_tokens": 1000
+      }
+    },
+    {
+      "id": "normal-response",
+      "type": "moonflow",
+      "position": { "x": 650, "y": 400 },
+      "data": {
+        "label": "Normal Handler",
+        "component": "llm",
+        "description": "Handle normal requests",
+        "provider": "openai",
+        "model": "gpt-3.5-turbo",
+        "api_key": "",
+        "system_prompt": "这是一条普通请求。请正常处理。",
+        "user_prompt": "请求内容：{{last_response}}",
+        "temperature": 0.7,
+        "max_tokens": 500
+      }
+    },
+    {
+      "id": "response",
+      "type": "moonflow",
+      "position": { "x": 400, "y": 600 },
+      "data": {
+        "label": "Response",
+        "component": "response",
+        "description": "Return final response",
+        "status_code": 200,
+        "body": "{{llm_result}}"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1-2",
+      "source": "trigger",
+      "target": "condition",
+      "animated": true,
+      "style": { "stroke": "#007acc", "strokeWidth": 2 }
+    },
+    {
+      "id": "e2-3",
+      "source": "condition",
+      "target": "urgent-response",
+      "animated": true,
+      "label": "true",
+      "style": { "stroke": "#28a745", "strokeWidth": 2 }
+    },
+    {
+      "id": "e2-4",
+      "source": "condition",
+      "target": "normal-response",
+      "animated": true,
+      "label": "false",
+      "style": { "stroke": "#f5a623", "strokeWidth": 2 }
+    },
+    {
+      "id": "e3-5",
+      "source": "urgent-response",
+      "target": "response",
+      "animated": true,
+      "style": { "stroke": "#28a745", "strokeWidth": 2 }
+    },
+    {
+      "id": "e4-5",
+      "source": "normal-response",
+      "target": "response",
+      "animated": true,
+      "style": { "stroke": "#28a745", "strokeWidth": 2 }
+    }
+  ]
+}

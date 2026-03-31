@@ -1,0 +1,112 @@
+{
+  "id": "multi-step-analysis",
+  "name": "Multi-Step Data Analysis",
+  "description": "A workflow that performs multi-step data analysis using multiple LLM calls",
+  "nodes": [
+    {
+      "id": "trigger",
+      "type": "moonflow",
+      "position": { "x": 300, "y": 50 },
+      "data": {
+        "label": "HTTP Trigger",
+        "component": "http",
+        "description": "Receive data for analysis",
+        "method": "POST",
+        "path": "/analyze"
+      }
+    },
+    {
+      "id": "step1-summarize",
+      "type": "moonflow",
+      "position": { "x": 300, "y": 200 },
+      "data": {
+        "label": "Step 1: Summarize",
+        "component": "llm",
+        "description": "Summarize the input data",
+        "provider": "openai",
+        "model": "gpt-3.5-turbo",
+        "api_key": "",
+        "system_prompt": "你是一个数据分析助手。请简洁地总结以下数据。",
+        "user_prompt": "请总结这段文本：{{last_response}}",
+        "temperature": 0.3,
+        "max_tokens": 300
+      }
+    },
+    {
+      "id": "step2-insights",
+      "type": "moonflow",
+      "position": { "x": 300, "y": 350 },
+      "data": {
+        "label": "Step 2: Extract Insights",
+        "component": "llm",
+        "description": "Extract key insights from summary",
+        "provider": "openai",
+        "model": "gpt-3.5-turbo",
+        "api_key": "",
+        "system_prompt": "你是一个数据分析专家。请从总结中提取关键洞察。",
+        "user_prompt": "从以下总结中提取关键洞察：{{llm_result}}",
+        "temperature": 0.5,
+        "max_tokens": 400
+      }
+    },
+    {
+      "id": "step3-recommendations",
+      "type": "moonflow",
+      "position": { "x": 300, "y": 500 },
+      "data": {
+        "label": "Step 3: Recommendations",
+        "component": "llm",
+        "description": "Generate recommendations based on insights",
+        "provider": "openai",
+        "model": "gpt-3.5-turbo",
+        "api_key": "",
+        "system_prompt": "你是一个战略顾问。基于洞察提供可操作的建议。",
+        "user_prompt": "基于以下洞察提供建议：{{llm_result}}",
+        "temperature": 0.7,
+        "max_tokens": 500
+      }
+    },
+    {
+      "id": "response",
+      "type": "moonflow",
+      "position": { "x": 300, "y": 650 },
+      "data": {
+        "label": "Response",
+        "component": "response",
+        "description": "Return complete analysis",
+        "status_code": 200,
+        "body": "## 分析报告\n\n### 总结\n{{step1-summarize.output}}\n\n### 关键洞察\n{{step2-insights.output}}\n\n### 建议\n{{step3-recommendations.output}}"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1-2",
+      "source": "trigger",
+      "target": "step1-summarize",
+      "animated": true,
+      "style": { "stroke": "#007acc", "strokeWidth": 2 }
+    },
+    {
+      "id": "e2-3",
+      "source": "step1-summarize",
+      "target": "step2-insights",
+      "animated": true,
+      "style": { "stroke": "#007acc", "strokeWidth": 2 }
+    },
+    {
+      "id": "e3-4",
+      "source": "step2-insights",
+      "target": "step3-recommendations",
+      "animated": true,
+      "style": { "stroke": "#007acc", "strokeWidth": 2 }
+    },
+    {
+      "id": "e4-5",
+      "source": "step3-recommendations",
+      "target": "response",
+      "animated": true,
+      "style": { "stroke": "#28a745", "strokeWidth": 2 }
+    }
+  ]
+}
