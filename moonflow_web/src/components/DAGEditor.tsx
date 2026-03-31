@@ -11,10 +11,13 @@ import {
   Edge,
   Node,
   Panel,
+  ReactFlowInstance,
+  NodeMouseHandler,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { MoonFlowNode } from './MoonFlowNode';
 import { ComponentPalette } from './ComponentPalette';
+import { ComponentType } from './types';
 
 const nodeTypes = {
   moonflow: MoonFlowNode,
@@ -74,13 +77,14 @@ export function DAGEditor() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
+  const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | null>(null);
 
   const onConnect = useCallback(
     (params: Connection) => setEdges((eds) => addEdge(params, eds)),
     [setEdges],
   );
 
-  const onNodeClick = useCallback((event: React.MouseEvent, node: Node) => {
+  const onNodeClick: NodeMouseHandler = useCallback((event, node) => {
     setSelectedNode(node);
   }, []);
 
@@ -92,7 +96,7 @@ export function DAGEditor() {
     const newNode: Node = {
       id: `${Date.now()}`,
       type: 'moonflow',
-      position: { x: Math.random() * 400, y: Math.random() * 400 },
+      position: { x: Math.random() * 400 + 100, y: Math.random() * 300 + 100 },
       data: {
         label,
         component: componentType,
@@ -102,8 +106,58 @@ export function DAGEditor() {
     setNodes((nds) => [...nds, newNode]);
   }, [setNodes]);
 
+  const onInit = useCallback((instance: ReactFlowInstance) => {
+    setReactFlowInstance(instance);
+  }, []);
+
+  const onDragOver = useCallback((event: React.DragEvent) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
+  }, []);
+
+  const onDrop = useCallback(
+    (event: React.DragEvent) => {
+      event.preventDefault();
+
+      if (!reactFlowInstance) {
+        return;
+      }
+
+      const dataStr = event.dataTransfer.getData('application/json');
+      if (!dataStr) {
+        return;
+      }
+
+      try {
+        const component: ComponentType = JSON.parse(dataStr);
+        
+        const bounds = event.currentTarget.getBoundingClientRect();
+        const position = reactFlowInstance.screenToFlowPosition({
+          x: event.clientX - bounds.left,
+          y: event.clientY - bounds.top,
+        });
+
+        const newNode: Node = {
+          id: `${Date.now()}`,
+          type: 'moonflow',
+          position,
+          data: {
+            label: component.label,
+            component: component.type,
+            description: component.description,
+          },
+        };
+
+        setNodes((nds) => [...nds, newNode]);
+      } catch (error) {
+        console.error('Failed to parse dropped component:', error);
+      }
+    },
+    [reactFlowInstance, setNodes],
+  );
+
   return (
-    <div style={{ width: '100%', height: '100vh' }}>
+    <div style={{ width: '100%', height: '100%' }}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -112,6 +166,9 @@ export function DAGEditor() {
         onConnect={onConnect}
         onNodeClick={onNodeClick}
         onPaneClick={onPaneClick}
+        onInit={onInit}
+        onDrop={onDrop}
+        onDragOver={onDragOver}
         nodeTypes={nodeTypes}
         fitView
       >

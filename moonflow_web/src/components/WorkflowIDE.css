@@ -16,6 +16,7 @@
   background: #252526;
   border-bottom: 1px solid #3c3c3c;
   height: 48px;
+  flex-shrink: 0;
 }
 
 .header-left h1 {
@@ -81,6 +82,11 @@
   background: #1177bb;
 }
 
+.header-right button.primary:disabled {
+  background: #0e639c80;
+  cursor: not-allowed;
+}
+
 .ide-content {
   flex: 1;
   display: flex;
@@ -102,6 +108,10 @@
   background: #3c3c3c;
 }
 
+.ide-content.split:has(.execution-panel) {
+  grid-template-columns: 1fr 1fr 300px;
+}
+
 .dag-panel {
   background: #1e1e1e;
   overflow: hidden;
@@ -121,6 +131,10 @@
   color: #9d9d9d;
 }
 
+.execution-panel {
+  background: #252526;
+}
+
 .ide-footer {
   display: flex;
   justify-content: space-between;
@@ -130,6 +144,7 @@
   border-top: 1px solid #3c3c3c;
   height: 24px;
   font-size: 12px;
+  flex-shrink: 0;
 }
 
 .status {

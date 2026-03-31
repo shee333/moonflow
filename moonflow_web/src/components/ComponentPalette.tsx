@@ -82,6 +82,11 @@ const components: ComponentType[] = [
 export function ComponentPalette({ onAdd }: ComponentPaletteProps) {
   const categories = [...new Set(components.map((c) => c.category))];
 
+  const handleDragStart = (e: React.DragEvent, component: ComponentType) => {
+    e.dataTransfer.setData('application/json', JSON.stringify(component));
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
   return (
     <div
       style={{
@@ -95,6 +100,9 @@ export function ComponentPalette({ onAdd }: ComponentPaletteProps) {
       }}
     >
       <h3 style={{ marginTop: 0, marginBottom: '12px' }}>Components</h3>
+      <div style={{ fontSize: '11px', color: '#666', marginBottom: '16px' }}>
+        Drag components to the canvas or click to add
+      </div>
       {categories.map((category) => (
         <div key={category} style={{ marginBottom: '16px' }}>
           <h4
@@ -111,8 +119,10 @@ export function ComponentPalette({ onAdd }: ComponentPaletteProps) {
           {components
             .filter((c) => c.category === category)
             .map((component) => (
-              <button
+              <div
                 key={component.type}
+                draggable
+                onDragStart={(e) => handleDragStart(e, component)}
                 onClick={() => onAdd(component.type, component.label, component.description)}
                 style={{
                   display: 'block',
@@ -122,24 +132,33 @@ export function ComponentPalette({ onAdd }: ComponentPaletteProps) {
                   backgroundColor: '#f8f9fa',
                   border: '1px solid #ddd',
                   borderRadius: '6px',
-                  cursor: 'pointer',
+                  cursor: 'grab',
                   textAlign: 'left',
                   transition: 'all 0.2s',
+                  userSelect: 'none',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = '#e9ecef';
                   e.currentTarget.style.borderColor = '#007bff';
+                  e.currentTarget.style.transform = 'translateX(4px)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = '#f8f9fa';
                   e.currentTarget.style.borderColor = '#ddd';
+                  e.currentTarget.style.transform = 'translateX(0)';
+                }}
+                onMouseDown={(e) => {
+                  e.currentTarget.style.cursor = 'grabbing';
+                }}
+                onMouseUp={(e) => {
+                  e.currentTarget.style.cursor = 'grab';
                 }}
               >
                 <div style={{ fontWeight: 600, fontSize: '13px' }}>{component.label}</div>
                 <div style={{ fontSize: '11px', color: '#666', marginTop: '2px' }}>
                   {component.description}
                 </div>
-              </button>
+              </div>
             ))}
         </div>
       ))}
