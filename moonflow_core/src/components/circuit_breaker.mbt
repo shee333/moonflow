@@ -39,3 +39,15 @@ pub fn create_circuit_breaker_config_with_timeout(
     half_open_max_calls: 3,
   }
 }
+
+impl Component for CircuitBreakerComponent {
+  fn execute(input: ComponentInput, ctx: moonflow_core::runtime::ExecutionContext) -> ComponentResult {
+    let state = input.params.get_or("state", "closed")
+    let operation = input.data
+
+    if operation == "" {
+      return Err(ComponentError::ValidationError("Operation is required"))
+    }
+
+    execute_circuit_breaker_operation(state, operation)
+  }
