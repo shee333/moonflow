@@ -38,3 +38,16 @@ pub fn create_weighted_router_config(
     weights: Some(weights),
   }
 }
+
+impl Component for RouterComponent {
+  fn execute(input: ComponentInput, ctx: moonflow_core::runtime::ExecutionContext) -> ComponentResult {
+    let operation = input.params.get_or("operation", "route")
+    let router_type = input.params.get_or("router_type", "round_robin")
+    let key = input.params.get_or("key", "")
+
+    if router_type == "weighted" {
+      return Err(ComponentError::ValidationError("Weighted routing requires weights"))
+    }
+
+    execute_routing(operation, router_type, key)
+  }
