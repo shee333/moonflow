@@ -181,14 +181,14 @@ export function WorkflowIDE() {
         >
           {validationResult.valid ? (
             <div>
-              <strong>✓ Workflow Valid!</strong>
+              <strong>✓ 工作流验证通过！</strong>
               <div style={{ fontSize: '12px', marginTop: '4px' }}>
-                Workflow is ready to execute
+                工作流已准备好执行
               </div>
             </div>
           ) : (
             <div>
-              <strong>✗ Validation Failed</strong>
+              <strong>✗ 验证失败</strong>
               <ul style={{ textAlign: 'left', marginTop: '8px', fontSize: '12px', maxHeight: '150px', overflowY: 'auto' }}>
                 {validationResult.errors.map((error, i) => (
                   <li key={i}>{error}</li>
@@ -209,69 +209,69 @@ export function WorkflowIDE() {
               fontSize: '12px',
             }}
           >
-            Dismiss
+            关闭
           </button>
         </div>
       )}
 
       <div className="ide-header">
         <div className="header-left">
-          <h1>🌙 MoonFlow Studio</h1>
+          <h1>🌙 MoonFlow 工作流设计器</h1>
         </div>
         <div className="header-center">
           <button
             className={viewMode === 'dag' ? 'active' : ''}
             onClick={() => setViewMode('dag')}
           >
-            DAG View
+            图谱视图
           </button>
           <button
             className={viewMode === 'code' ? 'active' : ''}
             onClick={() => setViewMode('code')}
           >
-            Code View
+            代码视图
           </button>
           <button
             className={viewMode === 'split' ? 'active' : ''}
             onClick={() => setViewMode('split')}
           >
-            Split View
+            分屏视图
           </button>
         </div>
         <div className="header-right">
           <button onClick={handleImport} className="secondary">
-            📥 Import
+            📥 导入
           </button>
           <button onClick={handleExport} className="secondary">
-            📤 Export
+            📤 导出
           </button>
           <button onClick={handleValidate} className="secondary">
-            ✓ Validate
+            ✓ 验证
           </button>
           <button onClick={handleGenerateCode} className="secondary">
-            ⚡ Generate Code
+            ⚡ 生成代码
           </button>
           {!isRunning ? (
             <button onClick={handleRun} className="primary">
-              ▶️ Run
+              ▶️ 运行
             </button>
           ) : (
             <button onClick={handleStop} className="danger">
-              ⏹️ Stop
+              ⏹️ 停止
             </button>
           )}
           <button
             onClick={() => setShowExecutionPanel(!showExecutionPanel)}
             className={showExecutionPanel ? 'active' : ''}
           >
-            📋 {showExecutionPanel ? 'Hide' : 'Show'} Logs
+            📋 {showExecutionPanel ? '隐藏' : '显示'} 日志
           </button>
           <button
             onClick={toggleTheme}
             className="secondary"
-            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+            title={`切换到 ${theme === 'dark' ? '浅色' : '深色'} 主题`}
           >
-            {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
+            {theme === 'dark' ? '☀️ 浅色' : '🌙 深色'}
           </button>
         </div>
       </div>
@@ -324,10 +324,10 @@ export function WorkflowIDE() {
       <div className="ide-footer">
         <div className="status">
           <span className={`status-indicator ${isRunning ? 'running' : ''}`} />
-          {isRunning ? 'Running' : 'Ready'}
+          {isRunning ? '运行中' : '就绪'}
         </div>
         <div className="info">
-          MoonFlow Studio v0.1.0 | {theme === 'dark' ? '🌙 Dark' : '☀️ Light'} Theme | Node.js 20.18.0
+          MoonFlow Studio v0.1.0 | {theme === 'dark' ? '🌙 深色' : '☀️ 浅色'} 主题 | Node.js 20.18.0
         </div>
       </div>
 

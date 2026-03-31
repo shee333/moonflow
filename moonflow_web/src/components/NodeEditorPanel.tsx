@@ -24,16 +24,19 @@ interface NodeEditorPanelProps {
 
 const COMPONENT_SCHEMAS: Record<string, Array<{key: string; label: string; type: string; placeholder?: string; options?: string[]}>> = {
   http: [
-    { key: 'url', label: 'URL', type: 'text', placeholder: 'https://api.example.com/endpoint' },
-    { key: 'method', label: 'Method', type: 'select', options: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'] },
-    { key: 'timeout', label: 'Timeout (ms)', type: 'number', placeholder: '30000' },
-    { key: 'headers', label: 'Headers (JSON)', type: 'textarea', placeholder: '{"Authorization": "Bearer token"}' },
+    { key: 'url', label: 'URL 地址', type: 'text', placeholder: 'https://api.example.com/endpoint' },
+    { key: 'method', label: '请求方法', type: 'select', options: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'] },
+    { key: 'timeout', label: '超时时间 (ms)', type: 'number', placeholder: '30000' },
+    { key: 'headers', label: '请求头 (JSON)', type: 'textarea', placeholder: '{"Authorization": "Bearer token"}' },
   ],
   llm: [
-    { key: 'model', label: 'Model', type: 'select', options: ['gpt-4', 'gpt-4-turbo', 'gpt-3.5-turbo', 'claude-3-opus', 'claude-3-sonnet', 'gemini-pro'] },
-    { key: 'prompt', label: 'System Prompt', type: 'textarea', placeholder: 'You are a helpful assistant...' },
-    { key: 'max_tokens', label: 'Max Tokens', type: 'number', placeholder: '1000' },
+    { key: 'provider', label: 'LLM 提供商', type: 'select', options: ['openai', 'claude', 'gemini'] },
+    { key: 'model', label: '模型', type: 'text', placeholder: 'gpt-4, claude-3-opus, gemini-pro' },
+    { key: 'api_key', label: 'API Key', type: 'text', placeholder: 'sk-...' },
+    { key: 'system_prompt', label: '系统提示词', type: 'textarea', placeholder: '你是一个有用的助手...' },
+    { key: 'user_prompt', label: '用户提示词', type: 'textarea', placeholder: '{{input}} 或自定义文本' },
     { key: 'temperature', label: 'Temperature', type: 'number', placeholder: '0.7' },
+    { key: 'max_tokens', label: 'Max Tokens', type: 'number', placeholder: '1000' },
   ],
   database: [
     { key: 'type', label: 'Database Type', type: 'select', options: ['postgresql', 'mysql', 'sqlite', 'mongodb'] },

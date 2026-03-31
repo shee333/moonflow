@@ -33,21 +33,21 @@ export function ExecutionPanel({
   useEffect(() => {
     if (isRunning && status === 'idle') {
       setStatus('running');
-      addLog('info', 'Workflow execution started');
+      addLog('info', '工作流执行已开始');
       
       const interval = setInterval(() => {
         const progress = Math.random();
         if (progress > 0.9) {
-          addLog('success', 'Node completed successfully');
+          addLog('success', '节点执行成功');
         } else if (progress > 0.7) {
-          addLog('info', 'Processing...');
+          addLog('info', '处理中...');
         }
       }, 2000);
 
       setTimeout(() => {
         clearInterval(interval);
         setStatus('completed');
-        addLog('success', 'Workflow execution completed');
+        addLog('success', '工作流执行完成');
       }, 10000);
 
       return () => clearInterval(interval);
@@ -69,7 +69,7 @@ export function ExecutionPanel({
   const handlePause = () => {
     if (status === 'running') {
       setStatus('paused');
-      addLog('warning', 'Workflow execution paused');
+      addLog('warning', '工作流执行已暂停');
       onPause();
     }
   };
@@ -77,14 +77,14 @@ export function ExecutionPanel({
   const handleResume = () => {
     if (status === 'paused') {
       setStatus('running');
-      addLog('info', 'Workflow execution resumed');
+      addLog('info', '工作流执行已恢复');
       onStart();
     }
   };
 
   const handleStop = () => {
     setStatus('idle');
-    addLog('error', 'Workflow execution stopped');
+    addLog('error', '工作流执行已停止');
     onStop();
   };
 
@@ -97,17 +97,17 @@ export function ExecutionPanel({
   const getStatusText = () => {
     switch (status) {
       case 'idle':
-        return 'Ready';
+        return '就绪';
       case 'running':
-        return 'Running';
+        return '运行中';
       case 'paused':
-        return 'Paused';
+        return '已暂停';
       case 'completed':
-        return 'Completed';
+        return '已完成';
       case 'error':
-        return 'Error';
+        return '错误';
       default:
-        return 'Unknown';
+        return '未知';
     }
   };
 
@@ -118,7 +118,7 @@ export function ExecutionPanel({
   return (
     <div className={getStatusClass()}>
       <div className="panel-section">
-        <h3>Execution Status</h3>
+        <h3>执行状态</h3>
         <div className="status-display">
           <span className={`status-indicator ${status}`}></span>
           <span className="status-text">{getStatusText()}</span>
@@ -126,46 +126,46 @@ export function ExecutionPanel({
       </div>
 
       <div className="panel-section">
-        <h3>Controls</h3>
+        <h3>控制面板</h3>
         <div className="control-buttons">
           {status === 'idle' && (
             <button className="control-btn start" onClick={onStart}>
-              ▶️ Start
+              ▶️ 开始
             </button>
           )}
           {status === 'running' && (
             <>
               <button className="control-btn pause" onClick={handlePause}>
-                ⏸️ Pause
+                ⏸️ 暂停
               </button>
               <button className="control-btn stop" onClick={handleStop}>
-                ⏹️ Stop
+                ⏹️ 停止
               </button>
             </>
           )}
           {status === 'paused' && (
             <>
               <button className="control-btn resume" onClick={handleResume}>
-                ▶️ Resume
+                ▶️ 继续
               </button>
               <button className="control-btn stop" onClick={handleStop}>
-                ⏹️ Stop
+                ⏹️ 停止
               </button>
             </>
           )}
           {status === 'completed' && (
             <button className="control-btn reset" onClick={handleReset}>
-              🔄 Reset
+              🔄 重置
             </button>
           )}
         </div>
       </div>
 
       <div className="panel-section logs-section">
-        <h3>Execution Logs</h3>
+        <h3>执行日志</h3>
         <div className="logs-container">
           {logs.length === 0 ? (
-            <div className="empty-logs">No logs yet. Start the workflow to see execution logs.</div>
+            <div className="empty-logs">暂无日志。开始执行工作流以查看日志。</div>
           ) : (
             logs.map((log) => (
               <div key={log.id} className={`log-entry ${log.level}`}>

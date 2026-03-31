@@ -1,0 +1,74 @@
+{
+  "id": "llm-chatbot-workflow",
+  "name": "LLM 聊天机器人",
+  "description": "基于 LLM 的智能对话工作流，支持多种模型",
+  "version": "1.0.0",
+  "metadata": {
+    "author": "MoonFlow Team",
+    "createdAt": "2024-01-01T00:00:00Z",
+    "tags": ["AI", "LLM", "Chatbot"]
+  },
+  "nodes": [
+    {
+      "id": "http-trigger",
+      "type": "http",
+      "label": "HTTP 触发器",
+      "description": "接收用户输入",
+      "position": { "x": 250, "y": 50 },
+      "config": {
+        "method": "POST",
+        "path": "/chat",
+        "timeout": 30000
+      }
+    },
+    {
+      "id": "llm-processor",
+      "type": "llm",
+      "label": "LLM 处理器",
+      "description": "AI 对话处理",
+      "position": { "x": 250, "y": 200 },
+      "config": {
+        "provider": "openai",
+        "model": "gpt-4",
+        "api_key": "",
+        "system_prompt": "你是一个友好的AI助手。请用简洁、有帮助的方式回答用户的问题。",
+        "user_prompt": "{{input}}",
+        "temperature": 0.7,
+        "max_tokens": 1000
+      }
+    },
+    {
+      "id": "response",
+      "type": "response",
+      "label": "返回结果",
+      "description": "返回 LLM 响应",
+      "position": { "x": 250, "y": 350 },
+      "config": {
+        "status_code": 200,
+        "delay": 0
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1-llm",
+      "source": "http-trigger",
+      "target": "llm-processor",
+      "label": "用户输入"
+    },
+    {
+      "id": "e2-response",
+      "source": "llm-processor",
+      "target": "response",
+      "label": "AI 响应"
+    }
+  ],
+  "config": {
+    "timeout": 60000,
+    "retry": {
+      "enabled": true,
+      "maxAttempts": 3,
+      "delay": 1000
+    }
+  }
+}

@@ -7,109 +7,120 @@ interface ComponentPaletteProps {
 const components: ComponentType[] = [
   {
     type: 'http',
-    label: 'HTTP Trigger',
-    description: 'Start workflow via HTTP request',
+    label: 'HTTP 触发器',
+    description: '通过 HTTP 请求启动工作流',
     category: 'trigger',
   },
   {
     type: 'websocket',
     label: 'WebSocket',
-    description: 'Real-time bidirectional communication',
+    description: '实时双向通信',
     category: 'trigger',
   },
   {
     type: 'grpc',
     label: 'gRPC',
-    description: 'High-performance RPC communication',
+    description: '高性能 RPC 通信',
     category: 'trigger',
   },
   {
     type: 'graphql',
     label: 'GraphQL',
-    description: 'Query and mutate data with GraphQL',
+    description: 'GraphQL 查询和变更',
     category: 'trigger',
   },
   {
     type: 'llm',
-    label: 'LLM Processor',
-    description: 'Process with AI language model',
+    label: 'LLM 处理器',
+    description: '使用 AI 语言模型处理',
     category: 'processor',
   },
   {
     type: 'timer',
-    label: 'Timer',
-    description: 'Schedule time-based triggers',
+    label: '定时器',
+    description: '基于时间的触发器',
     category: 'trigger',
   },
   {
     type: 'database',
-    label: 'Database',
-    description: 'Connect to databases',
+    label: '数据库',
+    description: '连接数据库',
     category: 'storage',
   },
   {
     type: 'cache',
-    label: 'Cache',
-    description: 'Cache data for fast access',
+    label: '缓存',
+    description: '快速访问的数据缓存',
     category: 'storage',
   },
   {
     type: 'email',
-    label: 'Email',
-    description: 'Send emails',
+    label: '邮件',
+    description: '发送电子邮件',
     category: 'notification',
   },
   {
     type: 'file',
-    label: 'File Operations',
-    description: 'Read/write files',
+    label: '文件操作',
+    description: '读写文件',
     category: 'storage',
   },
   {
     type: 'logger',
-    label: 'Logger',
-    description: 'Log workflow events',
+    label: '日志记录',
+    description: '记录工作流事件',
     category: 'utility',
   },
   {
     type: 'queue',
-    label: 'Queue',
-    description: 'Message queue operations',
+    label: '消息队列',
+    description: '消息队列操作',
     category: 'messaging',
   },
   {
     type: 'filter',
-    label: 'Filter',
-    description: 'Filter data based on conditions',
+    label: '过滤器',
+    description: '根据条件过滤数据',
     category: 'processor',
   },
   {
     type: 'transform',
-    label: 'Transform',
-    description: 'Transform data format',
+    label: '数据转换',
+    description: '转换数据格式',
     category: 'processor',
   },
   {
     type: 'aggregator',
-    label: 'Aggregator',
-    description: 'Aggregate multiple inputs',
+    label: '聚合器',
+    description: '聚合多个输入',
     category: 'processor',
   },
   {
     type: 'router',
-    label: 'Router',
-    description: 'Route to different paths',
+    label: '路由器',
+    description: '路由到不同路径',
     category: 'control',
   },
   {
     type: 'response',
-    label: 'Response',
-    description: 'Return result to caller',
+    label: '响应',
+    description: '返回结果给调用方',
     category: 'output',
   },
 ];
 
 export function ComponentPalette({ onAdd }: ComponentPaletteProps) {
+  const categoryNames: Record<string, string> = {
+    trigger: '触发器',
+    processor: '处理器',
+    storage: '存储',
+    notification: '通知',
+    utility: '工具',
+    messaging: '消息',
+    control: '控制',
+    output: '输出',
+  };
+
   const categories = [...new Set(components.map((c) => c.category))];
 
   const handleDragStart = (e: React.DragEvent, component: ComponentType) => {
@@ -130,7 +141,7 @@ export function ComponentPalette({ onAdd }: ComponentPaletteProps) {
       }}
     >
       <h3 style={{ marginTop: 0, marginBottom: '16px', fontSize: '16px', fontWeight: 600 }}>
-        Components
+        组件库
       </h3>
       {categories.map((category) => (
         <div key={category} style={{ marginBottom: '16px' }}>
@@ -143,7 +154,7 @@ export function ComponentPalette({ onAdd }: ComponentPaletteProps) {
               marginBottom: '8px',
             }}
           >
-            {category}
+            {categoryNames[category] || category}
           </h4>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {components
