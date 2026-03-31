@@ -53,6 +53,7 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
 # Build outputs
 *.wasm
@@ -66,3 +67,19 @@ htmlcov/
 # Environment variables
 .env
 .env.local
+
+# MoonBit build artifacts
+core/_build/
+core/.moon/
+core/*.wasm
+core/*.core
+core/*.mi
+core/*.moon_db
+core/*.pkg
+core/.githooks/
+
+# Frontend build
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
+frontend/_build/
