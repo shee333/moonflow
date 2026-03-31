@@ -29,6 +29,35 @@ pub fn create_throttle_config(throttle_type: ThrottleType, rate: Int) -> Throttl
   }
 }
 
+fn execute_throttle_operation(throttle_type: String, rate: Int, operation: String) -> ComponentResult {
+  let metadata: Map[String, String] = {}
+  metadata["throttle_type"] = throttle_type
+  metadata["rate"] = rate.to_string()
+  metadata["status"] = "throttled"
+
+  let wait_time = calculate_wait_time(throttle_type, rate)
+  metadata["wait_time"] = wait_time.to_string()
+  metadata["allowed"] = "true"
+
+  let response = "Throttled '\{operation}' using '\{throttle_type}' (\{rate} ops/s)"
+  Ok(create_component_output_with_metadata(response, metadata))
+}
+
+fn calculate_wait_time(throttle_type: String, rate: Int) -> Int {
+  match throttle_type {
+    "token_bucket" => 1000 / rate
+    "leaky_bucket" => 1000 / rate
+    "sliding_window" => 1000 / rate
+    "fixed_window" => 1000 / rate
+    _ => 10
+  }
+}
+
+fn is_valid_throttle_type(throttle_type: String) -> Bool {
+  throttle_type == "token_bucket" || throttle_type == "leaky_bucket" ||
+  throttle_type == "sliding_window" || throttle_type == "fixed_window"
+}
+
 pub fn create_throttle_config_with_window(
   throttle_type: ThrottleType,
   rate: Int,
