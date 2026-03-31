@@ -18,3 +18,11 @@ pub struct PipelineConfig {
 pub fn create_pipeline_component() -> PipelineComponent {
   PipelineComponent
 }
+
+pub fn create_pipeline_config(stages: Array[PipelineStage]) -> PipelineConfig {
+  PipelineConfig::{
+    stages,
+    parallel: false,
+    timeout: 30000,
+  }
+}
