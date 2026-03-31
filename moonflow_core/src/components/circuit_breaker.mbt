@@ -28,6 +28,31 @@ pub fn create_circuit_breaker_config(failure_threshold: Int) -> CircuitBreakerCo
   }
 }
 
+fn execute_circuit_breaker_operation(state: String, operation: String) -> ComponentResult {
+  let metadata: Map[String, String] = {}
+  metadata["state"] = state
+  metadata["status"] = "protected"
+
+  let allowed = is_operation_allowed(state)
+  metadata["allowed"] = allowed.to_string()
+
+  let response = "Circuit breaker '\{state}' protecting '\{operation}'"
+  Ok(create_component_output_with_metadata(response, metadata))
+}
+
+fn is_operation_allowed(state: String) -> Bool {
+  match state {
+    "closed" => true
+    "open" => false
+    "half_open" => true
+    _ => false
+  }
+}
+
+fn is_valid_circuit_state(state: String) -> Bool {
+  state == "closed" || state == "open" || state == "half_open"
+}
+
 pub fn create_circuit_breaker_config_with_timeout(
   failure_threshold: Int,
   timeout_ms: Int
