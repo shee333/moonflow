@@ -55,3 +55,29 @@ impl Component for ThrottleComponent {
 
     execute_throttle_operation(throttle_type, rate, operation)
   }
+
+  fn validate(config: Map[String, String]) -> Bool {
+    match config["throttle_type"] {
+      Some(t) => is_valid_throttle_type(t)
+      None => true
+    }
+  }
+
+  fn get_metadata() -> ComponentMetadata {
+    ComponentMetadata::{
+      name: "throttle",
+      version: "1.0.0",
+      description: "Throttle component with token_bucket, leaky_bucket, sliding_window, fixed_window support",
+      category: ComponentCategory::Flow,
+      inputs: [
+        InputSchema::{ name: "throttle_type", type_: "string", required: true, description: "Throttle type: token_bucket/leaky_bucket/sliding_window/fixed_window" },
+        InputSchema::{ name: "rate", type_: "number", required: false, description: "Throttle rate" },
+        InputSchema::{ name: "operation", type_: "string", required: true, description: "Operation to throttle" },
+      ],
+      outputs: [
+        OutputSchema::{ name: "allowed", type_: "boolean", description: "Whether operation is allowed" },
+        OutputSchema::{ name: "wait_time", type_: "number", description: "Wait time in ms" },
+      ],
+    }
+  }
+}
