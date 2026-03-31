@@ -76,3 +76,30 @@ impl Component for PoolComponent {
     }
   }
 }
+
+fn execute_pool_operation(strategy: String, max_size: Int, operation: String) -> ComponentResult {
+  let metadata: Map[String, String] = {}
+  metadata["strategy"] = strategy
+  metadata["max_size"] = max_size.to_string()
+  metadata["status"] = "pooled"
+
+  let pool_size = calculate_pool_size(strategy, max_size)
+  metadata["pooled"] = "true"
+  metadata["pool_size"] = pool_size.to_string()
+
+  let response = "Pooled '\{operation}' using '\{strategy}' (\{pool_size} items)"
+  Ok(create_component_output_with_metadata(response, metadata))
+}
+
+fn calculate_pool_size(strategy: String, max_size: Int) -> Int {
+  match strategy {
+    "lifo" => max_size / 2
+    "fifo" => max_size / 2
+    "random" => max_size / 2
+    _ => max_size
+  }
+}
+
+fn is_valid_pool_strategy(strategy: String) -> Bool {
+  strategy == "lifo" || strategy == "fifo" || strategy == "random"
+}
