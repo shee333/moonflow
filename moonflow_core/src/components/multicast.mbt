@@ -13,3 +13,15 @@ pub struct MulticastConfig {
   target_count: Int
   timeout_ms: Int
 }
+
+pub fn create_multicast_component() -> MulticastComponent {
+  MulticastComponent
+}
+
+pub fn create_multicast_config(strategy: MulticastStrategy, target_count: Int) -> MulticastConfig {
+  MulticastConfig::{
+    strategy,
+    target_count,
+    timeout_ms: 5000,
+  }
+}
