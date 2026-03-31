@@ -26,3 +26,15 @@ pub fn create_merger_config(merger_type: MergerType) -> MergerConfig {
     deduplicate: false,
   }
 }
+
+pub fn create_merger_config_with_join(
+  merger_type: MergerType,
+  join_key: String,
+  deduplicate: Bool
+) -> MergerConfig {
+  MergerConfig::{
+    merger_type,
+    join_key: Some(join_key),
+    deduplicate,
+  }
+}
