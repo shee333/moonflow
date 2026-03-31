@@ -9,6 +9,13 @@ pub enum SplitterType {
   | ByJsonPath
 }
 
+pub struct SplitterConfig {
+  splitter_type: SplitterType
+  delimiter: String
+  chunk_size: Int
+  max_chunks: Int
+}
+
 pub fn create_splitter_component() -> SplitterComponent {
   SplitterComponent
 }
