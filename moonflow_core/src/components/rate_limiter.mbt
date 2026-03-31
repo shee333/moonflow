@@ -38,3 +38,39 @@ pub fn create_rate_limit_config_with_burst(
     burst_size,
   }
 }
+
+impl Component for RateLimitComponent {
+  fn execute(input: ComponentInput, ctx: moonflow_core::runtime::ExecutionContext) -> ComponentResult {
+    let rate_limit_type = input.params.get_or("rate_limit_type", "per_second")
+    let max_requests = input.params.get_or("max_requests", "100").to_int()
+    let operation = input.data
+
+    if operation == "" {
+      return Err(ComponentError::ValidationError("Operation is required"))
+    }
+
+    execute_rate_limit_operation(rate_limit_type, max_requests, operation)
+  }
+
+  fn validate(config: Map[String, String]) -> Bool {
+    true
+  }
+
+  fn get_metadata() -> ComponentMetadata {
+    ComponentMetadata::{
+      name: "rate_limit",
+      version: "1.0.0",
+      description: "Rate limit component with per_second, per_minute, per_hour, per_day support",
+      category: ComponentCategory::Flow,
+      inputs: [
+        InputSchema::{ name: "rate_limit_type", type_: "string", required: true, description: "Rate limit type: per_second/per_minute/per_hour/per_day" },
+        InputSchema::{ name: "max_requests", type_: "number", required: false, description: "Maximum requests allowed" },
+        InputSchema::{ name: "operation", type_: "string", required: true, description: "Operation to rate limit" },
+      ],
+      outputs: [
+        OutputSchema::{ name: "allowed", type_: "boolean", description: "Whether operation is allowed" },
+        OutputSchema::{ name: "remaining", type_: "number", description: "Remaining requests" },
+      ],
+    }
+  }
+}
