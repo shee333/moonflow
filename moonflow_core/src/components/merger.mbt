@@ -38,3 +38,16 @@ pub fn create_merger_config_with_join(
     deduplicate,
   }
 }
+
+impl Component for MergerComponent {
+  fn execute(input: ComponentInput, ctx: moonflow_core::runtime::ExecutionContext) -> ComponentResult {
+    let merger_type = input.params.get_or("merger_type", "concat")
+    let data1 = input.data
+    let data2 = input.params.get_or("data2", "")
+
+    if data1 == "" || data2 == "" {
+      return Err(ComponentError::ValidationError("Both data sources are required"))
+    }
+
+    execute_merge_operation(merger_type, data1, data2)
+  }
