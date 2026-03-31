@@ -18,3 +18,12 @@ pub struct CircuitBreakerConfig {
 pub fn create_circuit_breaker_component() -> CircuitBreakerComponent {
   CircuitBreakerComponent
 }
+
+pub fn create_circuit_breaker_config(failure_threshold: Int) -> CircuitBreakerConfig {
+  CircuitBreakerConfig::{
+    failure_threshold,
+    success_threshold: 2,
+    timeout_ms: 60000,
+    half_open_max_calls: 3,
+  }
+}
