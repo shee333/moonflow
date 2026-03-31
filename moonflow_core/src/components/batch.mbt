@@ -17,3 +17,11 @@ pub struct BatchConfig {
 pub fn create_batch_component() -> BatchComponent {
   BatchComponent
 }
+
+pub fn create_batch_config(batch_mode: BatchMode, batch_size: Int) -> BatchConfig {
+  BatchConfig::{
+    batch_mode,
+    batch_size,
+    max_concurrent: 1,
+  }
+}
