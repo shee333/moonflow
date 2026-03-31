@@ -51,3 +51,29 @@ impl Component for RouterComponent {
 
     execute_routing(operation, router_type, key)
   }
+
+  fn validate(config: Map[String, String]) -> Bool {
+    match config["router_type"] {
+      Some(rtype) => is_valid_router_type(rtype)
+      None => false
+    }
+  }
+
+  fn get_metadata() -> ComponentMetadata {
+    ComponentMetadata::{
+      name: "router",
+      version: "1.0.0",
+      description: "Routing component with RoundRobin, Random, Weighted, and Hash strategies",
+      category: ComponentCategory::Flow,
+      inputs: [
+        InputSchema::{ name: "operation", type_: "string", required: true, description: "Routing operation" },
+        InputSchema::{ name: "router_type", type_: "string", required: true, description: "Type: round_robin/random/weighted/hash" },
+        InputSchema::{ name: "key", type_: "string", required: false, description: "Key for hash routing" },
+      ],
+      outputs: [
+        OutputSchema::{ name: "target", type_: "string", description: "Selected target" },
+        OutputSchema::{ name: "router_type", type_: "string", description: "Router type used" },
+      ],
+    }
+  }
+}
