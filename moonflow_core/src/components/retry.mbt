@@ -28,3 +28,17 @@ pub fn create_retry_config(strategy: RetryStrategy, max_attempts: Int) -> RetryC
     max_delay: 60000,
   }
 }
+
+pub fn create_retry_config_with_delays(
+  strategy: RetryStrategy,
+  max_attempts: Int,
+  base_delay: Int,
+  max_delay: Int
+) -> RetryConfig {
+  RetryConfig::{
+    strategy,
+    max_attempts,
+    base_delay,
+    max_delay,
+  }
+}
