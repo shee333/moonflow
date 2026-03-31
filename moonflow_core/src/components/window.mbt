@@ -76,3 +76,34 @@ impl Component for WindowComponent {
     }
   }
 }
+
+fn execute_window_operation(window_type: String, size_ms: Int, operation: String) -> ComponentResult {
+  let metadata: Map[String, String] = {}
+  metadata["window_type"] = window_type
+  metadata["size_ms"] = size_ms.to_string()
+  metadata["status"] = "windowed"
+
+  let window_id = generate_window_id(window_type, size_ms)
+  metadata["window_id"] = window_id
+  metadata["window_size"] = size_ms.to_string()
+
+  let response = "Windowed '\{operation}' using '\{window_type}' window (\{size_ms}ms)"
+  Ok(create_component_output_with_metadata(response, metadata))
+}
+
+fn generate_window_id(window_type: String, size_ms: Int) -> String {
+  "\{window_type}_\{size_ms}"
+}
+
+fn calculate_window_count(window_type: String, size_ms: Int, total_time_ms: Int) -> Int {
+  match window_type {
+    "tumbling" => total_time_ms / size_ms
+    "sliding" => (total_time_ms / (size_ms / 2)) - 1
+    "session" => 1
+    _ => 1
+  }
+}
+
+fn is_valid_window_type(window_type: String) -> Bool {
+  window_type == "tumbling" || window_type == "sliding" || window_type == "session"
+}
