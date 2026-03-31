@@ -1,150 +1,286 @@
-# MoonFlow Web UI
+# MoonFlow - Agent 工作流编排平台
 
-MoonFlow Studio 是一个基于 Web 的可视化工作流编辑器，用于创建和管理 AI 智能体工作流。
+<p align="center">
+  <img src="https://img.shields.io/badge/MoonBit-1.0.0-blue" alt="MoonBit">
+  <img src="https://img.shields.io/badge/React-19.0.0-61dafb" alt="React">
+  <img src="https://img.shields.io/badge/TypeScript-5.0-3178c6" alt="TypeScript">
+  <img src="https://img.shields.io/badge/License-MIT-green" alt="License">
+</p>
 
-## 技术栈
+> 🌙 MoonFlow 是一个类似 Dify/Coze 的 Agent 工作流编排平台，支持可视化编排和 MoonBit DSL 代码生成。
 
-- **React 19** - 前端框架
-- **TypeScript** - 类型安全
-- **Vite 5.4** - 快速构建工具
-- **ReactFlow (@xyflow/react)** - DAG 可视化编辑器
-- **Monaco Editor** - 强大的代码编辑器
+## 📁 项目结构
 
-## 功能特性
+```
+moonflow/
+├── core/                      # MoonBit 后端运行时
+│   ├── src/
+│   │   ├── components/         # 工作流组件库 (30+ 组件)
+│   │   ├── runtime/          # 执行引擎和调度器
+│   │   ├── workflow/         # 工作流解析和验证
+│   │   └── demo/             # 示例代码
+│   ├── examples/              # MoonBit DSL 示例
+│   ├── tests/                 # 测试用例
+│   └── moon.mod.json         # MoonBit 模块配置
+│
+├── src/                       # React 前端
+│   ├── components/            # React 组件
+│   ├── context/               # React Context
+│   ├── hooks/                 # 自定义 Hooks
+│   ├── utils/                # 工具函数
+│   └── test/                 # 测试用例
+│
+└── examples/                 # 工作流示例
+    ├── workflow-examples/    # 可视化工作流 JSON
+    └── *.json                # 预定义工作流模板
+```
 
-### DAG 可视化编辑器
-- 拖拽式节点创建
-- 节点连接和边管理
-- 节点选择和属性查看
-- 缩放和导航控制
-- MiniMap 概览
+## 🚀 快速开始
 
-### 组件库
-预置丰富的组件，包括：
-- **触发器**: HTTP Trigger, Timer, Cron
-- **处理器**: LLM Processor, Filter, Transform, Aggregator
-- **存储**: Database, File Operations
-- **消息**: Queue, Router
-- **通知**: Email, Logger
-
-### 交互功能
-- 点击节点查看详情
-- 从组件面板添加新节点
-- 连接节点创建工作流
-- 平移和缩放画布
-
-## 快速开始
-
-### 安装依赖
+### 前端启动
 
 ```bash
+# 进入前端目录
+cd moonflow_web
+
+# 安装依赖
 npm install
-```
 
-### 开发模式
-
-```bash
+# 启动开发服务器
 npm run dev
+
+# 访问 http://localhost:5173
 ```
 
-访问 http://localhost:5173/
-
-### 构建生产版本
+### MoonBit 后端编译
 
 ```bash
+# 进入后端目录
+cd core
+
+# 编译项目
+moon run moonflow_core
+
+# 运行测试
+moon test
+
+# 构建发布版本
+moon build
+```
+
+## 🎯 核心功能
+
+### 1. 可视化工作流编排
+- 🎨 Drag & Drop 节点编辑
+- 🔗 节点连线配置
+- 📋 实时预览生成的代码
+- 🎭 主题切换（明/暗）
+
+### 2. LLM 集成
+- 🤖 **OpenAI** - GPT-3.5/GPT-4
+- 🦙 **Claude** - Claude 3/4
+- ✨ **Gemini** - Gemini Pro
+- 🔄 多模型组合使用
+
+### 3. 组件库
+- **触发器**: HTTP、Webhook、Cron、Timer
+- **处理器**: LLM、代码执行、模板渲染
+- **逻辑**: 条件分支、循环、并行、串行
+- **工具**: HTTP 请求、数据库、文件操作、邮件、通知
+- **高级**: 重试、断路器、限流、缓存、熔断
+
+### 4. 代码生成
+- 📝 MoonBit DSL 代码生成
+- ✅ 语法验证
+- 🎯 类型检查
+- 💡 代码提示
+
+## 📖 使用文档
+
+### 创建第一个工作流
+
+1. **添加触发器**
+   - 从左侧面板拖拽 "HTTP 触发器" 到画布
+   - 配置端点路径和方法
+
+2. **添加 LLM 节点**
+   - 拖拽 "LLM 处理器" 到画布
+   - 选择提供商（OpenAI/Claude/Gemini）
+   - 配置模型和提示词
+
+3. **连接节点**
+   - 从触发器的输出拖拽到 LLM 的输入
+   - 从 LLM 的输出拖拽到响应节点
+
+4. **测试运行**
+   - 点击 "▶️ 运行" 按钮
+   - 在日志面板查看执行结果
+
+5. **导出代码**
+   - 点击 "📋 复制代码" 获取 MoonBit DSL
+   - 或点击 "💾 导出" 保存为 JSON
+
+### LLM 测试工具
+
+1. 点击工具栏的 "🤖 LLM 测试" 按钮
+2. 选择提供商并配置：
+   - API Key
+   - 模型选择
+   - Temperature
+   - Max Tokens
+3. 输入系统提示词和用户提示词
+4. 点击 "发送测试" 查看结果
+5. 测试通过后，点击 "插入到工作流" 添加节点
+
+## 🔧 技术栈
+
+### 前端
+- **框架**: React 19 + TypeScript 5
+- **构建工具**: Vite 5
+- **工作流可视化**: @xyflow/react (React Flow)
+- **状态管理**: React Context + Hooks
+- **样式**: CSS Modules + CSS Variables
+- **测试**: Vitest
+
+### 后端 (MoonBit)
+- **语言**: MoonBit
+- **模块管理**: MoonBit Package Manager
+- **执行引擎**: 自定义运行时
+- **组件库**: 30+ 内置组件
+
+## 📦 示例工作流
+
+### 1. 基础聊天机器人
+```
+HTTP Trigger → LLM Processor → Response
+```
+[查看示例](./examples/llm-chatbot.json)
+
+### 2. 条件分支
+```
+HTTP Trigger → Condition Router
+              ├─→ Urgent Handler → Email Notification → Response
+              └─→ Normal Handler → Response
+```
+[查看示例](./examples/conditional-response.json)
+
+### 3. 多步数据分析
+```
+HTTP Trigger → LLM (提取信息) → LLM (分析) → LLM (总结) → Response
+```
+[查看示例](./examples/multi-step-analysis.json)
+
+### 4. Agent 工作流
+```
+HTTP Trigger → LLM (规划) → Condition Router
+                           ├─→ Web Search → LLM (总结) → Response
+                           ├─→ Database Query → LLM (格式化) → Response
+                           └─→ Code Execution → Response
+```
+[查看示例](./examples/llm-agent.json)
+
+## 🛠️ 开发指南
+
+### 前端开发
+
+```bash
+# 代码检查
+npm run lint
+
+# 类型检查
+npm run typecheck
+
+# 运行测试
+npm test
+
+# 构建生产版本
 npm run build
 ```
 
-### 预览生产版本
+### 后端开发 (MoonBit)
 
 ```bash
-npm run preview
+# 进入后端目录
+cd core
+
+# 查看所有组件
+cat COMPONENTS.md
+
+# 运行示例
+moon run moonflow_core
+
+# 添加新组件
+# 1. 在 src/components/ 下创建新文件
+# 2. 注册到 component.mbt
+# 3. 更新 COMPONENTS.md
 ```
-
-## 项目结构
-
-```
-moonflow_web/
-├── src/
-│   ├── components/
-│   │   ├── DAGEditor.tsx          # DAG 可视化编辑器主组件
-│   │   ├── MoonFlowNode.tsx       # 自定义节点组件
-│   │   ├── ComponentPalette.tsx    # 组件选择面板
-│   │   └── types.ts               # TypeScript 类型定义
-│   ├── App.tsx                     # 应用主组件
-│   ├── App.css                     # 应用样式
-│   ├── index.css                   # 全局样式
-│   └── main.tsx                    # 入口文件
-├── public/                         # 静态资源
-├── index.html                      # HTML 模板
-├── package.json                    # 依赖配置
-├── vite.config.ts                 # Vite 配置
-├── tsconfig.json                  # TypeScript 配置
-└── README.md                       # 项目文档
-```
-
-## 使用说明
-
-### 添加节点
-1. 在左侧面板中浏览组件分类
-2. 点击要添加的组件
-3. 节点会自动添加到画布中央
-
-### 连接节点
-1. 将鼠标悬停在节点底部的手柄上
-2. 拖动到目标节点的顶部手柄
-3. 释放鼠标建立连接
-
-### 查看节点属性
-1. 点击画布上的任意节点
-2. 右侧面板会显示节点详情
-3. 显示组件类型、标签和描述
-
-### 编辑画布
-- **缩放**: 鼠标滚轮
-- **平移**: 拖动画布空白区域
-- **选中**: 点击节点
-- **删除**: 选择后按 Delete 键
-
-## 未来计划
-
-- [ ] 集成 MoonPad 代码编辑器
-- [ ] 工作流执行和控制面板
-- [ ] 拖拽式节点创建
-- [ ] 工作流导入/导出
-- [ ] 与 MoonFlow Core 引擎集成
-- [ ] 实时协作编辑
-- [ ] 工作流版本管理
-- [ ] 组件配置面板
-
-## 与 MoonFlow Core 集成
-
-MoonFlow Web UI 将与 [MoonFlow Core](../moonflow_core/) 引擎集成，提供：
-
-- 可视化工作流设计
-- 代码生成（导出为 MoonBit 代码）
-- 工作流执行
-- 运行时监控
-
-## 开发指南
 
 ### 添加新组件
-在 `src/components/types.ts` 中定义组件类型：
 
-```typescript
-export interface ComponentType {
-  type: string;
-  label: string;
-  description: string;
-  category: string;
+1. 创建组件文件 `src/components/my_component.mbt`:
+```moonbit
+pub struct MyComponent {
+  pub config: MyConfig
+}
+
+impl Component for MyComponent {
+  fn execute(ctx: Context) -> Unit {
+    // 实现逻辑
+  }
 }
 ```
 
-在 `src/components/ComponentPalette.tsx` 中添加组件到列表。
+2. 在 `component.mbt` 中注册:
+```moonbit
+pub fn register_components() {
+  Registry::register("my_component", MyComponent::new);
+}
+```
 
-### 自定义节点样式
-在 `src/components/MoonFlowNode.tsx` 中修改节点外观。
+3. 在前端 `codeGenerator.ts` 中添加节点定义
 
-## 许可证
+## 📊 工作流执行流程
 
-MIT License
+```
+用户请求
+   ↓
+触发器接收
+   ↓
+构建执行顺序 (拓扑排序)
+   ↓
+执行节点 (按顺序)
+   ├─ 准备输入
+   ├─ 执行逻辑
+   └─ 保存输出
+   ↓
+条件判断/循环
+   ↓
+返回结果
+   ↓
+日志记录
+```
+
+## 🤝 贡献指南
+
+1. Fork 本仓库
+2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 创建 Pull Request
+
+## 📝 License
+
+本项目采用 MIT License - 查看 [LICENSE](./core/LICENSE) 文件了解更多详情。
+
+## 🙏 致谢
+
+- [MoonBit](https://www.moonbitlang.cn/) - 创新的编程语言
+- [React Flow](https://reactflow.dev/) - 强大的工作流可视化库
+- [Dify](https://dify.ai/) - 优秀的参考项目
+- [Coze](https://www.coze.cn/) - 创新的 Bot 构建平台
+
+---
+
+<p align="center">
+  用 ❤️ 和 ☕ 构建 | MoonFlow Team
+</p>
