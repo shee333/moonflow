@@ -8,6 +8,13 @@ pub enum CircuitState {
   | HalfOpen
 }
 
+pub struct CircuitBreakerConfig {
+  failure_threshold: Int
+  success_threshold: Int
+  timeout_ms: Int
+  half_open_max_calls: Int
+}
+
 pub fn create_circuit_breaker_component() -> CircuitBreakerComponent {
   CircuitBreakerComponent
 }
