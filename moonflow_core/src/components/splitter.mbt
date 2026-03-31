@@ -19,3 +19,12 @@ pub struct SplitterConfig {
 pub fn create_splitter_component() -> SplitterComponent {
   SplitterComponent
 }
+
+pub fn create_splitter_config(splitter_type: SplitterType, delimiter: String) -> SplitterConfig {
+  SplitterConfig::{
+    splitter_type,
+    delimiter,
+    chunk_size: 1024,
+    max_chunks: 100,
+  }
+}
