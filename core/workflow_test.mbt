@@ -1,6 +1,6 @@
 package moonflow_core::tests
 
-fn test_duplicate_node_id_detection() {
+test "detect duplicate node ID" {
   let nodes = [
     moonflow_core::workflow::Node::{
       id: "node1",
@@ -48,7 +48,7 @@ fn test_duplicate_node_id_detection() {
   }
 }
 
-fn test_valid_workflow() {
+test "validate valid workflow" {
   let nodes = [
     moonflow_core::workflow::Node::{
       id: "trigger",
@@ -120,7 +120,7 @@ fn test_valid_workflow() {
   }
 }
 
-fn test_invalid_edge_reference() {
+test "detect invalid edge reference" {
   let nodes = [
     moonflow_core::workflow::Node::{
       id: "node1",
@@ -167,7 +167,7 @@ fn test_invalid_edge_reference() {
   }
 }
 
-fn test_missing_required_fields() {
+test "detect missing required fields" {
   let workflow = moonflow_core::workflow::Workflow::{
     version: "",
     name: "test_workflow",
@@ -189,14 +189,4 @@ fn test_missing_required_fields() {
       assert false
     }
   }
-}
-
-#[test]
-fn run_workflow_tests() {
-  println("Running workflow validation tests...")
-  test_duplicate_node_id_detection()
-  test_valid_workflow()
-  test_invalid_edge_reference()
-  test_missing_required_fields()
-  println("All workflow tests passed!")
 }
