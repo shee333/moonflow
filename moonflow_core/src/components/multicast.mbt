@@ -76,3 +76,29 @@ impl Component for MulticastComponent {
     }
   }
 }
+
+fn execute_multicast_operation(strategy: String, target_count: Int, operation: String) -> ComponentResult {
+  let metadata: Map[String, String] = {}
+  metadata["strategy"] = strategy
+  metadata["target_count"] = target_count.to_string()
+  metadata["status"] = "multicast"
+
+  let sent_count = calculate_sent_count(strategy, target_count)
+  metadata["sent_count"] = sent_count.to_string()
+
+  let response = "Multicast '\{operation}' to \{sent_count} recipients using '\{strategy}'"
+  Ok(create_component_output_with_metadata(response, metadata))
+}
+
+fn calculate_sent_count(strategy: String, target_count: Int) -> Int {
+  match strategy {
+    "broadcast" => target_count
+    "round_robin" => target_count
+    "random" => target_count
+    _ => target_count
+  }
+}
+
+fn is_valid_multicast_strategy(strategy: String) -> Bool {
+  strategy == "broadcast" || strategy == "round_robin" || strategy == "random"
+}
