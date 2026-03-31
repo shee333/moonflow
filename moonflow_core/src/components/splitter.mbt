@@ -55,3 +55,29 @@ impl Component for SplitterComponent {
 
     execute_split_operation(splitter_type, delimiter, data)
   }
+
+  fn validate(config: Map[String, String]) -> Bool {
+    match config["splitter_type"] {
+      Some(stype) => is_valid_splitter_type(stype)
+      None => false
+    }
+  }
+
+  fn get_metadata() -> ComponentMetadata {
+    ComponentMetadata::{
+      name: "splitter",
+      version: "1.0.0",
+      description: "Data splitting component with delimiter, length, pattern, and JSON path support",
+      category: ComponentCategory::Tool,
+      inputs: [
+        InputSchema::{ name: "splitter_type", type_: "string", required: true, description: "Split type: by_delimiter/by_length/by_pattern/by_json_path" },
+        InputSchema::{ name: "delimiter", type_: "string", required: false, description: "Delimiter for splitting" },
+        InputSchema::{ name: "data", type_: "string", required: true, description: "Data to split" },
+      ],
+      outputs: [
+        OutputSchema::{ name: "chunks", type_: "array", description: "Split chunks" },
+        OutputSchema::{ name: "count", type_: "number", description: "Number of chunks" },
+      ],
+    }
+  }
+}
