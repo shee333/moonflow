@@ -1,0 +1,77 @@
+{
+  "id": "rag-chatbot-workflow",
+  "name": "RAG Chatbot",
+  "description": "基于检索增强生成的聊天机器人工作流",
+  "version": "1.0.0",
+  "nodes": [
+    {
+      "id": "trigger",
+      "type": "http",
+      "label": "HTTP Trigger",
+      "position": { "x": 400, "y": 0 },
+      "description": "接收用户查询"
+    },
+    {
+      "id": "embedding",
+      "type": "transformer",
+      "label": "Query Embedding",
+      "position": { "x": 400, "y": 150 },
+      "config": {
+        "transform_type": "embedding",
+        "model": "text-embedding-ada-002",
+        "provider": "openai"
+      }
+    },
+    {
+      "id": "vector-search",
+      "type": "database",
+      "label": "Vector Search",
+      "position": { "x": 400, "y": 300 },
+      "config": {
+        "operation": "similarity_search",
+        "top_k": 5,
+        "threshold": 0.7
+      }
+    },
+    {
+      "id": "context-prepare",
+      "type": "transformer",
+      "label": "Prepare Context",
+      "position": { "x": 400, "y": 450 },
+      "config": {
+        "transform_type": "format_context",
+        "max_tokens": 4000
+      }
+    },
+    {
+      "id": "llm",
+      "type": "llm",
+      "label": "RAG LLM",
+      "position": { "x": 400, "y": 600 },
+      "config": {
+        "provider": "openai",
+        "model": "gpt-4",
+        "temperature": 0.7,
+        "max_tokens": 2000,
+        "system_prompt": "你是一个知识库问答助手。请根据提供的上下文信息回答用户的问题。如果上下文中没有相关信息，请如实告知。"
+      }
+    },
+    {
+      "id": "response",
+      "type": "response",
+      "label": "Response",
+      "position": { "x": 400, "y": 750 },
+      "config": {
+        "status_code": 200,
+        "content_type": "application/json"
+      }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "source": "trigger", "target": "embedding" },
+    { "id": "e2", "source": "embedding", "target": "vector-search" },
+    { "id": "e3", "source": "vector-search", "target": "context-prepare" },
+    { "id": "e4", "source": "context-prepare", "target": "llm" },
+    { "id": "e5", "source": "llm", "target": "response" }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "id": "agent-planning-workflow",
+  "name": "Agent Planning Workflow",
+  "description": "多步骤Agent规划工作流，支持任务分解和执行",
+  "version": "1.0.0",
+  "nodes": [
+    {
+      "id": "trigger",
+      "type": "http",
+      "label": "Task Trigger",
+      "position": { "x": 400, "y": 0 }
+    },
+    {
+      "id": "task-analysis",
+      "type": "llm",
+      "label": "Task Analyzer",
+      "position": { "x": 400, "y": 150 },
+      "config": {
+        "provider": "openai",
+        "model": "gpt-4",
+        "system_prompt": "你是一个任务分析专家。分析用户任务并分解为可执行的子任务。"
+      }
+    },
+    {
+      "id": "planner",
+      "type": "transformer",
+      "label": "Plan Generator",
+      "position": { "x": 400, "y": 300 },
+      "config": {
+        "transform_type": "planning",
+        "max_steps": 10,
+        "allow_parallel": true
+      }
+    },
+    {
+      "id": "step1",
+      "type": "llm",
+      "label": "Execute Step 1",
+      "position": { "x": 150, "y": 450 }
+    },
+    {
+      "id": "step2",
+      "type": "llm",
+      "label": "Execute Step 2",
+      "position": { "x": 400, "y": 450 }
+    },
+    {
+      "id": "step3",
+      "type": "llm",
+      "label": "Execute Step 3",
+      "position": { "x": 650, "y": 450 }
+    },
+    {
+      "id": "aggregator",
+      "type": "transformer",
+      "label": "Result Aggregator",
+      "position": { "x": 400, "y": 600 },
+      "config": {
+        "transform_type": "aggregate",
+        "merge_strategy": "sequential"
+      }
+    },
+    {
+      "id": "synthesizer",
+      "type": "llm",
+      "label": "Response Synthesizer",
+      "position": { "x": 400, "y": 750 },
+      "config": {
+        "provider": "openai",
+        "model": "gpt-4",
+        "system_prompt": "你是一个响应合成专家。根据各步骤的执行结果，生成最终响应。"
+      }
+    },
+    {
+      "id": "response",
+      "type": "response",
+      "label": "Final Response",
+      "position": { "x": 400, "y": 900 }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "source": "trigger", "target": "task-analysis" },
+    { "id": "e2", "source": "task-analysis", "target": "planner" },
+    { "id": "e3", "source": "planner", "target": "step1" },
+    { "id": "e4", "source": "planner", "target": "step2" },
+    { "id": "e5", "source": "planner", "target": "step3" },
+    { "id": "e6", "source": "step1", "target": "aggregator" },
+    { "id": "e7", "source": "step2", "target": "aggregator" },
+    { "id": "e8", "source": "step3", "target": "aggregator" },
+    { "id": "e9", "source": "aggregator", "target": "synthesizer" },
+    { "id": "e10", "source": "synthesizer", "target": "response" }
+  ]
+}

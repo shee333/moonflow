@@ -1,0 +1,112 @@
+{
+  "id": "llm-agent-workflow",
+  "name": "LLM Agent 工作流",
+  "description": "带有工具调用的智能 Agent",
+  "version": "1.0.0",
+  "metadata": {
+    "author": "MoonFlow Team",
+    "createdAt": "2024-01-01T00:00:00Z",
+    "tags": ["AI", "Agent", "Tools"]
+  },
+  "nodes": [
+    {
+      "id": "user-input",
+      "type": "http",
+      "label": "用户输入",
+      "description": "接收用户请求",
+      "position": { "x": 250, "y": 0 }
+    },
+    {
+      "id": "llm-planner",
+      "type": "llm",
+      "label": "LLM 规划器",
+      "description": "分析任务并规划执行步骤",
+      "position": { "x": 250, "y": 150 },
+      "config": {
+        "provider": "openai",
+        "model": "gpt-4",
+        "api_key": "",
+        "system_prompt": "你是一个任务规划助手。分析用户请求，将其分解为具体的执行步骤。",
+        "user_prompt": "分析这个请求并规划执行步骤：{{input}}",
+        "temperature": 0.3,
+        "max_tokens": 500
+      }
+    },
+    {
+      "id": "tool-1",
+      "type": "http",
+      "label": "工具调用 1",
+      "description": "执行第一个工具",
+      "position": { "x": 100, "y": 300 }
+    },
+    {
+      "id": "tool-2",
+      "type": "http",
+      "label": "工具调用 2",
+      "description": "执行第二个工具",
+      "position": { "x": 400, "y": 300 }
+    },
+    {
+      "id": "llm-synthesizer",
+      "type": "llm",
+      "label": "LLM 综合器",
+      "description": "综合结果并生成最终回答",
+      "position": { "x": 250, "y": 450 },
+      "config": {
+        "provider": "openai",
+        "model": "gpt-4",
+        "api_key": "",
+        "system_prompt": "你是一个综合助手。将多个工具的执行结果整合成连贯的回答。",
+        "user_prompt": "综合以下结果给出最终回答：{{results}}",
+        "temperature": 0.7,
+        "max_tokens": 1000
+      }
+    },
+    {
+      "id": "response",
+      "type": "response",
+      "label": "返回结果",
+      "description": "返回最终响应",
+      "position": { "x": 250, "y": 600 }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1-planner",
+      "source": "user-input",
+      "target": "llm-planner"
+    },
+    {
+      "id": "e2-tool1",
+      "source": "llm-planner",
+      "target": "tool-1"
+    },
+    {
+      "id": "e2-tool2",
+      "source": "llm-planner",
+      "target": "tool-2"
+    },
+    {
+      "id": "e3-synth",
+      "source": "tool-1",
+      "target": "llm-synthesizer"
+    },
+    {
+      "id": "e4-synth",
+      "source": "tool-2",
+      "target": "llm-synthesizer"
+    },
+    {
+      "id": "e5-response",
+      "source": "llm-synthesizer",
+      "target": "response"
+    }
+  ],
+  "config": {
+    "timeout": 120000,
+    "parallel": {
+      "enabled": true,
+      "maxConcurrent": 3
+    }
+  }
+}

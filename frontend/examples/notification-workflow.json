@@ -1,0 +1,60 @@
+{
+  "id": "notification-workflow",
+  "name": "Notification Workflow",
+  "description": "Send notifications via multiple channels",
+  "nodes": [
+    {
+      "id": "1",
+      "type": "http",
+      "label": "HTTP Trigger",
+      "description": "Start workflow via HTTP request",
+      "position": { "x": 250, "y": 5 }
+    },
+    {
+      "id": "2",
+      "type": "logger",
+      "label": "Log Request",
+      "description": "Log workflow events",
+      "position": { "x": 100, "y": 150 }
+    },
+    {
+      "id": "3",
+      "type": "email",
+      "label": "Send Email",
+      "description": "Send emails",
+      "position": { "x": 250, "y": 150 }
+    },
+    {
+      "id": "4",
+      "type": "queue",
+      "label": "Queue Message",
+      "description": "Message queue operations",
+      "position": { "x": 400, "y": 150 }
+    },
+    {
+      "id": "5",
+      "type": "router",
+      "label": "Router",
+      "description": "Route to different paths",
+      "position": { "x": 250, "y": 300 }
+    },
+    {
+      "id": "6",
+      "type": "response",
+      "label": "Response",
+      "description": "Return result to caller",
+      "position": { "x": 250, "y": 450 }
+    }
+  ],
+  "edges": [
+    { "source": "1", "target": "2" },
+    { "source": "1", "target": "3" },
+    { "source": "1", "target": "4" },
+    { "source": "2", "target": "5" },
+    { "source": "3", "target": "5" },
+    { "source": "4", "target": "5" },
+    { "source": "5", "target": "6" }
+  ],
+  "version": "1.0.0",
+  "createdAt": "2024-01-01T00:00:00Z"
+}

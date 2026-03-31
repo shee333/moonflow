@@ -1,0 +1,94 @@
+{
+  "id": "batch-processing-workflow",
+  "name": "Batch Data Processing Pipeline",
+  "description": "大规模数据批量处理工作流",
+  "version": "1.0.0",
+  "nodes": [
+    {
+      "id": "trigger",
+      "type": "cron",
+      "label": "Scheduled Trigger",
+      "position": { "x": 400, "y": 0 },
+      "config": {
+        "schedule": "0 2 * * *",
+        "timezone": "Asia/Shanghai"
+      }
+    },
+    {
+      "id": "data-source",
+      "type": "database",
+      "label": "Data Source Reader",
+      "position": { "x": 400, "y": 150 },
+      "config": {
+        "operation": "select",
+        "query": "SELECT * FROM raw_data WHERE processed = false",
+        "batch_size": 1000
+      }
+    },
+    {
+      "id": "validator",
+      "type": "transformer",
+      "label": "Data Validator",
+      "position": { "x": 400, "y": 300 },
+      "config": {
+        "transform_type": "validate",
+        "schema": "data_schema_v1",
+        "strict_mode": false
+      }
+    },
+    {
+      "id": "cleaner",
+      "type": "transformer",
+      "label": "Data Cleaner",
+      "position": { "x": 400, "y": 450 },
+      "config": {
+        "transform_type": "clean",
+        "remove_duplicates": true,
+        "fill_missing": true
+      }
+    },
+    {
+      "id": "transformer",
+      "type": "transformer",
+      "label": "Data Transformer",
+      "position": { "x": 400, "y": 600 },
+      "config": {
+        "transform_type": "map",
+        "mappings": {
+          "field_a": "normalized_a",
+          "field_b": "computed_b"
+        }
+      }
+    },
+    {
+      "id": "warehouse-writer",
+      "type": "database",
+      "label": "Write to Warehouse",
+      "position": { "x": 400, "y": 750 },
+      "config": {
+        "operation": "insert",
+        "target": "data_warehouse",
+        "conflict_strategy": "upsert"
+      }
+    },
+    {
+      "id": "notification",
+      "type": "notification",
+      "label": "Notify Completion",
+      "position": { "x": 400, "y": 900 },
+      "config": {
+        "type": "email",
+        "recipients": ["data-team@example.com"],
+        "template": "batch_complete"
+      }
+    }
+  ],
+  "edges": [
+    { "id": "e1", "source": "trigger", "target": "data-source" },
+    { "id": "e2", "source": "data-source", "target": "validator" },
+    { "id": "e3", "source": "validator", "target": "cleaner" },
+    { "id": "e4", "source": "cleaner", "target": "transformer" },
+    { "id": "e5", "source": "transformer", "target": "warehouse-writer" },
+    { "id": "e6", "source": "warehouse-writer", "target": "notification" }
+  ]
+}

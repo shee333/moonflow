@@ -1,0 +1,112 @@
+{
+  "id": "claude-writing-assistant",
+  "name": "Claude Writing Assistant",
+  "description": "A writing assistant workflow using Claude AI for high-quality content generation",
+  "nodes": [
+    {
+      "id": "trigger",
+      "type": "moonflow",
+      "position": { "x": 400, "y": 50 },
+      "data": {
+        "label": "HTTP Trigger",
+        "component": "http",
+        "description": "Receive writing request",
+        "method": "POST",
+        "path": "/write"
+      }
+    },
+    {
+      "id": "draft",
+      "type": "moonflow",
+      "position": { "x": 400, "y": 200 },
+      "data": {
+        "label": "Create Draft",
+        "component": "llm",
+        "description": "Generate initial draft with Claude",
+        "provider": "claude",
+        "model": "claude-3-haiku-20240307",
+        "api_key": "",
+        "system_prompt": "你是一个专业的写作助手。创建高质量、有深度的内容。",
+        "user_prompt": "根据以下要求撰写内容：{{last_response}}",
+        "temperature": 0.8,
+        "max_tokens": 2000
+      }
+    },
+    {
+      "id": "review",
+      "type": "moonflow",
+      "position": { "x": 400, "y": 350 },
+      "data": {
+        "label": "Review & Improve",
+        "component": "llm",
+        "description": "Review and improve the draft",
+        "provider": "claude",
+        "model": "claude-3-haiku-20240307",
+        "api_key": "",
+        "system_prompt": "你是一个资深编辑。请审阅并改进以下文章，提升其质量。",
+        "user_prompt": "请审阅并改进这篇文章：{{llm_result}}",
+        "temperature": 0.6,
+        "max_tokens": 2000
+      }
+    },
+    {
+      "id": "finalize",
+      "type": "moonflow",
+      "position": { "x": 400, "y": 500 },
+      "data": {
+        "label": "Final Polish",
+        "component": "llm",
+        "description": "Final polish and formatting",
+        "provider": "claude",
+        "model": "claude-3-haiku-20240307",
+        "api_key": "",
+        "system_prompt": "你是一个语言专家。确保文章语言流畅、专业。",
+        "user_prompt": "请最终润色这篇文章：{{llm_result}}",
+        "temperature": 0.5,
+        "max_tokens": 2000
+      }
+    },
+    {
+      "id": "response",
+      "type": "moonflow",
+      "position": { "x": 400, "y": 650 },
+      "data": {
+        "label": "Response",
+        "component": "response",
+        "description": "Return final content",
+        "status_code": 200,
+        "body": "{{llm_result}}"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1-2",
+      "source": "trigger",
+      "target": "draft",
+      "animated": true,
+      "style": { "stroke": "#007acc", "strokeWidth": 2 }
+    },
+    {
+      "id": "e2-3",
+      "source": "draft",
+      "target": "review",
+      "animated": true,
+      "style": { "stroke": "#007acc", "strokeWidth": 2 }
+    },
+    {
+      "id": "e3-4",
+      "source": "review",
+      "target": "finalize",
+      "animated": true,
+      "style": { "stroke": "#007acc", "strokeWidth": 2 }
+    },
+    {
+      "id": "e4-5",
+      "source": "finalize",
+      "target": "response",
+      "animated": true,
+      "style": { "stroke": "#28a745", "strokeWidth": 2 }
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+.config-validator-display {
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-top: 12px;
+}
+
+.config-validator-display.valid {
+  background: rgba(46, 204, 113, 0.1);
+  border: 1px solid rgba(46, 204, 113, 0.3);
+  color: #27ae60;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.config-validator-display.valid .icon {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.config-validator-display.issues {
+  background: rgba(231, 76, 60, 0.05);
+  border: 1px solid rgba(231, 76, 60, 0.2);
+}
+
+.validation-section {
+  margin-bottom: 12px;
+}
+
+.validation-section:last-child {
+  margin-bottom: 0;
+}
+
+.validation-section h5 {
+  margin: 0 0 8px 0;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.validation-section.errors h5 {
+  color: #e74c3c;
+}
+
+.validation-section.warnings h5 {
+  color: #f39c12;
+}
+
+.validation-section ul {
+  margin: 0;
+  padding-left: 16px;
+  list-style: none;
+}
+
+.validation-section li {
+  margin: 6px 0;
+  padding: 6px 8px;
+  border-radius: 4px;
+  line-height: 1.4;
+}
+
+.validation-section.errors li {
+  background: rgba(231, 76, 60, 0.1);
+  color: #c0392b;
+}
+
+.validation-section.warnings li {
+  background: rgba(243, 156, 18, 0.1);
+  color: #d68910;
+}
+
+.validation-section li .field {
+  font-weight: 600;
+  color: inherit;
+}
+
+.config-validator-display .message {
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .config-validator-display {
+    font-size: 12px;
+    padding: 10px;
+  }
+
+  .validation-section h5 {
+    font-size: 11px;
+  }
+
+  .validation-section li {
+    font-size: 12px;
+  }
+}

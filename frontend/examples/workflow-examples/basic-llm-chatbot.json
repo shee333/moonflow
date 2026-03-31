@@ -1,0 +1,64 @@
+{
+  "id": "basic-llm-chatbot",
+  "name": "Basic LLM Chatbot",
+  "description": "A simple chatbot workflow using LLM to respond to user messages",
+  "nodes": [
+    {
+      "id": "trigger",
+      "type": "moonflow",
+      "position": { "x": 250, "y": 50 },
+      "data": {
+        "label": "HTTP Trigger",
+        "component": "http",
+        "description": "Receive user message via HTTP POST",
+        "method": "POST",
+        "path": "/chat"
+      }
+    },
+    {
+      "id": "llm",
+      "type": "moonflow",
+      "position": { "x": 250, "y": 200 },
+      "data": {
+        "label": "Chat LLM",
+        "component": "llm",
+        "description": "Process message with AI",
+        "provider": "openai",
+        "model": "gpt-3.5-turbo",
+        "api_key": "",
+        "system_prompt": "你是一个友好的AI助手。请用简洁、友好的方式回答用户的问题。",
+        "user_prompt": "{{last_response}}",
+        "temperature": 0.7,
+        "max_tokens": 500
+      }
+    },
+    {
+      "id": "response",
+      "type": "moonflow",
+      "position": { "x": 250, "y": 350 },
+      "data": {
+        "label": "Response",
+        "component": "response",
+        "description": "Return LLM response",
+        "status_code": 200,
+        "body": "{{llm_result}}"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1-2",
+      "source": "trigger",
+      "target": "llm",
+      "animated": true,
+      "style": { "stroke": "#007acc", "strokeWidth": 2 }
+    },
+    {
+      "id": "e2-3",
+      "source": "llm",
+      "target": "response",
+      "animated": true,
+      "style": { "stroke": "#28a745", "strokeWidth": 2 }
+    }
+  ]
+}
