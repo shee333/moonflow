@@ -26,3 +26,15 @@ pub fn create_pipeline_config(stages: Array[PipelineStage]) -> PipelineConfig {
     timeout: 30000,
   }
 }
+
+pub fn create_pipeline_config_with_options(
+  stages: Array[PipelineStage],
+  parallel: Bool,
+  timeout: Int
+) -> PipelineConfig {
+  PipelineConfig::{
+    stages,
+    parallel,
+    timeout,
+  }
+}
