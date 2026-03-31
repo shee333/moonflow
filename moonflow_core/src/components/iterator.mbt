@@ -42,3 +42,15 @@ pub fn create_iterator_config_with_range(
     step,
   }
 }
+
+impl Component for IteratorComponent {
+  fn execute(input: ComponentInput, ctx: moonflow_core::runtime::ExecutionContext) -> ComponentResult {
+    let iterator_type = input.params.get_or("iterator_type", "forward")
+    let data = input.data
+
+    if data == "" {
+      return Err(ComponentError::ValidationError("Input data is required"))
+    }
+
+    execute_iterate_operation(iterator_type, data)
+  }
