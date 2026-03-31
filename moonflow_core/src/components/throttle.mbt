@@ -28,3 +28,17 @@ pub fn create_throttle_config(throttle_type: ThrottleType, rate: Int) -> Throttl
     window_ms: 1000,
   }
 }
+
+pub fn create_throttle_config_with_window(
+  throttle_type: ThrottleType,
+  rate: Int,
+  capacity: Int,
+  window_ms: Int
+) -> ThrottleConfig {
+  ThrottleConfig::{
+    throttle_type,
+    rate,
+    capacity,
+    window_ms,
+  }
+}
