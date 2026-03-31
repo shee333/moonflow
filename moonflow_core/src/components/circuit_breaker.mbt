@@ -27,3 +27,15 @@ pub fn create_circuit_breaker_config(failure_threshold: Int) -> CircuitBreakerCo
     half_open_max_calls: 3,
   }
 }
+
+pub fn create_circuit_breaker_config_with_timeout(
+  failure_threshold: Int,
+  timeout_ms: Int
+) -> CircuitBreakerConfig {
+  CircuitBreakerConfig::{
+    failure_threshold,
+    success_threshold: 2,
+    timeout_ms,
+    half_open_max_calls: 3,
+  }
+}
