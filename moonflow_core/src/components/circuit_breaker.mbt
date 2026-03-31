@@ -51,3 +51,28 @@ impl Component for CircuitBreakerComponent {
 
     execute_circuit_breaker_operation(state, operation)
   }
+
+  fn validate(config: Map[String, String]) -> Bool {
+    match config["state"] {
+      Some(s) => is_valid_circuit_state(s)
+      None => true
+    }
+  }
+
+  fn get_metadata() -> ComponentMetadata {
+    ComponentMetadata::{
+      name: "circuit_breaker",
+      version: "1.0.0",
+      description: "Circuit breaker component with closed, open, half_open states",
+      category: ComponentCategory::Flow,
+      inputs: [
+        InputSchema::{ name: "state", type_: "string", required: true, description: "Circuit state: closed/open/half_open" },
+        InputSchema::{ name: "operation", type_: "string", required: true, description: "Operation to protect" },
+      ],
+      outputs: [
+        OutputSchema::{ name: "allowed", type_: "boolean", description: "Whether operation is allowed" },
+        OutputSchema::{ name: "state", type_: "string", description: "Current circuit state" },
+      ],
+    }
+  }
+}
