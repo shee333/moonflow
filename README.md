@@ -99,6 +99,42 @@ moon build
 
 ## 📖 使用文档
 
+### 示例工作流
+
+我们提供了多种预构建的工作流示例：
+
+#### 1. 基础聊天机器人
+- 📁 `frontend/examples/llm-chatbot.json`
+- 简单的LLM调用流程
+
+#### 2. HTTP + LLM 工作流
+- 📁 `frontend/examples/http-llm-workflow.json`
+- HTTP触发 → LLM处理 → 响应
+
+#### 3. LLM Agent
+- 📁 `frontend/examples/llm-agent.json`
+- 带内存和工具调用的Agent
+
+#### 4. RAG Chatbot
+- 📁 `frontend/examples/rag-workflow.json`
+- 检索增强生成聊天机器人
+
+#### 5. Agent Planning Workflow
+- 📁 `frontend/examples/agent-planning-workflow.json`
+- 多步骤任务分解和执行
+
+#### 6. Batch Data Processing
+- 📁 `frontend/examples/data-pipeline-workflow.json`
+- 大规模数据批量处理
+
+### 使用示例工作流
+
+1. 打开 MoonFlow Studio
+2. 点击"导入"按钮
+3. 选择示例JSON文件
+4. 根据需要修改节点配置
+5. 生成MoonBit代码或直接运行
+
 ### 创建第一个工作流
 
 1. **添加触发器**

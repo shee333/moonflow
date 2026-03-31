@@ -1,0 +1,6 @@
+{
+  "test": {
+    "src": ["moonflow_core_test.mbt"],
+    "test-import": ["username/moonflow_core"]
+  }
+}
