@@ -28,3 +28,17 @@ pub fn create_iterator_config(iterator_type: IteratorType) -> IteratorConfig {
     step: 1,
   }
 }
+
+pub fn create_iterator_config_with_range(
+  iterator_type: IteratorType,
+  start_index: Int,
+  end_index: Int,
+  step: Int
+) -> IteratorConfig {
+  IteratorConfig::{
+    iterator_type,
+    start_index,
+    end_index: Some(end_index),
+    step,
+  }
+}
