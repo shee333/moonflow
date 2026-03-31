@@ -2,6 +2,8 @@ import { useState, useCallback } from 'react';
 import { DAGEditor } from './DAGEditor';
 import { CodeEditor } from './CodeEditor';
 import { ExecutionPanel } from './ExecutionPanel';
+import { generateMoonBitCode, validateWorkflow } from '../utils/codeGenerator';
+import { Workflow } from './types';
 import './WorkflowIDE.css';
 
 type ViewMode = 'dag' | 'code' | 'split';
@@ -10,6 +12,7 @@ export function WorkflowIDE() {
   const [viewMode, setViewMode] = useState<ViewMode>('split');
   const [showExecutionPanel, setShowExecutionPanel] = useState(true);
   const [isRunning, setIsRunning] = useState(false);
+  const [validationResult, setValidationResult] = useState<{ valid: boolean; errors: string[] } | null>(null);
   const [workflowCode, setWorkflowCode] = useState<string>(JSON.stringify({
     id: 'workflow-1',
     name: 'Example Workflow',
@@ -48,6 +51,7 @@ export function WorkflowIDE() {
         reader.onload = (event) => {
           const content = event.target?.result as string;
           setWorkflowCode(content);
+          setValidationResult(null);
         };
         reader.readAsText(file);
       }
@@ -55,10 +59,60 @@ export function WorkflowIDE() {
     input.click();
   }, []);
 
+  const handleValidate = useCallback(() => {
+    try {
+      const workflow: Workflow = JSON.parse(workflowCode);
+      const result = validateWorkflow(workflow);
+      setValidationResult(result);
+    } catch (error) {
+      setValidationResult({
+        valid: false,
+        errors: ['Invalid JSON format: ' + (error as Error).message],
+      });
+    }
+  }, [workflowCode]);
+
+  const handleGenerateCode = useCallback(() => {
+    try {
+      const workflow: Workflow = JSON.parse(workflowCode);
+      const result = validateWorkflow(workflow);
+      setValidationResult(result);
+      
+      if (result.valid) {
+        const moonBitCode = generateMoonBitCode(workflow);
+        const blob = new Blob([moonBitCode], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${workflow.name || 'workflow'}.mbt`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+    } catch (error) {
+      setValidationResult({
+        valid: false,
+        errors: ['Invalid JSON format: ' + (error as Error).message],
+      });
+    }
+  }, [workflowCode]);
+
   const handleRun = useCallback(() => {
-    setIsRunning(true);
-    setTimeout(() => setIsRunning(false), 10000);
-  }, []);
+    try {
+      const workflow: Workflow = JSON.parse(workflowCode);
+      const result = validateWorkflow(workflow);
+      setValidationResult(result);
+      
+      if (result.valid) {
+        setIsRunning(true);
+        setTimeout(() => setIsRunning(false), 10000);
+      }
+    } catch (error) {
+      setValidationResult({
+        valid: false,
+        errors: ['Invalid JSON format: ' + (error as Error).message],
+      });
+    }
+  }, [workflowCode]);
 
   const handlePause = useCallback(() => {
     setIsRunning(false);
@@ -70,10 +124,63 @@ export function WorkflowIDE() {
 
   const handleReset = useCallback(() => {
     setIsRunning(false);
+    setValidationResult(null);
   }, []);
 
   return (
     <div className="workflow-ide">
+      {validationResult && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '60px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 1001,
+            padding: validationResult.valid ? '12px 24px' : '12px 24px',
+            backgroundColor: validationResult.valid ? '#28a745' : '#dc3545',
+            color: 'white',
+            borderRadius: validationResult.valid ? '8px' : '8px 8px 0 0',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+            maxWidth: '600px',
+            textAlign: 'center',
+          }}
+        >
+          {validationResult.valid ? (
+            <div>
+              <strong>✓ Workflow Valid!</strong>
+              <div style={{ fontSize: '12px', marginTop: '4px' }}>
+                Workflow is ready to execute
+              </div>
+            </div>
+          ) : (
+            <div>
+              <strong>✗ Validation Failed</strong>
+              <ul style={{ textAlign: 'left', marginTop: '8px', fontSize: '12px', maxHeight: '150px', overflowY: 'auto' }}>
+                {validationResult.errors.map((error, i) => (
+                  <li key={i}>{error}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          <button
+            onClick={() => setValidationResult(null)}
+            style={{
+              marginTop: '8px',
+              padding: '4px 12px',
+              backgroundColor: 'rgba(255,255,255,0.2)',
+              border: 'none',
+              borderRadius: '4px',
+              color: 'white',
+              cursor: 'pointer',
+              fontSize: '12px',
+            }}
+          >
+            Dismiss
+          </button>
+        </div>
+      )}
+
       <div className="ide-header">
         <div className="header-left">
           <h1>🌙 MoonFlow Studio</h1>
@@ -83,64 +190,91 @@ export function WorkflowIDE() {
             className={viewMode === 'dag' ? 'active' : ''}
             onClick={() => setViewMode('dag')}
           >
-            📊 DAG View
+            DAG View
           </button>
           <button
             className={viewMode === 'code' ? 'active' : ''}
             onClick={() => setViewMode('code')}
           >
-            💻 Code View
+            Code View
           </button>
           <button
             className={viewMode === 'split' ? 'active' : ''}
             onClick={() => setViewMode('split')}
           >
-            ⬛ Split View
-          </button>
-          <button
-            className={showExecutionPanel ? 'active' : ''}
-            onClick={() => setShowExecutionPanel(!showExecutionPanel)}
-          >
-            🔧 {showExecutionPanel ? 'Hide' : 'Show'} Panel
+            Split View
           </button>
         </div>
         <div className="header-right">
-          <button onClick={handleImport}>📂 Import</button>
-          <button onClick={handleExport}>💾 Export</button>
-          <button 
-            className="primary" 
-            onClick={handleRun}
-            disabled={isRunning}
+          <button onClick={handleImport} className="secondary">
+            📥 Import
+          </button>
+          <button onClick={handleExport} className="secondary">
+            📤 Export
+          </button>
+          <button onClick={handleValidate} className="secondary">
+            ✓ Validate
+          </button>
+          <button onClick={handleGenerateCode} className="secondary">
+            ⚡ Generate Code
+          </button>
+          {!isRunning ? (
+            <button onClick={handleRun} className="primary">
+              ▶️ Run
+            </button>
+          ) : (
+            <button onClick={handleStop} className="danger">
+              ⏹️ Stop
+            </button>
+          )}
+          <button
+            onClick={() => setShowExecutionPanel(!showExecutionPanel)}
+            className={showExecutionPanel ? 'active' : ''}
           >
-            ▶️ {isRunning ? 'Running...' : 'Run'}
+            📋 {showExecutionPanel ? 'Hide' : 'Show'} Logs
           </button>
         </div>
       </div>
 
-      <div className={`ide-content ${viewMode}`}>
-        {(viewMode === 'dag' || viewMode === 'split') && (
-          <div className="dag-panel">
-            <DAGEditor />
-          </div>
-        )}
-        {(viewMode === 'code' || viewMode === 'split') && (
-          <div className="code-panel">
-            <div className="panel-header">
-              <span>workflow.json</span>
+      <div className="ide-content">
+        <div
+          className="editor-area"
+          style={{
+            flexDirection: viewMode === 'split' ? 'row' : 'column',
+          }}
+        >
+          {(viewMode === 'dag' || viewMode === 'split') && (
+            <div
+              className="dag-editor"
+              style={{
+                width: viewMode === 'split' ? '50%' : '100%',
+                height: viewMode === 'dag' ? '100%' : '100%',
+              }}
+            >
+              <DAGEditor />
             </div>
-            <CodeEditor
-              value={workflowCode}
-              onChange={setWorkflowCode}
-              language="json"
-              height="100%"
-            />
-          </div>
-        )}
+          )}
+          {(viewMode === 'code' || viewMode === 'split') && (
+            <div
+              className="code-editor"
+              style={{
+                width: viewMode === 'split' ? '50%' : '100%',
+                height: viewMode === 'code' ? '100%' : '100%',
+              }}
+            >
+              <CodeEditor
+                value={workflowCode}
+                onChange={setWorkflowCode}
+              />
+            </div>
+          )}
+        </div>
+
         {showExecutionPanel && (
           <ExecutionPanel
             isRunning={isRunning}
-            onStart={handleRun}
             onPause={handlePause}
+            onResume={handleRun}
             onStop={handleStop}
             onReset={handleReset}
           />
@@ -149,7 +283,7 @@ export function WorkflowIDE() {
 
       <div className="ide-footer">
         <div className="status">
-          <span className="status-indicator"></span>
+          <span className={`status-indicator ${isRunning ? 'running' : ''}`} />
           {isRunning ? 'Running' : 'Ready'}
         </div>
         <div className="info">

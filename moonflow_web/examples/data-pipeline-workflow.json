@@ -1,0 +1,50 @@
+{
+  "id": "data-pipeline-workflow",
+  "name": "Data Pipeline Workflow",
+  "description": "Process and transform data through multiple stages",
+  "nodes": [
+    {
+      "id": "1",
+      "type": "timer",
+      "label": "Timer Trigger",
+      "description": "Schedule time-based triggers",
+      "position": { "x": 250, "y": 5 }
+    },
+    {
+      "id": "2",
+      "type": "database",
+      "label": "Database Query",
+      "description": "Connect to databases",
+      "position": { "x": 250, "y": 150 }
+    },
+    {
+      "id": "3",
+      "type": "transform",
+      "label": "Transform Data",
+      "description": "Transform data format",
+      "position": { "x": 250, "y": 300 }
+    },
+    {
+      "id": "4",
+      "type": "filter",
+      "label": "Filter Results",
+      "description": "Filter data based on conditions",
+      "position": { "x": 250, "y": 450 }
+    },
+    {
+      "id": "5",
+      "type": "file",
+      "label": "Save to File",
+      "description": "Read/write files",
+      "position": { "x": 250, "y": 600 }
+    }
+  ],
+  "edges": [
+    { "source": "1", "target": "2" },
+    { "source": "2", "target": "3" },
+    { "source": "3", "target": "4" },
+    { "source": "4", "target": "5" }
+  ],
+  "version": "1.0.0",
+  "createdAt": "2024-01-01T00:00:00Z"
+}

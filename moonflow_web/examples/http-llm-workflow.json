@@ -1,0 +1,42 @@
+{
+  "id": "http-llm-workflow",
+  "name": "HTTP LLM Workflow",
+  "description": "Process HTTP requests with LLM",
+  "nodes": [
+    {
+      "id": "1",
+      "type": "http",
+      "label": "HTTP Trigger",
+      "description": "Start workflow via HTTP request",
+      "position": { "x": 250, "y": 5 }
+    },
+    {
+      "id": "2",
+      "type": "llm",
+      "label": "LLM Processor",
+      "description": "Process with AI language model",
+      "position": { "x": 250, "y": 200 }
+    },
+    {
+      "id": "3",
+      "type": "logger",
+      "label": "Logger",
+      "description": "Log workflow events",
+      "position": { "x": 100, "y": 200 }
+    },
+    {
+      "id": "4",
+      "type": "response",
+      "label": "Response",
+      "description": "Return result to caller",
+      "position": { "x": 250, "y": 400 }
+    }
+  ],
+  "edges": [
+    { "source": "1", "target": "2" },
+    { "source": "1", "target": "3" },
+    { "source": "2", "target": "4" }
+  ],
+  "version": "1.0.0",
+  "createdAt": "2024-01-01T00:00:00Z"
+}
