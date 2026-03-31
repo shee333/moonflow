@@ -26,6 +26,34 @@ pub fn create_batch_config(batch_mode: BatchMode, batch_size: Int) -> BatchConfi
   }
 }
 
+fn execute_batch_operation(batch_mode: String, batch_size: Int, data: String) -> ComponentResult {
+  let metadata: Map[String, String] = {}
+  metadata["batch_mode"] = batch_mode
+  metadata["batch_size"] = batch_size.to_string()
+  metadata["status"] = "batched"
+
+  let count = calculate_batch_count(batch_mode, batch_size, data)
+  metadata["count"] = count.to_string()
+
+  let response = "Batched '\{data}' using '\{batch_mode}' mode (size: \{batch_size})"
+  Ok(create_component_output_with_metadata(response, metadata))
+}
+
+fn calculate_batch_count(batch_mode: String, batch_size: Int, data: String) -> Int {
+  let len = data.length()
+  match batch_mode {
+    "sequential" => (len + batch_size - 1) / batch_size
+    "parallel" => len / batch_size + 1
+    "chunked" => len / batch_size
+    _ => 1
+  }
+}
+
+fn is_valid_batch_mode(batch_mode: String) -> Bool {
+  batch_mode == "sequential" || batch_mode == "parallel" ||
+  batch_mode == "chunked"
+}
+
 pub fn create_batch_config_with_concurrency(
   batch_mode: BatchMode,
   batch_size: Int,
