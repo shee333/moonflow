@@ -28,3 +28,17 @@ pub fn create_splitter_config(splitter_type: SplitterType, delimiter: String) ->
     max_chunks: 100,
   }
 }
+
+pub fn create_splitter_config_with_chunks(
+  splitter_type: SplitterType,
+  delimiter: String,
+  chunk_size: Int,
+  max_chunks: Int
+) -> SplitterConfig {
+  SplitterConfig::{
+    splitter_type,
+    delimiter,
+    chunk_size,
+    max_chunks,
+  }
+}
