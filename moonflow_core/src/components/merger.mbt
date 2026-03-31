@@ -18,3 +18,11 @@ pub struct MergerConfig {
 pub fn create_merger_component() -> MergerComponent {
   MergerComponent
 }
+
+pub fn create_merger_config(merger_type: MergerType) -> MergerConfig {
+  MergerConfig::{
+    merger_type,
+    join_key: None,
+    deduplicate: false,
+  }
+}
