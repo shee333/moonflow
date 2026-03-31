@@ -8,6 +8,12 @@ pub enum BatchMode {
   | Chunked
 }
 
+pub struct BatchConfig {
+  batch_mode: BatchMode
+  batch_size: Int
+  max_concurrent: Int
+}
+
 pub fn create_batch_component() -> BatchComponent {
   BatchComponent
 }
