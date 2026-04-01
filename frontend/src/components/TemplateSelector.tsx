@@ -125,7 +125,7 @@ export function TemplateSelector({ onSelect, onClose }: TemplateSelectorProps) {
 
 export function TemplateGallery() {
   const [isOpen, setIsOpen] = useState(false);
-  const [onSelectCallback, setOnSelectCallback] = useState<((template: WorkflowTemplate) => void) | null>(null);
+  const [onSelectCallback] = useState<((template: WorkflowTemplate) => void) | null>(null);
 
   const handleSelect = (template: WorkflowTemplate) => {
     if (onSelectCallback) {

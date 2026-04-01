@@ -74,7 +74,7 @@ export function WorkflowIDE() {
     if (stored) {
       try {
         const workflows = JSON.parse(stored);
-        const workflow = workflows.find((w: any) => w.id === workflowId);
+        const workflow = workflows.find((w: { id: string }) => w.id === workflowId);
         if (workflow) {
           const workflowData = {
             id: workflow.id,
@@ -91,7 +91,7 @@ export function WorkflowIDE() {
     }
   }, []);
 
-  const handleSaveWorkflow = useCallback((name: string, description: string) => {
+  const handleSaveWorkflow = useCallback((name: string, _description: string) => {
     alert(`工作流 "${name}" 已保存！`);
   }, []);
 

@@ -5,7 +5,7 @@ import './NodeEditorPanel.css';
 export interface NodeConfig {
   label: string;
   description: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface NodeEditorPanelProps {
@@ -18,7 +18,7 @@ interface NodeEditorPanelProps {
       config?: NodeConfig;
     };
   } | null;
-  onUpdate: (nodeId: string, data: any) => void;
+  onUpdate: (nodeId: string, data: Record<string, unknown>) => void;
   onClose: () => void;
 }
 
@@ -113,7 +113,7 @@ export function NodeEditorPanel({ node, onUpdate, onClose }: NodeEditorPanelProp
     Object.entries(config).filter(([key]) => key !== 'label' && key !== 'description')
   );
 
-  const handleChange = (key: string, value: any) => {
+  const handleChange = (key: string, value: unknown) => {
     setConfig((prev) => ({ ...prev, [key]: value }));
   };
 

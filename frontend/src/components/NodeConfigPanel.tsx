@@ -4,14 +4,14 @@ import { useState } from 'react';
 interface NodeConfigPanelProps {
   node: Node | null;
   onClose: () => void;
-  onUpdate: (nodeId: string, updates: Record<string, any>) => void;
+  onUpdate: (nodeId: string, updates: Record<string, unknown>) => void;
 }
 
 interface ConfigField {
   key: string;
   label: string;
   type: 'text' | 'number' | 'boolean' | 'select';
-  defaultValue?: any;
+  defaultValue?: unknown;
   options?: { label: string; value: string }[];
   description?: string;
 }
@@ -111,17 +111,17 @@ const componentConfigs: Record<string, ConfigField[]> = {
 };
 
 export function NodeConfigPanel({ node, onClose, onUpdate }: NodeConfigPanelProps) {
-  const [config, setConfig] = useState<Record<string, any>>(() => {
+  const [config, setConfig] = useState<Record<string, unknown>>(() => {
     if (!node) return {};
-    return node.data?.config || {};
+    return (node.data?.config as Record<string, unknown>) || {};
   });
 
   if (!node) return null;
 
-  const componentType = node.data?.component || 'http';
+  const componentType = (node.data?.component as string) || 'http';
   const fields = componentConfigs[componentType] || [];
 
-  const handleChange = (key: string, value: any) => {
+  const handleChange = (key: string, value: unknown) => {
     const newConfig = { ...config, [key]: value };
     setConfig(newConfig);
     onUpdate(node.id, { config: newConfig });
@@ -307,7 +307,7 @@ export function NodeConfigPanel({ node, onClose, onUpdate }: NodeConfigPanelProp
       >
         <button
           onClick={() => {
-            const resetConfig: Record<string, any> = {};
+            const resetConfig: Record<string, unknown> = {};
             fields.forEach((field) => {
               resetConfig[field.key] = field.defaultValue;
             });

@@ -36,7 +36,7 @@ export function WorkflowManager({
 }: WorkflowManagerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [savedWorkflows, setSavedWorkflows] = useState<WorkflowMetadata[]>([]);
-  const [showSaveDialog, setShowSaveDialog] = useState(false);
+  const [, setShowSaveDialog] = useState(false);
   const [workflowName, setWorkflowName] = useState('');
   const [workflowDescription, setWorkflowDescription] = useState('');
   const [activeTab, setActiveTab] = useState<'load' | 'save'>('load');
