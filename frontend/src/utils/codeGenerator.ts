@@ -18,7 +18,7 @@ export function generateMoonBitCode(
     typeAnnotations = true,
   } = options;
 
-  const { name, description, nodes, edges } = workflow;
+  const { name, nodes, edges } = workflow;
   
   const lines: string[] = [
     `// MoonFlow Workflow: ${name}`,

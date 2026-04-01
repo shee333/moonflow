@@ -1,25 +1,37 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 export function useInterval(callback: () => void, delay: number | null) {
+  const savedCallback = useRef(callback);
+  
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
   useEffect(() => {
     if (delay === null) {
       return;
     }
 
-    const id = setInterval(callback, delay);
+    const id = setInterval(() => savedCallback.current(), delay);
     return () => clearInterval(id);
-  }, [callback, delay]);
+  }, [delay]);
 }
 
 export function useTimeout(callback: () => void, delay: number | null) {
+  const savedCallback = useRef(callback);
+  
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
   useEffect(() => {
     if (delay === null) {
       return;
     }
 
-    const id = setTimeout(callback, delay);
+    const id = setTimeout(() => savedCallback.current(), delay);
     return () => clearTimeout(id);
-  }, [callback, delay]);
+  }, [delay]);
 }
 
 export function usePrevious<T>(value: T): T | undefined {

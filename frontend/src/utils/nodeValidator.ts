@@ -16,7 +16,7 @@ export interface ValidationWarning {
 
 export function validateNodeConfig(
   nodeType: string,
-  config: Record<string, any>
+  config: Record<string, unknown>
 ): ValidationResult {
   const errors: ValidationError[] = [];
   const warnings: ValidationWarning[] = [];
@@ -64,7 +64,7 @@ export function validateNodeConfig(
 }
 
 function validateHttpConfig(
-  config: Record<string, any>,
+  config: Record<string, unknown>,
   errors: ValidationError[],
   warnings: ValidationWarning[]
 ): void {
@@ -97,7 +97,7 @@ function validateHttpConfig(
 }
 
 function validateLlmConfig(
-  config: Record<string, any>,
+  config: Record<string, unknown>,
   errors: ValidationError[],
   warnings: ValidationWarning[]
 ): void {
@@ -140,32 +140,32 @@ function validateLlmConfig(
 }
 
 function validateDatabaseConfig(
-  config: Record<string, any>,
+  config: Record<string, unknown>,
   errors: ValidationError[],
   warnings: ValidationWarning[]
 ): void {
   const validTypes = ['postgresql', 'mysql', 'sqlite', 'mongodb'];
+  const typeValue = config.type as string | undefined;
   
-  if (!config.type) {
+  if (!typeValue) {
     warnings.push({
       field: 'type',
       message: 'Database type not specified',
     });
-  } else if (!validTypes.includes(config.type.toLowerCase())) {
+  } else if (!validTypes.includes(typeValue.toLowerCase())) {
     warnings.push({
       field: 'type',
-      message: `Database type "${config.type}" may not be supported. Known types: ${validTypes.join(', ')}`,
+      message: `Database type "${typeValue}" may not be supported. Known types: ${validTypes.join(', ')}`,
     });
   }
 
-  if (!config.query) {
+  const queryValue = config.query as string | undefined;
+  if (!queryValue) {
     errors.push({
       field: 'query',
       message: 'SQL query is required',
     });
-  }
-
-  if (config.query && isDangerousQuery(config.query)) {
+  } else if (isDangerousQuery(queryValue)) {
     errors.push({
       field: 'query',
       message: 'Dangerous SQL operations (DROP, DELETE without WHERE) are not allowed',
@@ -174,7 +174,7 @@ function validateDatabaseConfig(
 }
 
 function validateCacheConfig(
-  config: Record<string, any>,
+  config: Record<string, unknown>,
   errors: ValidationError[],
   warnings: ValidationWarning[]
 ): void {
@@ -221,7 +221,7 @@ function validateCacheConfig(
 }
 
 function validateWebSocketConfig(
-  config: Record<string, any>,
+  config: Record<string, unknown>,
   errors: ValidationError[],
   warnings: ValidationWarning[]
 ): void {
@@ -246,7 +246,7 @@ function validateWebSocketConfig(
 }
 
 function validateGrpcConfig(
-  config: Record<string, any>,
+  config: Record<string, unknown>,
   errors: ValidationError[],
   warnings: ValidationWarning[]
 ): void {
@@ -278,16 +278,16 @@ function validateGrpcConfig(
 }
 
 function validateGraphQLConfig(
-  config: Record<string, any>,
+  config: Record<string, unknown>,
   errors: ValidationError[],
-  warnings: ValidationWarning[]
+  _warnings: ValidationWarning[]
 ): void {
   if (!config.endpoint) {
     errors.push({
       field: 'endpoint',
       message: 'GraphQL endpoint is required',
     });
-  } else if (!isValidUrl(config.endpoint)) {
+  } else if (!isValidUrl(config.endpoint as string)) {
     errors.push({
       field: 'endpoint',
       message: 'Invalid GraphQL endpoint URL',
@@ -303,8 +303,8 @@ function validateGraphQLConfig(
 
   if (config.variables && typeof config.variables === 'string') {
     try {
-      JSON.parse(config.variables);
-    } catch (e) {
+      JSON.parse(config.variables as string);
+    } catch {
       errors.push({
         field: 'variables',
         message: 'Invalid JSON format for variables',
@@ -314,7 +314,7 @@ function validateGraphQLConfig(
 }
 
 function validateResponseConfig(
-  config: Record<string, any>,
+  config: Record<string, unknown>,
   errors: ValidationError[],
   warnings: ValidationWarning[]
 ): void {
@@ -337,28 +337,29 @@ function validateResponseConfig(
 }
 
 function validateTransformerConfig(
-  config: Record<string, any>,
+  config: Record<string, unknown>,
   errors: ValidationError[],
   warnings: ValidationWarning[]
 ): void {
   const validTypes = ['map', 'filter', 'reduce', 'flatten', 'custom'];
+  const transformType = config.transform_type as string | undefined;
 
-  if (!config.transform_type) {
+  if (!transformType) {
     warnings.push({
       field: 'transform_type',
       message: 'Transform type not specified. Will use default (map)',
     });
-  } else if (!validTypes.includes(config.transform_type)) {
+  } else if (!validTypes.includes(transformType)) {
     warnings.push({
       field: 'transform_type',
-      message: `Transform type "${config.transform_type}" may not be supported. Known types: ${validTypes.join(', ')}`,
+      message: `Transform type "${transformType}" may not be supported. Known types: ${validTypes.join(', ')}`,
     });
   }
 
   if (config.mappings && typeof config.mappings === 'string') {
     try {
-      JSON.parse(config.mappings);
-    } catch (e) {
+      JSON.parse(config.mappings as string);
+    } catch {
       errors.push({
         field: 'mappings',
         message: 'Invalid JSON format for mappings',

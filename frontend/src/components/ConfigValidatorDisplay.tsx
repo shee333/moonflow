@@ -1,10 +1,10 @@
 import React from 'react';
-import { validateNodeConfig, validateNodeLabel, ValidationResult } from '../utils/nodeValidator';
+import { validateNodeConfig, validateNodeLabel } from '../utils/nodeValidator';
 import './ConfigValidatorDisplay.css';
 
 interface ConfigValidatorDisplayProps {
   nodeType: string;
-  config: Record<string, any>;
+  config: Record<string, unknown>;
   label?: string;
 }
 
@@ -76,7 +76,7 @@ export function ConfigValidatorDisplay({ nodeType, config, label }: ConfigValida
   );
 }
 
-export function useNodeValidation(nodeType: string, config: Record<string, any>, label?: string) {
+export function useNodeValidation(nodeType: string, config: Record<string, unknown>, label?: string) {
   const labelValidation = label !== undefined ? validateNodeLabel(label) : null;
   const configValidation = validateNodeConfig(nodeType, config);
   

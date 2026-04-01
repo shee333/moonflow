@@ -4,7 +4,7 @@ import { LLMConfig, LLMRequest, callLLM } from './llmService';
 export interface NodeExecutionResult {
   nodeId: string;
   success: boolean;
-  output?: any;
+  output?: unknown;
   error?: string;
   startTime: number;
   endTime: number;
@@ -20,19 +20,19 @@ export interface WorkflowExecutionResult {
 export type NodeData = {
   label?: string;
   type?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 };
 
 export async function executeNode(
   node: Node<NodeData>,
-  context: Map<string, any>
+  context: Map<string, unknown>
 ): Promise<NodeExecutionResult> {
   const startTime = Date.now();
   const nodeId = node.id;
   const nodeType = node.data?.type as string;
 
   try {
-    let output: any;
+    let output: unknown;
 
     switch (nodeType) {
       case 'llm': {
@@ -160,7 +160,7 @@ export async function executeNode(
   }
 }
 
-function resolvePromptVariables(template: string, context: Map<string, any>): string {
+function resolvePromptVariables(template: string, context: Map<string, unknown>): string {
   let result = template;
   const variablePattern = /\{\{(\w+)\}\}/g;
   
@@ -175,7 +175,7 @@ function resolvePromptVariables(template: string, context: Map<string, any>): st
   return result;
 }
 
-function evaluateCondition(condition: string, context: Map<string, any>): boolean {
+function evaluateCondition(condition: string, context: Map<string, unknown>): boolean {
   try {
     const resolved = resolvePromptVariables(condition, context);
     
@@ -188,9 +188,9 @@ function evaluateCondition(condition: string, context: Map<string, any>): boolea
   }
 }
 
-function executeCode(code: string, context: Map<string, any>): any {
+function executeCode(code: string, context: Map<string, unknown>): unknown {
   try {
-    const contextObj: Record<string, any> = {};
+    const contextObj: Record<string, unknown> = {};
     context.forEach((value, key) => {
       contextObj[key] = value;
     });
@@ -251,7 +251,7 @@ export async function executeWorkflow(
 ): Promise<WorkflowExecutionResult> {
   const executionOrder = buildExecutionOrder(nodes, edges);
   const nodeResults = new Map<string, NodeExecutionResult>();
-  const context = new Map<string, any>();
+  const context = new Map<string, unknown>();
   const startTime = Date.now();
 
   for (const node of executionOrder) {

@@ -11,13 +11,13 @@ export interface ExecutionLog {
   level: 'info' | 'warning' | 'error' | 'success';
   message: string;
   nodeId?: string;
-  details?: any;
+  details?: unknown;
 }
 
 export type NodeData = {
   label?: string;
   type?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 };
 
 interface ExecutionPanelProps {
@@ -42,7 +42,19 @@ export function ExecutionPanel({
   const [status, setStatus] = useState<ExecutionStatus>('idle');
   const [logs, setLogs] = useState<ExecutionLog[]>([]);
   const [logIdCounter, setLogIdCounter] = useState(0);
-  const [executionResult, setExecutionResult] = useState<WorkflowExecutionResult | null>(null);
+  const [, setExecutionResult] = useState<WorkflowExecutionResult | null>(null);
+
+  const addLog = useCallback((level: ExecutionLog['level'], message: string, nodeId?: string) => {
+    const newLog: ExecutionLog = {
+      id: logIdCounter,
+      timestamp: new Date().toLocaleTimeString(),
+      level,
+      message,
+      nodeId,
+    };
+    setLogs((prev) => [...prev, newLog]);
+    setLogIdCounter((prev) => prev + 1);
+  }, [logIdCounter]);
 
   const runWorkflow = useCallback(async () => {
     if (nodes.length === 0) {
@@ -66,8 +78,9 @@ export function ExecutionPanel({
         (result: NodeExecutionResult) => {
           if (result.success) {
             addLog('success', `节点 ${result.nodeId} 执行成功 (${result.duration}ms)`, result.nodeId);
-            if (result.output?.content) {
-              addLog('info', `  输出: ${result.output.content.substring(0, 100)}${result.output.content.length > 100 ? '...' : ''}`, result.nodeId);
+            if (typeof result.output === 'object' && result.output !== null && 'content' in result.output) {
+              const output = result.output as { content: string };
+              addLog('info', `  输出: ${output.content.substring(0, 100)}${output.content.length > 100 ? '...' : ''}`, result.nodeId);
             }
           } else {
             addLog('error', `节点 ${result.nodeId} 执行失败: ${result.error}`, result.nodeId);
@@ -89,25 +102,13 @@ export function ExecutionPanel({
       const errorMessage = error instanceof Error ? error.message : String(error);
       addLog('error', `执行错误: ${errorMessage}`);
     }
-  }, [nodes, edges]);
+  }, [nodes, edges, addLog]);
 
   useEffect(() => {
     if (isRunning && status === 'idle') {
       runWorkflow();
     }
   }, [isRunning, status, runWorkflow]);
-
-  const addLog = (level: ExecutionLog['level'], message: string, nodeId?: string) => {
-    const newLog: ExecutionLog = {
-      id: logIdCounter,
-      timestamp: new Date().toLocaleTimeString(),
-      level,
-      message,
-      nodeId,
-    };
-    setLogs((prev) => [...prev, newLog]);
-    setLogIdCounter((prev) => prev + 1);
-  };
 
   const handlePause = () => {
     if (status === 'running') {

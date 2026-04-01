@@ -13,23 +13,23 @@ export function isValidUrl(url: string): boolean {
 }
 
 export function isValidPhone(phone: string): boolean {
-  const phoneRegex = /^[\d\s\-\+\(\)]+$/;
+  const phoneRegex = /^[\d\s\-()+]+$/;
   return phoneRegex.test(phone) && phone.replace(/\D/g, '').length >= 10;
 }
 
-export function isEmpty(value: any): boolean {
+export function isEmpty(value: unknown): boolean {
   if (value === null || value === undefined) return true;
   if (typeof value === 'string') return value.trim() === '';
   if (Array.isArray(value)) return value.length === 0;
-  if (typeof value === 'object') return Object.keys(value).length === 0;
+  if (typeof value === 'object') return Object.keys(value as object).length === 0;
   return false;
 }
 
-export function isNumber(value: any): boolean {
+export function isNumber(value: unknown): boolean {
   return typeof value === 'number' && !isNaN(value);
 }
 
-export function isInteger(value: any): boolean {
+export function isInteger(value: unknown): boolean {
   return isNumber(value) && Number.isInteger(value);
 }
 

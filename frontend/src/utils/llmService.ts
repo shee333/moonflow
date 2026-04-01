@@ -34,7 +34,7 @@ export async function callLLM(config: LLMConfig, request: LLMRequest): Promise<L
   };
 
   let endpoint = '';
-  let body: Record<string, any> = {};
+  let body: Record<string, unknown> = {};
 
   switch (provider) {
     case 'openai':

@@ -82,9 +82,18 @@ const COMPONENT_SCHEMAS: Record<string, Array<{key: string; label: string; type:
 };
 
 export function NodeEditorPanel({ node, onUpdate, onClose }: NodeEditorPanelProps) {
-  const [config, setConfig] = useState<NodeConfig>({
-    label: '',
-    description: '',
+  const [config, setConfig] = useState<NodeConfig>(() => {
+    if (node) {
+      return {
+        label: node.data.label || '',
+        description: node.data.description || '',
+        ...node.data.config,
+      };
+    }
+    return {
+      label: '',
+      description: '',
+    };
   });
 
   useEffect(() => {

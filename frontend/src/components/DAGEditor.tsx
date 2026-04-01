@@ -119,7 +119,7 @@ export function DAGEditor() {
     100
   );
 
-  const handleNodeUpdate = useCallback((nodeId: string, data: any) => {
+  const handleNodeUpdate = useCallback((nodeId: string, data: Record<string, unknown>) => {
     const updatedNodes = nodes.map((node) => {
       if (node.id === nodeId) {
         return {

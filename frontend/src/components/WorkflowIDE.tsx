@@ -91,7 +91,7 @@ export function WorkflowIDE() {
     }
   }, []);
 
-  const handleSaveWorkflow = useCallback((name: string, _description: string) => {
+  const handleSaveWorkflow = useCallback((name: string) => {
     alert(`工作流 "${name}" 已保存！`);
   }, []);
 

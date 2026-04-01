@@ -131,12 +131,14 @@ class PerformanceMonitor {
 
   getMemoryUsage(): { used: number; total: number; percentage: number } | null {
     if (typeof window !== 'undefined' && 'memory' in performance) {
-      const memory = (performance as any).memory;
-      return {
-        used: Math.round(memory.usedJSHeapSize / 1048576),
-        total: Math.round(memory.totalJSHeapSize / 1048576),
-        percentage: Math.round((memory.usedJSHeapSize / memory.totalJSHeapSize) * 100),
-      };
+      const memory = performance as Performance & { memory?: { usedJSHeapSize: number; totalJSHeapSize: number } };
+      if (memory.memory) {
+        return {
+          used: Math.round(memory.memory.usedJSHeapSize / 1048576),
+          total: Math.round(memory.memory.totalJSHeapSize / 1048576),
+          percentage: Math.round((memory.memory.usedJSHeapSize / memory.memory.totalJSHeapSize) * 100),
+        };
+      }
     }
     return null;
   }
@@ -178,16 +180,17 @@ export function measureAsync<T>(
   name: string,
   fn: () => Promise<T>
 ): Promise<T> {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     performanceMonitor.startMeasure(name);
-    try {
-      const result = await fn();
-      performanceMonitor.endMeasure(name);
-      resolve(result);
-    } catch (error) {
-      performanceMonitor.endMeasure(name);
-      reject(error);
-    }
+    fn()
+      .then((result) => {
+        performanceMonitor.endMeasure(name);
+        resolve(result);
+      })
+      .catch((error) => {
+        performanceMonitor.endMeasure(name);
+        reject(error);
+      });
   });
 }
 

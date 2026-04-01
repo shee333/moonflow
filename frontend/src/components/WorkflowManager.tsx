@@ -43,6 +43,7 @@ export function WorkflowManager({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    if (!isOpen) return;
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       try {

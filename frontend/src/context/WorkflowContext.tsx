@@ -6,7 +6,7 @@ export type NodeData = {
   type?: string;
   component?: string;
   description?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 };
 
 interface WorkflowContextType {
