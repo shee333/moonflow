@@ -12,6 +12,10 @@ impl Component for EmailComponent {
       return Err(ComponentError::ValidationError("Recipient email is required"))
     }
 
+    if not is_valid_email(to) {
+      return Err(ComponentError::ValidationError("Invalid recipient email format: \{to}"))
+    }
+
     let smtp_host = input.params.get_or("smtp_host", "smtp.gmail.com")
     let smtp_port = input.params.get_or("smtp_port", "587").to_int().unwrap_or(587)
     let from = input.params.get_or("from", "")
@@ -22,12 +26,20 @@ impl Component for EmailComponent {
       return Err(ComponentError::AuthenticationError("SMTP credentials are required"))
     }
 
-    execute_send_email(to, from, subject, body, smtp_host, smtp_port, username)
+    if smtp_port <= 0 || smtp_port > 65535 {
+      return Err(ComponentError::ValidationError("Invalid SMTP port: \{smtp_port}"))
+    }
+
+    if subject == "" {
+      return Err(ComponentError::ValidationError("Email subject is required"))
+    }
+
+    execute_send_email(to, from, subject, body, smtp_host, smtp_port, username, ctx)
   }
 
   fn validate(config: Map[String, String]) -> Bool {
     match config["to"] {
-      Some(to) => to.length() > 0 && to.contains("@")
+      Some(to) => to.length() > 0 && is_valid_email(to)
       None => false
     }
   }
@@ -35,7 +47,7 @@ impl Component for EmailComponent {
   fn get_metadata() -> ComponentMetadata {
     ComponentMetadata::{
       name: "email",
-      version: "1.0.0",
+      version: "1.1.0",
       description: "Email sending component with SMTP support",
       category: ComponentCategory::Tool,
       inputs: [
@@ -43,16 +55,33 @@ impl Component for EmailComponent {
         InputSchema::{ name: "from", type_: "string", required: false, description: "Sender email address" },
         InputSchema::{ name: "subject", type_: "string", required: true, description: "Email subject" },
         InputSchema::{ name: "body", type_: "string", required: true, description: "Email body content" },
-        InputSchema::{ name: "smtp_host", type_: "string", required: false, description: "SMTP server host" },
-        InputSchema::{ name: "smtp_port", type_: "number", required: false, description: "SMTP server port" },
+        InputSchema::{ name: "smtp_host", type_: "string", required: false, description: "SMTP server host (default: smtp.gmail.com)" },
+        InputSchema::{ name: "smtp_port", type_: "number", required: false, description: "SMTP server port (default: 587)" },
       ],
       outputs: [
         OutputSchema::{ name: "message_id", type_: "string", description: "Email message ID" },
         OutputSchema::{ name: "status", type_: "string", description: "Send status" },
         OutputSchema::{ name: "timestamp", type_: "string", description: "Send timestamp" },
+        OutputSchema::{ name: "recipient_count", type_: "number", description: "Number of recipients" },
       ],
     }
   }
+}
+
+fn is_valid_email(email: String) -> Bool {
+  let parts = email.split("@")
+  if parts.length() != 2 {
+    return false
+  }
+  let local = parts[0]
+  let domain = parts[1]
+  if local.length() == 0 || domain.length() == 0 {
+    return false
+  }
+  if not domain.contains(".") {
+    return false
+  }
+  true
 }
 
 fn execute_send_email(
@@ -62,7 +91,8 @@ fn execute_send_email(
   body: String,
   smtp_host: String,
   smtp_port: Int,
-  username: String
+  username: String,
+  ctx: moonflow_core::runtime::ExecutionContext
 ) -> ComponentResult {
   let metadata: Map[String, String] = {}
   metadata["to"] = to
@@ -71,8 +101,11 @@ fn execute_send_email(
   metadata["smtp_host"] = smtp_host
   metadata["smtp_port"] = smtp_port.to_string()
   metadata["status"] = "sent"
+  metadata["timestamp"] = ctx.start_time.to_string()
+  metadata["body_length"] = body.length().to_string()
+  metadata["recipient_count"] = "1"
 
-  let response = "Email sent successfully to \{to} via \{smtp_host}:\{smtp_port}"
+  let response = "\{\"success\": true, \"message\": \"Email sent to \{to}\", \"message_id\": \"msg_\{ctx.start_time}\", \"timestamp\": \{ctx.start_time}}"
   Ok(create_component_output_with_metadata(response, metadata))
 }
 

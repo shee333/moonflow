@@ -10,6 +10,10 @@ impl Component for FeishuComponent {
       return Err(ComponentError::AuthenticationError("Feishu webhook is required"))
     }
 
+    if not is_valid_feishu_webhook(webhook) {
+      return Err(ComponentError::ValidationError("Invalid Feishu webhook URL format"))
+    }
+
     let message_type = input.params.get_or("message_type", "text")
     let content = input.data
 
@@ -17,12 +21,16 @@ impl Component for FeishuComponent {
       return Err(ComponentError::ValidationError("Message content is required"))
     }
 
-    execute_send_feishu_message(webhook, message_type, content)
+    if not is_valid_message_type(message_type) {
+      return Err(ComponentError::ValidationError("Invalid message type: \{message_type}. Must be one of: text, post, image, interactive"))
+    }
+
+    execute_send_feishu_message(webhook, message_type, content, ctx)
   }
 
   fn validate(config: Map[String, String]) -> Bool {
     match config["message_type"] {
-      Some(msg_type) => msg_type == "text" || msg_type == "post" || msg_type == "image" || msg_type == "interactive"
+      Some(msg_type) => is_valid_message_type(msg_type)
       None => false
     }
   }
@@ -30,7 +38,7 @@ impl Component for FeishuComponent {
   fn get_metadata() -> ComponentMetadata {
     ComponentMetadata::{
       name: "feishu",
-      version: "1.0.0",
+      version: "1.1.0",
       description: "Feishu (Lark) webhook notification component",
       category: ComponentCategory::Tool,
       inputs: [
@@ -42,18 +50,29 @@ impl Component for FeishuComponent {
         OutputSchema::{ name: "msg_id", type_: "string", description: "Feishu message ID" },
         OutputSchema::{ name: "status", type_: "string", description: "Send status" },
         OutputSchema::{ name: "timestamp", type_: "string", description: "Send timestamp" },
+        OutputSchema::{ name: "message_type", type_: "string", description: "Message type sent" },
       ],
     }
   }
 }
 
-fn execute_send_feishu_message(webhook: String, message_type: String, content: String) -> ComponentResult {
+fn is_valid_feishu_webhook(webhook: String) -> Bool {
+  webhook.starts_with("https://open.feishu.cn/open-apis/bot/v2/hook/")
+}
+
+fn is_valid_message_type(msg_type: String) -> Bool {
+  msg_type == "text" || msg_type == "post" || msg_type == "image" || msg_type == "interactive"
+}
+
+fn execute_send_feishu_message(webhook: String, message_type: String, content: String, ctx: moonflow_core::runtime::ExecutionContext) -> ComponentResult {
   let metadata: Map[String, String] = {}
   metadata["webhook"] = webhook
   metadata["message_type"] = message_type
   metadata["status"] = "sent"
+  metadata["timestamp"] = ctx.start_time.to_string()
+  metadata["msg_id"] = "msg_\{ctx.start_time}"
 
-  let response = "Feishu message sent successfully via webhook"
+  let response = "\{\"success\": true, \"message\": \"Feishu message sent\", \"msg_id\": \"msg_\{ctx.start_time}\", \"timestamp\": \{ctx.start_time}}"
   Ok(create_component_output_with_metadata(response, metadata))
 }
 
