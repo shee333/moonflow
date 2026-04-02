@@ -47,15 +47,27 @@ export function usePrevious<T>(value: T): T | undefined {
 }
 
 export function useDidMount(callback: () => void): void {
+  const savedCallback = useRef(callback);
+  
   useEffect(() => {
-    callback();
+    savedCallback.current = callback;
+  }, [callback]);
+
+  useEffect(() => {
+    savedCallback.current();
   }, []);
 }
 
 export function useWillUnmount(callback: () => void): void {
+  const savedCallback = useRef(callback);
+  
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
   useEffect(() => {
     return () => {
-      callback();
+      savedCallback.current();
     };
   }, []);
 }
