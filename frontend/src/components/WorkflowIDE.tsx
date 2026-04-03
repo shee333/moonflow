@@ -11,6 +11,7 @@ import { generateMoonBitCode, validateWorkflow } from '../utils/codeGenerator';
 import { Workflow } from './types';
 import { useTheme } from '../context';
 import { useWorkflow } from '../context/WorkflowContext';
+import { useWorkflowExecution } from '../hooks';
 import './WorkflowIDE.css';
 
 type ViewMode = 'dag' | 'code' | 'split';
@@ -19,10 +20,10 @@ export function WorkflowIDE() {
   const [viewMode, setViewMode] = useState<ViewMode>('split');
   const [showExecutionPanel, setShowExecutionPanel] = useState(true);
   const [showLLMTester, setShowLLMTester] = useState(false);
-  const [isRunning, setIsRunning] = useState(false);
   const [validationResult, setValidationResult] = useState<{ valid: boolean; errors: string[] } | null>(null);
   const { theme, toggleTheme } = useTheme();
   const { nodes, edges, addNode } = useWorkflow();
+  const execution = useWorkflowExecution();
   const [workflowCode, setWorkflowCode] = useState<string>(JSON.stringify({
     id: 'workflow-1',
     name: 'Example Workflow',
@@ -139,8 +140,7 @@ export function WorkflowIDE() {
       setValidationResult(result);
       
       if (result.valid) {
-        setIsRunning(true);
-        setTimeout(() => setIsRunning(false), 10000);
+        execution.execute(nodes, edges);
       }
     } catch (error) {
       setValidationResult({
@@ -148,20 +148,20 @@ export function WorkflowIDE() {
         errors: ['Invalid JSON format: ' + (error as Error).message],
       });
     }
-  }, [workflowCode]);
+  }, [workflowCode, nodes, edges, execution]);
 
   const handlePause = useCallback(() => {
-    setIsRunning(false);
-  }, []);
+    execution.abort();
+  }, [execution]);
 
   const handleStop = useCallback(() => {
-    setIsRunning(false);
-  }, []);
+    execution.abort();
+  }, [execution]);
 
   const handleReset = useCallback(() => {
-    setIsRunning(false);
+    execution.reset();
     setValidationResult(null);
-  }, []);
+  }, [execution]);
 
   return (
     <div className="workflow-ide" data-theme={theme}>
@@ -255,7 +255,7 @@ export function WorkflowIDE() {
           <button onClick={handleGenerateCode} className="secondary">
             ⚡ 生成代码
           </button>
-          {!isRunning ? (
+          {execution.status === 'idle' || execution.status === 'completed' || execution.status === 'failed' ? (
             <button onClick={handleRun} className="primary">
               ▶️ 运行
             </button>
@@ -323,13 +323,15 @@ export function WorkflowIDE() {
 
         {showExecutionPanel && (
           <ExecutionPanel
-            isRunning={isRunning}
+            isRunning={execution.status === 'running'}
             onPause={handlePause}
             onResume={handleRun}
             onStop={handleStop}
             onReset={handleReset}
             nodes={nodes}
             edges={edges}
+            logs={execution.logs}
+            status={execution.status}
           />
         )}
 
@@ -373,8 +375,9 @@ export function WorkflowIDE() {
 
       <div className="ide-footer">
         <div className="status">
-          <span className={`status-indicator ${isRunning ? 'running' : ''}`} />
-          {isRunning ? '运行中' : '就绪'}
+          <span className={`status-indicator ${execution.status === 'running' ? 'running' : ''}`} />
+          {execution.status === 'running' ? `运行中 (${execution.currentNodeId || '初始化中'})` : execution.status === 'completed' ? '执行完成' : execution.status === 'failed' ? '执行失败' : '就绪'}
+          {execution.totalDuration > 0 && ` | ${execution.totalDuration}ms`}
         </div>
         <div className="info">
           MoonFlow Studio v0.1.0 | {theme === 'dark' ? '🌙 深色' : '☀️ 浅色'} 主题 | Node.js 20.18.0

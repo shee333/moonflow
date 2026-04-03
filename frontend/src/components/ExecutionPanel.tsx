@@ -1,17 +1,15 @@
-import { useState, useEffect, useCallback } from 'react';
-import { Node, Edge } from '@xyflow/react';
-import { executeWorkflow, NodeExecutionResult, WorkflowExecutionResult } from '../utils/executionEngine';
+import { useRef, useEffect } from 'react';
 import './ExecutionPanel.css';
 
-export type ExecutionStatus = 'idle' | 'running' | 'paused' | 'completed' | 'error';
+export type ExecutionStatus = 'idle' | 'running' | 'paused' | 'completed' | 'failed' | 'error';
 
 export interface ExecutionLog {
-  id: number;
-  timestamp: string;
-  level: 'info' | 'warning' | 'error' | 'success';
+  id: string;
+  timestamp: number;
+  type: 'info' | 'warning' | 'error' | 'success';
   message: string;
   nodeId?: string;
-  details?: unknown;
+  data?: unknown;
 }
 
 export type NodeData = {
@@ -22,121 +20,30 @@ export type NodeData = {
 
 interface ExecutionPanelProps {
   isRunning: boolean;
-  onStart: () => void;
-  onPause: () => void;
-  onStop: () => void;
-  onReset: () => void;
-  nodes: Node<NodeData>[];
-  edges: Edge[];
+  onStart?: () => void;
+  onPause?: () => void;
+  onStop?: () => void;
+  onReset?: () => void;
+  logs?: ExecutionLog[];
+  status?: ExecutionStatus;
 }
 
 export function ExecutionPanel({
-  isRunning,
   onStart,
-  onPause,
+  onPause: _onPause,
   onStop,
   onReset,
-  nodes,
-  edges,
+  logs = [],
+  status = 'idle',
 }: ExecutionPanelProps) {
-  const [status, setStatus] = useState<ExecutionStatus>('idle');
-  const [logs, setLogs] = useState<ExecutionLog[]>([]);
-  const [logIdCounter, setLogIdCounter] = useState(0);
-  const [, setExecutionResult] = useState<WorkflowExecutionResult | null>(null);
-
-  const addLog = useCallback((level: ExecutionLog['level'], message: string, nodeId?: string) => {
-    const newLog: ExecutionLog = {
-      id: logIdCounter,
-      timestamp: new Date().toLocaleTimeString(),
-      level,
-      message,
-      nodeId,
-    };
-    setLogs((prev) => [...prev, newLog]);
-    setLogIdCounter((prev) => prev + 1);
-  }, [logIdCounter]);
-
-  const runWorkflow = useCallback(async () => {
-    if (nodes.length === 0) {
-      addLog('warning', '没有可执行的节点');
-      return;
-    }
-
-    setStatus('running');
-    setLogs([]);
-    setExecutionResult(null);
-    addLog('info', `开始执行工作流 (${nodes.length} 个节点)`);
-
-    try {
-      const result = await executeWorkflow(
-        nodes,
-        edges,
-        (nodeId) => {
-          const node = nodes.find(n => n.id === nodeId);
-          addLog('info', `开始执行节点: ${node?.data?.label || nodeId}`, nodeId);
-        },
-        (result: NodeExecutionResult) => {
-          if (result.success) {
-            addLog('success', `节点 ${result.nodeId} 执行成功 (${result.duration}ms)`, result.nodeId);
-            if (typeof result.output === 'object' && result.output !== null && 'content' in result.output) {
-              const output = result.output as { content: string };
-              addLog('info', `  输出: ${output.content.substring(0, 100)}${output.content.length > 100 ? '...' : ''}`, result.nodeId);
-            }
-          } else {
-            addLog('error', `节点 ${result.nodeId} 执行失败: ${result.error}`, result.nodeId);
-          }
-        }
-      );
-
-      setExecutionResult(result);
-      
-      if (result.success) {
-        setStatus('completed');
-        addLog('success', `工作流执行完成! 总耗时: ${result.totalDuration}ms`);
-      } else {
-        setStatus('error');
-        addLog('error', '工作流执行失败');
-      }
-    } catch (error) {
-      setStatus('error');
-      const errorMessage = error instanceof Error ? error.message : String(error);
-      addLog('error', `执行错误: ${errorMessage}`);
-    }
-  }, [nodes, edges, addLog]);
+  void _onPause;
+  const logsEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isRunning && status === 'idle') {
-      runWorkflow();
+    if (logsEndRef.current) {
+      logsEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [isRunning, status, runWorkflow]);
-
-  const handlePause = () => {
-    if (status === 'running') {
-      setStatus('paused');
-      addLog('warning', '工作流执行已暂停');
-      onPause();
-    }
-  };
-
-  const handleResume = () => {
-    if (status === 'paused') {
-      setStatus('running');
-      addLog('info', '工作流执行已恢复');
-      onStart();
-    }
-  };
-
-  const handleStop = () => {
-    setStatus('idle');
-    addLog('error', '工作流执行已停止');
-    onStop();
-  };
-
-  const handleReset = () => {
-    setStatus('idle');
-    setLogs([]);
-    onReset();
-  };
+  }, [logs.length]);
 
   const getStatusText = () => {
     switch (status) {
@@ -148,8 +55,9 @@ export function ExecutionPanel({
         return '已暂停';
       case 'completed':
         return '已完成';
+      case 'failed':
       case 'error':
-        return '错误';
+        return '执行失败';
       default:
         return '未知';
     }
@@ -157,6 +65,24 @@ export function ExecutionPanel({
 
   const getStatusClass = () => {
     return `execution-panel ${status}`;
+  };
+
+  const formatTimestamp = (ts: number) => {
+    const date = new Date(ts);
+    return date.toLocaleTimeString('zh-CN', { hour12: false });
+  };
+
+  const getLogIcon = (type: ExecutionLog['type']) => {
+    switch (type) {
+      case 'success':
+        return '✅';
+      case 'error':
+        return '❌';
+      case 'warning':
+        return '⚠️';
+      default:
+        return 'ℹ️';
+    }
   };
 
   return (
@@ -172,33 +98,18 @@ export function ExecutionPanel({
       <div className="panel-section">
         <h3>控制面板</h3>
         <div className="control-buttons">
-          {status === 'idle' && (
+          {(status === 'idle' || status === 'completed' || status === 'failed') && (
             <button className="control-btn start" onClick={onStart}>
-              ▶️ 开始
+              ▶️ 运行
             </button>
           )}
           {status === 'running' && (
-            <>
-              <button className="control-btn pause" onClick={handlePause}>
-                ⏸️ 暂停
-              </button>
-              <button className="control-btn stop" onClick={handleStop}>
-                ⏹️ 停止
-              </button>
-            </>
+            <button className="control-btn stop" onClick={onStop}>
+              ⏹️ 停止
+            </button>
           )}
-          {status === 'paused' && (
-            <>
-              <button className="control-btn resume" onClick={handleResume}>
-                ▶️ 继续
-              </button>
-              <button className="control-btn stop" onClick={handleStop}>
-                ⏹️ 停止
-              </button>
-            </>
-          )}
-          {status === 'completed' && (
-            <button className="control-btn reset" onClick={handleReset}>
+          {(status === 'completed' || status === 'failed') && (
+            <button className="control-btn reset" onClick={onReset}>
               🔄 重置
             </button>
           )}
@@ -209,15 +120,19 @@ export function ExecutionPanel({
         <h3>执行日志</h3>
         <div className="logs-container">
           {logs.length === 0 ? (
-            <div className="empty-logs">暂无日志。开始执行工作流以查看日志。</div>
+            <div className="empty-logs">暂无日志。点击"运行"开始执行工作流。</div>
           ) : (
-            logs.map((log) => (
-              <div key={log.id} className={`log-entry ${log.level}`}>
-                <span className="log-timestamp">{log.timestamp}</span>
-                <span className="log-level">[{log.level.toUpperCase()}]</span>
-                <span className="log-message">{log.message}</span>
-              </div>
-            ))
+            <>
+              {logs.map((log) => (
+                <div key={log.id} className={`log-entry ${log.type}`}>
+                  <span className="log-icon">{getLogIcon(log.type)}</span>
+                  <span className="log-timestamp">{formatTimestamp(log.timestamp)}</span>
+                  {log.nodeId && <span className="log-node">[{log.nodeId}]</span>}
+                  <span className="log-message">{log.message}</span>
+                </div>
+              ))}
+              <div ref={logsEndRef} />
+            </>
           )}
         </div>
       </div>

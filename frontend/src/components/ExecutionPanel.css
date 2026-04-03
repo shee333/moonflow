@@ -148,14 +148,27 @@
 
 .log-entry {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 6px;
   padding: 6px 8px;
   margin-bottom: 4px;
   background: #252526;
   border-radius: 3px;
   font-size: 11px;
   border-left: 3px solid;
+}
+
+.log-icon {
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.log-node {
+  color: #569cd6;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 10px;
+  flex-shrink: 0;
 }
 
 .log-entry.info {
