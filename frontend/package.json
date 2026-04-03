@@ -11,7 +11,11 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "cli": "node cli/workflow-cli.mjs"
+  },
+  "bin": {
+    "moonflow": "./cli/workflow-cli.mjs"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
