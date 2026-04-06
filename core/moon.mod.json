@@ -5,8 +5,5 @@
   "repository": "",
   "license": "Apache-2.0",
   "keywords": [],
-  "description": "MoonFlow Core - AI Workflow Engine in MoonBit",
-  "deps": {
-    "moonbitlang/async": "^0.5.1"
-  }
+  "description": "MoonFlow Core - AI Workflow Engine in MoonBit"
 }
