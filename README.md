@@ -299,12 +299,5 @@ pub fn register_components() {
 日志记录
 ```
 
-## 📝 文档
-
-- [组件文档](./core/COMPONENTS.md) - 所有组件的详细说明
-- [快速开始](./core/QUICKSTART.md) - MoonBit 后端快速开始
-- [代理说明](./core/AGENTS.md) - Agent 架构说明
-- [项目进度](./core/PROGRESS.md) - 开发进度跟踪
-- [MoonBit 语法](./core/README.mbt.md) - MoonBit 语言参考
 
 
