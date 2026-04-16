@@ -1,7 +1,7 @@
 # MoonFlow - 基于 MoonBit 的 AI Agent 工作流编排平台
 
 <p align="center">
-  <img src="https://img.shields.io/badge/MoonBit-1.0.0-blue" alt="MoonBit">
+  <img src="https://img.shields.io/badge/MoonBit-0.8.0-blue" alt="MoonBit">
   <img src="https://img.shields.io/badge/React-19.0.0-61dafb" alt="React">
   <img src="https://img.shields.io/badge/TypeScript-5.0-3178c6" alt="TypeScript">
   <img src="https://img.shields.io/badge/License-MIT-green" alt="License">
@@ -299,35 +299,5 @@ pub fn register_components() {
 日志记录
 ```
 
-## 📝 文档
 
-- [组件文档](./core/COMPONENTS.md) - 所有组件的详细说明
-- [快速开始](./core/QUICKSTART.md) - MoonBit 后端快速开始
-- [代理说明](./core/AGENTS.md) - Agent 架构说明
-- [项目进度](./core/PROGRESS.md) - 开发进度跟踪
-- [MoonBit 语法](./core/README.mbt.md) - MoonBit 语言参考
 
-## 🤝 贡献指南
-
-1. Fork 本仓库
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 创建 Pull Request
-
-## 📝 License
-
-本项目采用 MIT License - 查看 [LICENSE](./LICENSE) 文件了解更多详情。
-
-## 🙏 致谢
-
-- [MoonBit](https://www.moonbitlang.cn/) - 创新的编程语言
-- [React Flow](https://reactflow.dev/) - 强大的工作流可视化库
-- [Dify](https://dify.ai/) - 优秀的参考项目
-- [Coze](https://www.coze.cn/) - 创新的 Bot 构建平台
-
----
-
-<p align="center">
-  用 ❤️ 和 ☕ 构建 | MoonFlow Team
-</p>
