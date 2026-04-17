@@ -1,0 +1,346 @@
+failed: C:\Users\1\.moon\bin\moonc.exe check -error-format json D:\Project\moonflow\core\src\utils\utils.mbt -o D:\Project\moonflow\core\_build\native\debug\check\src\utils\utils.mi -pkg username/moonflow/src/utils -std-path C:\Users\1\.moon\lib\core\_build\native\release\bundle -i C:\Users\1\.moon\lib\core\_build\native\release\bundle\prelude\prelude.mi:prelude -pkg-sources username/moonflow/src/utils:D:\Project\moonflow\core\src\utils -target native -workspace-path D:\Project\moonflow\core -all-pkgs D:\Project\moonflow\core\_build\native\debug\check\all_pkgs.json
+failed: C:\Users\1\.moon\bin\moonc.exe check -error-format json D:\Project\moonflow\core\src\components\cache.mbt D:\Project\moonflow\core\src\components\circuit_breaker.mbt D:\Project\moonflow\core\src\components\component.mbt D:\Project\moonflow\core\src\components\email.mbt D:\Project\moonflow\core\src\components\feishu.mbt D:\Project\moonflow\core\src\components\filter.mbt D:\Project\moonflow\core\src\components\http.mbt D:\Project\moonflow\core\src\components\llm.mbt D:\Project\moonflow\core\src\components\rate_limiter.mbt D:\Project\moonflow\core\src\components\registry.mbt D:\Project\moonflow\core\src\components\retry.mbt D:\Project\moonflow\core\src\components\router.mbt D:\Project\moonflow\core\src\components\transform.mbt -o D:\Project\moonflow\core\_build\native\debug\check\src\components\components.mi -pkg username/moonflow/src/components -std-path C:\Users\1\.moon\lib\core\_build\native\release\bundle -i C:\Users\1\.moon\lib\core\_build\native\release\bundle\prelude\prelude.mi:prelude -i D:\Project\moonflow\core\_build\native\debug\check\src\runtime\runtime.mi:runtime -pkg-sources username/moonflow/src/components:D:\Project\moonflow\core\src\components -target native -workspace-path D:\Project\moonflow\core -all-pkgs D:\Project\moonflow\core\_build\native\debug\check\all_pkgs.json
+failed: C:\Users\1\.moon\bin\moonc.exe check -error-format json D:\Project\moonflow\core\src\server\server.mbt -o D:\Project\moonflow\core\_build\native\debug\check\src\server\server.mi -pkg username/moonflow/src/server -std-path C:\Users\1\.moon\lib\core\_build\native\release\bundle -i C:\Users\1\.moon\lib\core\_build\native\release\bundle\json\json.mi:json -i D:\Project\moonflow\core\_build\native\debug\check\.mooncakes\oboard\mocket\mocket.mi:mocket -i C:\Users\1\.moon\lib\core\_build\native\release\bundle\prelude\prelude.mi:prelude -i D:\Project\moonflow\core\_build\native\debug\check\src\runtime\runtime.mi:runtime -i D:\Project\moonflow\core\_build\native\debug\check\src\workflow\workflow.mi:workflow -pkg-sources username/moonflow/src/server:D:\Project\moonflow\core\src\server -target native -workspace-path D:\Project\moonflow\core -all-pkgs D:\Project\moonflow\core\_build\native\debug\check\all_pkgs.json
+moon : Warning: [0002]
+����λ�� ��:1 �ַ�: 1
++ moon check --target native 2>&1 | Out-String | Set-Content errors8.tx ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Warning: [0002]:String) [], Remot 
+   eException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    ╭─[ D:\Project\moonflow\core\src\components\filter.mbt:15:33 ]
+    �? 15 �?pub fn FilterComponent::execute(self : FilterComponent, input : Com
+ponentInput) -> Result[ComponentOutput, ComponentError] {
+    �?                                ──┬─  
+    �?                                  ╰─── Warning (unused_value): Unused 
+variable 'self'
+────�?Warning: [0020]
+    ╭─[ D:\Project\moonflow\core\src\components\http.mbt:25:30 ]
+    �? 25 �?  let url = match input.data.get("url") {
+    �?                             ─┬─  
+    �?                              ╰─── Warning (deprecated): The return ty
+pe is about to change to `UInt16?` in a future release. Please check boundaries
+ manually and use `String::code_unit_at` instead.
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\components\http.mbt:25:34 ]
+    �? 25 �?  let url = match input.data.get("url") {
+    �?                                 ──┬──  
+    �?                                   ╰──── Expr Type Mismatch
+        has type : String
+        wanted   : Int
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\components\http.mbt:26:10 ]
+    �? 26 �?    Some(@runtime.ValString(u)) => u
+    �?         ──────────┬──────────  
+    �?                   ╰──────────── Constr Type Mismatch(constru
+ctor ValString)
+        has type : @username/moonflow/src/runtime.Value
+        wanted   : Int
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\components\http.mbt:34:30 ]
+    �? 34 �?    ComponentOutput::{ data: output_data, metadata: {} },
+    �?                             ─────┬─────  
+    �?                                  ╰─────── Expr Type Mismatch
+        has type : Map[String, @username/moonflow/src/runtime.Value]
+        wanted   : String
+────�?Error: [4015]
+    ╭─[ D:\Project\moonflow\core\src\components\registry.mbt:12:16 ]
+    �? 12 �?  reg.register(HttpComponent::info())
+    �?               ─────────┬─────────  
+    �?                        ╰─────────── Type HttpComponent has no
+ method info.
+────�?Warning: [0002]
+    ╭─[ D:\Project\moonflow\core\src\components\transform.mbt:15:36 ]
+    �? 15 �?pub fn TransformComponent::execute(self : TransformComponent, input
+ : ComponentInput) -> Result[ComponentOutput, ComponentError] {
+    �?                                   ──┬─  
+    �?                                     ╰─── Warning (unused_value): Unus
+ed variable 'self'
+────�?Warning: [0009]
+    ╭─[ D:\Project\moonflow\core\src\http\client.mbt:13:12 ]
+    �? 13 �?pub struct HttpRequest {
+    �?           ─────┬─────  
+    �?                ╰─────── Warning (struct_never_constructed): The s
+truct HttpRequest is never constructed
+────�?Warning: [0001]
+    ╭─[ D:\Project\moonflow\core\src\server\server.mbt:19:4 ]
+    �? 19 �?fn build_json_ok(body_json : String) -> String {
+    �?   ──────┬──────  
+    �?         ╰──────── Warning (unused_value): Unused function 'build
+_json_ok'
+────�?Error: [4020]
+    ╭─[ D:\Project\moonflow\core\src\server\server.mbt:27:20 ]
+    �? 27 �?  buf.write_string(@utils.escape_json(msg))
+    �?                   ─────────┬────────  
+    �?                            ╰────────── Package "utils" not fou
+nd in the loaded packages.
+────�?Error: [4118]
+    ╭─[ D:\Project\moonflow\core\src\server\server.mbt:37:21 ]
+    �? 37 �?  app.options("/*", async fn(event) -> &Show {
+    �?                    ──┬──  
+    �?                      ╰──── The error type is mismatched:
+    wanted: no error
+    has   : Error (implicitly implied by `async`).
+────�?Warning: [0067]
+    ╭─[ D:\Project\moonflow\core\src\server\server.mbt:37:21 ]
+    �? 37 �?  app.options("/*", async fn(event) -> &Show {
+    �?                    ──┬──  
+    �?                      ╰──── Warning (unused_async): This `async` anno
+tation is useless.
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\server\server.mbt:37:41 ]
+    �? 37 �?  app.options("/*", async fn(event) -> &Show {
+    �?                                        ──┬─  
+    �?                                          ╰─── Expr Type Mismatch
+        has type : &Show
+        wanted   : &@oboard/mocket.Responder
+────�?Error: [4118]
+    ╭─[ D:\Project\moonflow\core\src\server\server.mbt:44:26 ]
+    �? 44 �?  app.get("/api/health", async fn(event) -> &Show {
+    �?                         ──┬──  
+    �?                           ╰──── The error type is mismatched:
+    wanted: no error
+    has   : Error (implicitly implied by `async`).
+────�?Warning: [0067]
+    ╭─[ D:\Project\moonflow\core\src\server\server.mbt:44:26 ]
+    �? 44 �?  app.get("/api/health", async fn(event) -> &Show {
+    �?                         ──┬──  
+    �?                           ╰──── Warning (unused_async): This `async`
+ annotation is useless.
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\server\server.mbt:44:46 ]
+    �? 44 �?  app.get("/api/health", async fn(event) -> &Show {
+    �?                                             ──┬─  
+    �?                                               ╰─── Expr Type Mismatch
+        has type : &Show
+        wanted   : &@oboard/mocket.Responder
+────�?Error: [4118]
+    ╭─[ D:\Project\moonflow\core\src\server\server.mbt:50:28 ]
+    �? 50 �?  app.post("/api/execute", async fn(event) -> &Show {
+    �?                           ──┬──  
+    �?                             ╰──── The error type is mismatched:
+    wanted: no error
+    has   : Error (implicitly implied by `async`).
+────�?Warning: [0067]
+    ╭─[ D:\Project\moonflow\core\src\server\server.mbt:50:28 ]
+    �? 50 �?  app.post("/api/execute", async fn(event) -> &Show {
+    �?                           ──┬──  
+    �?                             ╰──── Warning (unused_async): This `asyn
+c` annotation is useless.
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\server\server.mbt:50:48 ]
+    �? 50 �?  app.post("/api/execute", async fn(event) -> &Show {
+    �?                                               ──┬─  
+    �?                                                 ╰─── Expr Type Mismat
+ch
+        has type : &Show
+        wanted   : &@oboard/mocket.Responder
+────�?Error: [4118]
+    ╭─[ D:\Project\moonflow\core\src\server\server.mbt:71:29 ]
+    �? 71 �?  app.post("/api/validate", async fn(event) -> &Show {
+    �?                            ──┬──  
+    �?                              ╰──── The error type is mismatched:
+    wanted: no error
+    has   : Error (implicitly implied by `async`).
+────�?Warning: [0067]
+    ╭─[ D:\Project\moonflow\core\src\server\server.mbt:71:29 ]
+    �? 71 �?  app.post("/api/validate", async fn(event) -> &Show {
+    �?                            ──┬──  
+    �?                              ╰──── Warning (unused_async): This `asy
+nc` annotation is useless.
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\server\server.mbt:71:49 ]
+    �? 71 �?  app.post("/api/validate", async fn(event) -> &Show {
+    �?                                                ──┬─  
+    �?                                                  ╰─── Expr Type Misma
+tch
+        has type : &Show
+        wanted   : &@oboard/mocket.Responder
+────�?Error: [4020]
+    ╭─[ D:\Project\moonflow\core\src\server\server.mbt:82:28 ]
+    �? 82 �?          buf.write_string(@utils.escape_json(msg))
+    �?                           ─────────┬────────  
+    �?                                    ╰────────── Package "utils"
+ not found in the loaded packages.
+────�?Error: [4118]
+    ╭─[ D:\Project\moonflow\core\src\server\server.mbt:96:30 ]
+    �? 96 �?  app.post("/api/workflows", async fn(event) -> &Show {
+    �?                             ──┬──  
+    �?                               ╰──── The error type is mismatched:
+    wanted: no error
+    has   : Error (implicitly implied by `async`).
+────�?Warning: [0067]
+    ╭─[ D:\Project\moonflow\core\src\server\server.mbt:96:30 ]
+    �? 96 �?  app.post("/api/workflows", async fn(event) -> &Show {
+    �?                             ──┬──  
+    �?                               ╰──── Warning (unused_async): This `as
+ync` annotation is useless.
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\server\server.mbt:96:50 ]
+    �? 96 �?  app.post("/api/workflows", async fn(event) -> &Show {
+    �?                                                 ──┬─  
+    �?                                                   ╰─── Expr Type Mism
+atch
+        has type : &Show
+        wanted   : &@oboard/mocket.Responder
+────�?Error: [4020]
+     ╭─[ D:\Project\moonflow\core\src\server\server.mbt:105:24 ]
+     �? 105 �?      buf.write_string(@utils.escape_json(wf.name))
+     �?                       ─────────┬────────  
+     �?                                ╰────────── Package "utils" no
+t found in the loaded packages.
+─────�?Error: [4118]
+     ╭─[ D:\Project\moonflow\core\src\server\server.mbt:117:29 ]
+     �? 117 �?  app.get("/api/workflows", async fn(event) -> &Show {
+     �?                            ──┬──  
+     �?                              ╰──── The error type is mismatched:
+    wanted: no error
+    has   : Error (implicitly implied by `async`).
+─────�?Warning: [0067]
+     ╭─[ D:\Project\moonflow\core\src\server\server.mbt:117:29 ]
+     �? 117 �?  app.get("/api/workflows", async fn(event) -> &Show {
+     �?                            ──┬──  
+     �?                              ╰──── Warning (unused_async): This `as
+ync` annotation is useless.
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\server\server.mbt:117:49 ]
+     �? 117 �?  app.get("/api/workflows", async fn(event) -> &Show {
+     �?                                                ──┬─  
+     �?                                                  ╰─── Expr Type Mism
+atch
+        has type : &Show
+        wanted   : &@oboard/mocket.Responder
+─────�?Error: [4020]
+     ╭─[ D:\Project\moonflow\core\src\server\server.mbt:128:24 ]
+     �? 128 �?      buf.write_string(@utils.escape_json(name))
+     �?                       ─────────┬────────  
+     �?                                ╰────────── Package "utils" no
+t found in the loaded packages.
+─────�?Error: [4118]
+     ╭─[ D:\Project\moonflow\core\src\server\server.mbt:138:30 ]
+     �? 138 �?  app.get("/api/components", async fn(event) -> &Show {
+     �?                             ──┬──  
+     �?                               ╰──── The error type is mismatched:
+    wanted: no error
+    has   : Error (implicitly implied by `async`).
+─────�?Warning: [0067]
+     ╭─[ D:\Project\moonflow\core\src\server\server.mbt:138:30 ]
+     �? 138 �?  app.get("/api/components", async fn(event) -> &Show {
+     �?                             ──┬──  
+     �?                               ╰──── Warning (unused_async): This `a
+sync` annotation is useless.
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\server\server.mbt:138:50 ]
+     �? 138 �?  app.get("/api/components", async fn(event) -> &Show {
+     �?                                                 ──┬─  
+     �?                                                   ╰─── Expr Type Mis
+match
+        has type : &Show
+        wanted   : &@oboard/mocket.Responder
+─────�?Error: [4118]
+     ╭─[ D:\Project\moonflow\core\src\server\server.mbt:160:30 ]
+     �? 160 �?  app.get("/api/executions", async fn(event) -> &Show {
+     �?                             ──┬──  
+     �?                               ╰──── The error type is mismatched:
+    wanted: no error
+    has   : Error (implicitly implied by `async`).
+─────�?Warning: [0067]
+     ╭─[ D:\Project\moonflow\core\src\server\server.mbt:160:30 ]
+     �? 160 �?  app.get("/api/executions", async fn(event) -> &Show {
+     �?                             ──┬──  
+     �?                               ╰──── Warning (unused_async): This `a
+sync` annotation is useless.
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\server\server.mbt:160:50 ]
+     �? 160 �?  app.get("/api/executions", async fn(event) -> &Show {
+     �?                                                 ──┬─  
+     �?                                                   ╰─── Expr Type Mis
+match
+        has type : &Show
+        wanted   : &@oboard/mocket.Responder
+─────�?Error: [4118]
+     ╭─[ D:\Project\moonflow\core\src\server\server.mbt:175:24 ]
+     �? 175 �?  app.post("/api/llm", async fn(event) -> &Show {
+     �?                       ──┬──  
+     �?                         ╰──── The error type is mismatched:
+    wanted: no error
+    has   : Error (implicitly implied by `async`).
+─────�?Warning: [0067]
+     ╭─[ D:\Project\moonflow\core\src\server\server.mbt:175:24 ]
+     �? 175 �?  app.post("/api/llm", async fn(event) -> &Show {
+     �?                       ──┬──  
+     �?                         ╰──── Warning (unused_async): This `async` 
+annotation is useless.
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\server\server.mbt:175:44 ]
+     �? 175 �?  app.post("/api/llm", async fn(event) -> &Show {
+     �?                                           ──┬─  
+     �?                                             ╰─── Expr Type Mismatch
+        has type : &Show
+        wanted   : &@oboard/mocket.Responder
+─────�?Error: [4020]
+     ╭─[ D:\Project\moonflow\core\src\server\server.mbt:180:22 ]
+     �? 180 �?    buf.write_string(@utils.escape_json(body))
+     �?                     ─────────┬────────  
+     �?                              ╰────────── Package "utils" not 
+found in the loaded packages.
+─────�?Error: [4015]
+    ╭─[ D:\Project\moonflow\core\src\utils\utils.mbt:47:18 ]
+    �? 47 �?    s.to_array().slice(start, end + 1).iter().fold(init=StringBuild
+er::new(), fn(sb, c) { sb.write_char(c); sb }).to_string()
+    �?                 ──┬──  
+    �?                   ╰──── Type Array[Char] has no method slice.
+────�?Warning: [0013]
+    ╭─[ D:\Project\moonflow\core\src\utils\utils.mbt:47:47 ]
+    �? 47 �?    s.to_array().slice(start, end + 1).iter().fold(init=StringBuild
+er::new(), fn(sb, c) { sb.write_char(c); sb }).to_string()
+    �?                                              ──┬─  
+    �?                                                ╰─── Warning (unresolv
+ed_type_variable): The type of this expression is (StringBuilder, (_/0, _/1) ->
+ _/0) -> _/2, which contains unresolved type variables. The type variable is de
+fault to Unit.
+────�?Error: [4015]
+    ╭─[ D:\Project\moonflow\core\src\utils\utils.mbt:47:94 ]
+    �? 47 �?    s.to_array().slice(start, end + 1).iter().fold(init=StringBuild
+er::new(), fn(sb, c) { sb.write_char(c); sb }).to_string()
+    �?                                                                         
+                    ─────┬────  
+    �?                                                                         
+                         ╰────── Type _/0 has no method write_char.
+────�?Warning: [0006]
+   ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:7:3 ]
+   �? 7 �?  InvalidNodeReference(String)
+   �?  ──────────┬─────────  
+   �?            ╰─────────── Warning (unused_constructor): Variant 
+'InvalidNodeReference' is never constructed
+───�?Warning: [0006]
+   ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:7:3 ]
+   �? 7 �?  SevError
+   �?  ────┬───  
+   �?      ╰───── Warning (unused_constructor): Variant 'SevError' is neve
+r constructed
+───�?Warning: [0020]
+    ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:90:25 ]
+    �? 90 �?    let current = queue.pop_exn()
+    �?                        ───┬───  
+    �?                           ╰───── Warning (deprecated): `pop_exn` is
+ deprecated, use `unsafe_pop` instead
+────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:122:19 ]
+     �? 122 �?    if node.label.is_empty() {
+     �?                  ────┬───  
+     �?                      ╰───── Warning (deprecated): use `x is None` 
+instead
+─────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:145:27 ]
+     �? 145 �?  if workflow.description.is_empty() {
+     �?                          ────┬───  
+     �?                              ╰───── Warning (deprecated): use `x i
+s None` instead
+─────�?Failed with 20 warnings, 29 errors.
+Error: failed to run check for target Native
+
+Caused by:
+    failed when checking project
+

@@ -1,0 +1,159 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "username/moonflow/src/components"
+
+// Values
+pub fn format_component_error(ComponentError) -> String
+
+// Errors
+
+// Types and methods
+pub(all) struct CacheComponent {
+  mut store : Map[String, String]
+  ttl : Int
+}
+pub fn CacheComponent::get(Self, String) -> String?
+pub fn CacheComponent::info() -> ComponentInfo
+pub fn CacheComponent::new(ttl? : Int) -> Self
+pub fn CacheComponent::set(Self, String, String) -> Unit
+
+pub(all) struct CircuitBreakerComponent {
+  mut state : CircuitState
+  failure_threshold : Int
+  mut failure_count : Int
+  reset_timeout_ms : Int
+}
+pub fn CircuitBreakerComponent::info() -> ComponentInfo
+pub fn CircuitBreakerComponent::is_allowed(Self) -> Bool
+pub fn CircuitBreakerComponent::new(failure_threshold? : Int, reset_timeout_ms? : Int) -> Self
+pub fn CircuitBreakerComponent::record_failure(Self) -> Unit
+pub fn CircuitBreakerComponent::record_success(Self) -> Unit
+
+pub(all) enum CircuitState {
+  Closed
+  Open
+  HalfOpen
+} derive(Eq, Show)
+
+pub(all) enum ComponentCategory {
+  CatTrigger
+  CatTool
+  CatAgent
+  CatControl
+} derive(Eq, Show)
+
+pub(all) enum ComponentError {
+  NetworkError(String)
+  AuthenticationError(String)
+  ValidationError(String)
+  ExecutionError(String)
+  TimeoutError
+  RateLimitError
+  UnknownError(String)
+} derive(Show)
+
+pub(all) struct ComponentInfo {
+  name : String
+  version : String
+  description : String
+  category : ComponentCategory
+} derive(Show)
+
+pub(all) struct ComponentInput {
+  data : String
+  params : Map[String, String]
+}
+
+pub(all) struct ComponentOutput {
+  data : String
+  metadata : Map[String, String]
+}
+
+pub(all) struct ComponentRegistry {
+  components : Map[String, ComponentInfo]
+}
+pub fn ComponentRegistry::count(Self) -> Int
+pub fn ComponentRegistry::get(Self, String) -> ComponentInfo?
+pub fn ComponentRegistry::list(Self) -> Array[ComponentInfo]
+pub fn ComponentRegistry::new() -> Self
+pub fn ComponentRegistry::register(Self, ComponentInfo) -> Unit
+
+pub(all) struct EmailComponent {
+  to : String
+  subject : String
+  body : String
+}
+pub fn EmailComponent::execute(Self) -> Result[ComponentOutput, ComponentError]
+pub fn EmailComponent::info() -> ComponentInfo
+pub fn EmailComponent::new(to~ : String, subject? : String, body? : String) -> Self
+
+pub(all) struct FeishuComponent {
+  webhook : String
+  message : String
+  msg_type : String
+}
+pub fn FeishuComponent::execute(Self) -> Result[ComponentOutput, ComponentError]
+pub fn FeishuComponent::info() -> ComponentInfo
+pub fn FeishuComponent::new(webhook~ : String, message? : String, msg_type? : String) -> Self
+
+pub(all) struct FilterComponent {
+  condition : String
+}
+pub fn FilterComponent::execute(Self, ComponentInput) -> Result[ComponentOutput, ComponentError]
+pub fn FilterComponent::info() -> ComponentInfo
+pub fn FilterComponent::new(condition? : String) -> Self
+
+pub(all) struct HttpComponent {
+  base_url : String
+  timeout_ms : Int
+  default_headers : Map[String, String]
+}
+pub fn HttpComponent::execute(Self, ComponentInput) -> Result[ComponentOutput, ComponentError]
+pub fn HttpComponent::info() -> ComponentInfo
+pub fn HttpComponent::new(String) -> Self
+
+pub(all) struct LlmComponent {
+  model : String
+  provider : String
+  prompt : String
+  temperature : Double
+  max_tokens : Int
+}
+pub fn LlmComponent::execute(Self) -> Result[ComponentOutput, ComponentError]
+pub fn LlmComponent::info() -> ComponentInfo
+pub fn LlmComponent::new(model? : String, provider? : String, prompt? : String, temperature? : Double, max_tokens? : Int) -> Self
+
+pub(all) struct RateLimiterComponent {
+  max_requests : Int
+  window_ms : Int
+  mut current_count : Int
+}
+pub fn RateLimiterComponent::allow(Self) -> Bool
+pub fn RateLimiterComponent::info() -> ComponentInfo
+pub fn RateLimiterComponent::new(max_requests? : Int, window_ms? : Int) -> Self
+
+pub(all) struct RetryComponent {
+  max_attempts : Int
+  delay_ms : Int
+  backoff_multiplier : Double
+}
+pub fn RetryComponent::info() -> ComponentInfo
+pub fn RetryComponent::new(max_attempts? : Int, delay_ms? : Int, backoff_multiplier? : Double) -> Self
+
+pub(all) struct RouterComponent {
+  routes : Map[String, String]
+}
+pub fn RouterComponent::add_route(Self, String, String) -> Unit
+pub fn RouterComponent::info() -> ComponentInfo
+pub fn RouterComponent::new() -> Self
+
+pub(all) struct TransformComponent {
+  template : String
+}
+pub fn TransformComponent::execute(Self, ComponentInput) -> Result[ComponentOutput, ComponentError]
+pub fn TransformComponent::info() -> ComponentInfo
+pub fn TransformComponent::new(template? : String) -> Self
+
+// Type aliases
+
+// Traits
+

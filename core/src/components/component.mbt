@@ -1,89 +1,55 @@
-package moonflow_core::components
+///|
+/// MoonFlow Component System
+/// Defines component types, traits, and built-in component implementations.
 
-pub type ComponentResult = Result[ComponentOutput, ComponentError]
-
-pub struct ComponentOutput {
-  data: String
-  metadata: Map[String, String]
+///|
+pub(all) struct ComponentOutput {
+  data : String
+  metadata : Map[String, String]
 }
 
-pub type ComponentError =
-  | NetworkError(String)
-  | AuthenticationError(String)
-  | ValidationError(String)
-  | ExecutionError(String)
-  | TimeoutError
-  | RateLimitError
-  | UnknownError(String)
+///|
+pub(all) enum ComponentError {
+  NetworkError(String)
+  AuthenticationError(String)
+  ValidationError(String)
+  ExecutionError(String)
+  TimeoutError
+  RateLimitError
+  UnknownError(String)
+} derive(Show)
 
-pub trait Component {
-  fn execute(input: ComponentInput, ctx: moonflow_core::runtime::ExecutionContext) -> ComponentResult
-  fn validate(config: Map[String, String]) -> Bool
-  fn get_metadata() -> ComponentMetadata
+///|
+pub(all) struct ComponentInput {
+  data : String
+  params : Map[String, String]
 }
 
-pub struct ComponentInput {
-  data: String
-  params: Map[String, String]
-  secrets: Map[String, String]
-}
+///|
+pub(all) enum ComponentCategory {
+  CatTrigger
+  CatTool
+  CatAgent
+  CatControl
+} derive(Show, Eq)
 
-pub struct ComponentMetadata {
-  name: String
-  version: String
-  description: String
-  category: ComponentCategory
-  inputs: Array[InputSchema]
-  outputs: Array[OutputSchema]
-}
+///|
+pub(all) struct ComponentInfo {
+  name : String
+  version : String
+  description : String
+  category : ComponentCategory
+} derive(Show)
 
-pub enum ComponentCategory {
-  | Trigger
-  | Tool
-  | Agent
-  | Control
-}
-
-pub struct InputSchema {
-  name: String
-  type_: String
-  required: Bool
-  description: String
-}
-
-pub struct OutputSchema {
-  name: String
-  type_: String
-  description: String
-}
-
-pub fn create_component_input(
-  data: String,
-  params: Map[String, String],
-  secrets: Map[String, String]
-) -> ComponentInput {
-  ComponentInput::{ data, params, secrets }
-}
-
-pub fn create_component_output(data: String) -> ComponentOutput {
-  ComponentOutput::{ data, metadata: {} }
-}
-
-pub fn create_component_output_with_metadata(
-  data: String,
-  metadata: Map[String, String]
-) -> ComponentOutput {
-  ComponentOutput::{ data, metadata }
-}
-
-pub fn format_component_error(error: ComponentError) -> String {
-  match error {
-    ComponentError::NetworkError(msg) => "Network error: \{msg}"
-    ComponentError::AuthenticationError(msg) => "Authentication error: \{msg}"
-    ComponentError::ValidationError(msg) => "Validation error: \{msg}"
-    ComponentError::ExecutionError(msg) => "Execution error: \{msg}"
-    ComponentError::TimeoutError => "Request timeout"
-    ComponentError::RateLimitError => "Rate limit exceeded"
-    ComponentError::UnknownError(msg) => "Unknown error: \{msg}"
+///|
+pub fn format_component_error(err : ComponentError) -> String {
+  match err {
+    NetworkError(msg) => "Network error: " + msg
+    AuthenticationError(msg) => "Auth error: " + msg
+    ValidationError(msg) => "Validation error: " + msg
+    ExecutionError(msg) => "Execution error: " + msg
+    TimeoutError => "Timeout error"
+    RateLimitError => "Rate limit exceeded"
+    UnknownError(msg) => "Unknown error: " + msg
   }
 }

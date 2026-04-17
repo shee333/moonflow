@@ -1,103 +1,69 @@
-package moonflow_core::components
+///|
+/// Circuit breaker component.
 
-pub struct CircuitBreakerComponent
+///|
+pub(all) enum CircuitState {
+  Closed
+  Open
+  HalfOpen
+} derive(Show, Eq)
 
-pub enum CircuitState {
-  | Closed
-  | Open
-  | HalfOpen
+///|
+pub(all) struct CircuitBreakerComponent {
+  mut state : CircuitState
+  failure_threshold : Int
+  mut failure_count : Int
+  reset_timeout_ms : Int
 }
 
-pub struct CircuitBreakerConfig {
-  failure_threshold: Int
-  success_threshold: Int
-  timeout_ms: Int
-  half_open_max_calls: Int
-}
-
-pub fn create_circuit_breaker_component() -> CircuitBreakerComponent {
-  CircuitBreakerComponent
-}
-
-pub fn create_circuit_breaker_config(failure_threshold: Int) -> CircuitBreakerConfig {
-  CircuitBreakerConfig::{
+///|
+pub fn CircuitBreakerComponent::new(
+  failure_threshold? : Int = 5,
+  reset_timeout_ms? : Int = 30000,
+) -> CircuitBreakerComponent {
+  CircuitBreakerComponent::{
+    state: Closed,
     failure_threshold,
-    success_threshold: 2,
-    timeout_ms: 60000,
-    half_open_max_calls: 3,
+    failure_count: 0,
+    reset_timeout_ms,
   }
 }
 
-fn execute_circuit_breaker_operation(state: String, operation: String) -> ComponentResult {
-  let metadata: Map[String, String] = {}
-  metadata["state"] = state
-  metadata["status"] = "protected"
-
-  let allowed = is_operation_allowed(state)
-  metadata["allowed"] = allowed.to_string()
-
-  let response = "Circuit breaker '\{state}' protecting '\{operation}'"
-  Ok(create_component_output_with_metadata(response, metadata))
-}
-
-fn is_operation_allowed(state: String) -> Bool {
-  match state {
-    "closed" => true
-    "open" => false
-    "half_open" => true
-    _ => false
+///|
+pub fn CircuitBreakerComponent::is_allowed(
+  self : CircuitBreakerComponent,
+) -> Bool {
+  match self.state {
+    Closed => true
+    HalfOpen => true
+    Open => false
   }
 }
 
-fn is_valid_circuit_state(state: String) -> Bool {
-  state == "closed" || state == "open" || state == "half_open"
+///|
+pub fn CircuitBreakerComponent::record_success(
+  self : CircuitBreakerComponent,
+) -> Unit {
+  self.failure_count = 0
+  self.state = Closed
 }
 
-pub fn create_circuit_breaker_config_with_timeout(
-  failure_threshold: Int,
-  timeout_ms: Int
-) -> CircuitBreakerConfig {
-  CircuitBreakerConfig::{
-    failure_threshold,
-    success_threshold: 2,
-    timeout_ms,
-    half_open_max_calls: 3,
+///|
+pub fn CircuitBreakerComponent::record_failure(
+  self : CircuitBreakerComponent,
+) -> Unit {
+  self.failure_count = self.failure_count + 1
+  if self.failure_count >= self.failure_threshold {
+    self.state = Open
   }
 }
 
-impl Component for CircuitBreakerComponent {
-  fn execute(input: ComponentInput, ctx: moonflow_core::runtime::ExecutionContext) -> ComponentResult {
-    let state = input.params.get_or("state", "closed")
-    let operation = input.data
-
-    if operation == "" {
-      return Err(ComponentError::ValidationError("Operation is required"))
-    }
-
-    execute_circuit_breaker_operation(state, operation)
-  }
-
-  fn validate(config: Map[String, String]) -> Bool {
-    match config["state"] {
-      Some(s) => is_valid_circuit_state(s)
-      None => true
-    }
-  }
-
-  fn get_metadata() -> ComponentMetadata {
-    ComponentMetadata::{
-      name: "circuit_breaker",
-      version: "1.0.0",
-      description: "Circuit breaker component with closed, open, half_open states",
-      category: ComponentCategory::Flow,
-      inputs: [
-        InputSchema::{ name: "state", type_: "string", required: true, description: "Circuit state: closed/open/half_open" },
-        InputSchema::{ name: "operation", type_: "string", required: true, description: "Operation to protect" },
-      ],
-      outputs: [
-        OutputSchema::{ name: "allowed", type_: "boolean", description: "Whether operation is allowed" },
-        OutputSchema::{ name: "state", type_: "string", description: "Current circuit state" },
-      ],
-    }
+///|
+pub fn CircuitBreakerComponent::info() -> ComponentInfo {
+  ComponentInfo::{
+    name: "circuit_breaker",
+    version: "1.0.0",
+    description: "Circuit breaker pattern component",
+    category: CatTool,
   }
 }

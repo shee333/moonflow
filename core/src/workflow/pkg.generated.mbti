@@ -1,0 +1,175 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "username/moonflow/src/workflow"
+
+// Values
+pub fn create_edge(from~ : String, to~ : String, label? : String?, condition? : String?) -> Edge
+
+pub fn create_node(id~ : String, node_type~ : NodeType, label? : String?) -> Node
+
+pub fn create_workflow(name~ : String, nodes~ : Array[Node], edges~ : Array[Edge], version? : String, description? : String?) -> Workflow
+
+pub fn format_node_type(NodeType) -> String
+
+pub fn format_validation_error(ValidationError) -> String
+
+pub fn get_execution_order(Workflow) -> Array[String]
+
+pub fn has_cycle(Workflow) -> Bool
+
+pub fn parse_workflow_json(String) -> Workflow raise ParseError
+
+pub fn serialize_workflow_to_json(Workflow) -> String
+
+pub fn validate_workflow(Workflow) -> Result[Unit, ValidationError]
+
+pub fn validate_workflow_completeness(Workflow) -> Array[WorkflowIssue]
+
+// Errors
+pub suberror ParseError {
+  ParseError(String)
+}
+pub fn ParseError::to_string(Self) -> String
+
+// Types and methods
+pub(all) enum AgentType {
+  LLM
+  IntentClassify
+} derive(Eq, Show)
+
+pub(all) struct ApprovalConfig {
+  required : Bool
+  approvers : Array[String]?
+  timeout : Int?
+  message : String?
+  auto_reject_if_timeout : Bool?
+  min_approvals : Int?
+}
+
+pub(all) enum ControlType {
+  Condition
+  Parallel
+  Loop
+  End
+} derive(Eq, Show)
+
+pub(all) struct Edge {
+  from : String
+  to : String
+  label : String?
+  condition : String?
+  data_mapping : Map[String, String]?
+}
+
+pub(all) enum EndStatus {
+  Success
+  Failure
+} derive(Eq, Show)
+
+pub(all) struct IsolationConfig {
+  mode : String
+  timeout : Int?
+  memory_limit : Int?
+  network : Bool?
+  filesystem : String?
+}
+
+pub(all) enum JoinType {
+  All
+  Any
+  N
+} derive(Eq, Show)
+
+pub(all) struct Node {
+  id : String
+  node_type : NodeType
+  label : String?
+  config : Map[String, String]
+  timeout : Int?
+  retry : RetryConfig?
+  condition : String?
+  isolation : IsolationConfig?
+  approval : ApprovalConfig?
+}
+
+pub(all) struct NodeMetadata {
+  author : String?
+  version : String?
+  tags : Array[String]?
+}
+
+pub(all) enum NodeType {
+  Trigger
+  Tool
+  Agent
+  Control
+} derive(Eq, Show)
+
+pub(all) struct RetryConfig {
+  max_attempts : Int
+  strategy : RetryStrategy
+  initial_delay : Int
+} derive(Show)
+
+pub(all) enum RetryStrategy {
+  ExponentialBackoff
+  Linear
+  Fixed
+} derive(Eq, Show)
+
+pub enum Severity {
+  SevWarning
+  SevError
+  SevInfo
+}
+
+pub(all) enum ToolType {
+  HttpGet
+  HttpPost
+  Email
+  Feishu
+  FileRead
+  FileWrite
+  FileDelete
+} derive(Eq, Show)
+
+pub(all) enum TriggerType {
+  Timer
+  Webhook
+  Manual
+} derive(Eq, Show)
+
+pub enum ValidationError {
+  DuplicateNodeId(String)
+  InvalidNodeReference(String)
+  InvalidEdgeReference(String)
+  CycleDetected(Array[String])
+  MissingRequiredField(String, String)
+  InvalidNodeType(String)
+} derive(Show)
+
+pub(all) struct Workflow {
+  version : String
+  name : String
+  description : String?
+  metadata : NodeMetadata?
+  nodes : Array[Node]
+  edges : Array[Edge]
+  config : WorkflowConfig?
+}
+
+pub(all) struct WorkflowConfig {
+  timeout : Int?
+  retry : RetryConfig?
+  concurrency : Int?
+}
+
+pub struct WorkflowIssue {
+  severity : Severity
+  message : String
+  node_id : String?
+}
+
+// Type aliases
+
+// Traits
+

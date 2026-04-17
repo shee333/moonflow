@@ -1,197 +1,188 @@
-package moonflow_server
+///|
+/// MoonFlow HTTP REST API server using mocket framework.
 
-import oboard/mocket as mocket
-import moonflow_core::runtime
-import moonflow_core::workflow
+///|
+let workflows : Map[String, String] = {}
 
-pub fn start_server~(port~ : Int = 8080) -> Unit {
-  let app = mocket.new()
+///|
+let executions : Array[String] = []
 
-  app.get("/health", fn(_) {
-    mocket.json({
-      "status" => "ok",
-      "service" => "moonflow",
-      "version" => "0.1.0"
-    })
+///|
+fn cors_json(event : @mocket.MocketEvent) -> Unit {
+  event.res.headers["Content-Type"] = "application/json"
+  event.res.headers["Access-Control-Allow-Origin"] = "*"
+  event.res.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
+  event.res.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+}
+
+///|
+fn get_body(event : @mocket.MocketEvent) -> String {
+  event.req.raw_body.to_unchecked_string()
+}
+
+///|
+fn build_json_err(msg : String) -> String {
+  let buf = StringBuilder::new()
+  buf.write_string("{\"success\":false,\"error\":\"")
+  buf.write_string(@utils.escape_json(msg))
+  buf.write_string("\"}")
+  buf.to_string()
+}
+
+///|
+pub fn start_server(port? : Int = 8080) -> Unit {
+  let app = @mocket.new()
+
+  // CORS preflight
+  app.options("/*", event => {
+    cors_json(event)
+    event.res.status_code = @mocket.OK
+    ""
   })
 
-  app.post("/execute", fn(ctx) {
-    match ctx.body() {
-      Some(body) => {
-        match parse_workflow_request(body) {
-          Ok(workflow) => {
-            match runtime::execute_workflow(workflow) {
-              Ok(result) => {
-                mocket.json(serialize_execution_result(result))
-              }
-              Err(e) => {
-                mocket.json({
-                  "error" => serialize_execution_error(e),
-                  "success" => false
-                })
-              }
-            }
-          }
-          Err(msg) => {
-            mocket.json({
-              "error" => msg,
-              "success" => false
-            })
-          }
+  // Health check
+  app.get("/api/health", event => {
+    cors_json(event)
+    "{\"status\":\"ok\",\"engine\":\"moonflow\",\"version\":\"0.1.0\"}"
+  })
+
+  // Execute workflow
+  app.post("/api/execute", event => {
+    cors_json(event)
+    let body = get_body(event)
+    try {
+      let wf = @workflow.parse_workflow_json(body)
+      match @runtime.execute_workflow(wf) {
+        Ok(exec) => @runtime.serialize_execution_to_json(exec)
+        Err(e) => {
+          event.res.status_code = @mocket.InternalServerError
+          build_json_err(e)
         }
       }
-      None => {
-        mocket.json({
-          "error" => "Missing request body",
-          "success" => false
-        })
+    } catch {
+      e => {
+        event.res.status_code = @mocket.BadRequest
+        build_json_err(e.to_string())
       }
     }
   })
 
-  app.post("/llm", fn(ctx) {
-    match ctx.body() {
-      Some(body) => {
-        match parse_llm_request(body) {
-          Ok(req) => {
-            let response = call_llm(req)
-            mocket.json(serialize_llm_response(response))
-          }
-          Err(msg) => {
-            mocket.json({
-              "error" => msg,
-              "success" => false
-            })
-          }
+  // Validate workflow
+  app.post("/api/validate", event => {
+    cors_json(event)
+    let body = get_body(event)
+    try {
+      let wf = @workflow.parse_workflow_json(body)
+      match @workflow.validate_workflow(wf) {
+        Ok(_) => "{\"valid\":true}"
+        Err(e) => {
+          let msg = @workflow.format_validation_error(e)
+          let buf = StringBuilder::new()
+          buf.write_string("{\"valid\":false,\"error\":\"")
+          buf.write_string(@utils.escape_json(msg))
+          buf.write_string("\"}")
+          buf.to_string()
         }
       }
-      None => {
-        mocket.json({
-          "error" => "Missing request body",
-          "success" => false
-        })
+    } catch {
+      e => {
+        event.res.status_code = @mocket.BadRequest
+        build_json_err(e.to_string())
       }
     }
   })
 
-  println("===========================================")
-  println("  MoonFlow Server")
-  println("  AI Workflow Engine in MoonBit")
-  println("===========================================")
-  println("")
-  println("Server starting on port {port}...")
-  println("API endpoints:")
-  println("  GET  /health          - Health check")
-  println("  POST /execute         - Execute workflow")
-  println("  POST /llm             - LLM inference")
-  println("")
-  println("===========================================")
-
-  app.serve(port=port)
-}
-
-fn parse_workflow_request(body: String) -> Result[workflow::Workflow, String] {
-  match parse_json_workflow(body) {
-    Ok(w) => Ok(w)
-    Err(e) => Err("Failed to parse workflow: \{e}")
-  }
-}
-
-fn parse_llm_request(body: String) -> Result[LLMRequest, String] {
-  match parse_json_llm_request(body) {
-    Ok(r) => Ok(r)
-    Err(e) => Err("Failed to parse LLM request: \{e}")
-  }
-}
-
-pub struct LLMRequest {
-  model: String
-  prompt: String
-  temperature: Double
-  max_tokens: Int
-}
-
-pub struct LLMResponse {
-  content: String
-  model: String
-  usage: LLMUsage
-  finish_reason: String
-}
-
-pub struct LLMUsage {
-  prompt_tokens: Int
-  completion_tokens: Int
-  total_tokens: Int
-}
-
-fn call_llm(req: LLMRequest) -> LLMResponse {
-  LLMResponse::{
-    content: "Mock LLM response for: \{req.prompt}",
-    model: req.model,
-    usage: LLMUsage::{
-      prompt_tokens: 10,
-      completion_tokens: 20,
-      total_tokens: 30,
-    },
-    finish_reason: "stop",
-  }
-}
-
-fn serialize_execution_result(result: runtime::WorkflowExecution) -> Map[String, String] {
-  let output: Map[String, String] = {}
-  output["execution_id"] = result.execution_id
-  output["status"] = serialize_status(result.status)
-  output["duration_ms"] = result.duration_ms.to_string()
-  output["success"] = "true"
-  output
-}
-
-fn serialize_status(status: runtime::WorkflowStatus) -> String {
-  match status {
-    runtime::WorkflowStatus::Pending => "pending"
-    runtime::WorkflowStatus::Running => "running"
-    runtime::WorkflowStatus::Completed => "completed"
-    runtime::WorkflowStatus::Failed => "failed"
-    runtime::WorkflowStatus::Cancelled => "cancelled"
-  }
-}
-
-fn serialize_execution_error(err: runtime::WorkflowError) -> String {
-  match err {
-    runtime::WorkflowError::ValidationFailed(msg) => "Validation failed: \{msg}"
-    runtime::WorkflowError::ExecutionFailed(msg) => "Execution failed: \{msg}"
-    runtime::WorkflowError::Timeout => "Execution timeout"
-    runtime::WorkflowError::Cancelled => "Execution cancelled"
-  }
-}
-
-fn serialize_llm_response(response: LLMResponse) -> Map[String, String] {
-  let output: Map[String, String] = {}
-  output["content"] = response.content
-  output["model"] = response.model
-  output["finish_reason"] = response.finish_reason
-  output["success"] = "true"
-  output
-}
-
-fn parse_json_workflow(body: String) -> Result[workflow::Workflow, String] {
-  Ok(workflow::Workflow::{
-    name: "api-workflow",
-    nodes: [],
-    edges: [],
-    config: None,
+  // Save workflow
+  app.post("/api/workflows", event => {
+    cors_json(event)
+    let body = get_body(event)
+    try {
+      let wf = @workflow.parse_workflow_json(body)
+      let json_str = @workflow.serialize_workflow_to_json(wf)
+      workflows[wf.name] = json_str
+      let buf = StringBuilder::new()
+      buf.write_string("{\"success\":true,\"name\":\"")
+      buf.write_string(@utils.escape_json(wf.name))
+      buf.write_string("\"}")
+      buf.to_string()
+    } catch {
+      e => {
+        event.res.status_code = @mocket.BadRequest
+        build_json_err(e.to_string())
+      }
+    }
   })
-}
 
-fn parse_json_llm_request(body: String) -> Result[LLMRequest, String] {
-  Ok(LLMRequest::{
-    model: "mock-model",
-    prompt: body,
-    temperature: 0.7,
-    max_tokens: 100,
+  // List workflows
+  app.get("/api/workflows", event => {
+    cors_json(event)
+    let buf = StringBuilder::new()
+    buf.write_string("{\"workflows\":[")
+    let mut first = true
+    for name, json_str in workflows {
+      if !first {
+        buf.write_string(",")
+      }
+      first = false
+      buf.write_string("{\"name\":\"")
+      buf.write_string(@utils.escape_json(name))
+      buf.write_string("\",\"data\":")
+      buf.write_string(json_str)
+      buf.write_string("}")
+    }
+    buf.write_string("]}")
+    buf.to_string()
   })
-}
 
-pub fn main {
-  start_server(port=8080)
+  // List components
+  app.get("/api/components", event => {
+    cors_json(event)
+    let buf = StringBuilder::new()
+    buf.write_string("{\"components\":[")
+    let names = [
+      "http", "llm", "email", "feishu", "filter", "transform", "cache", "retry",
+      "rate_limiter", "circuit_breaker", "router",
+    ]
+    for i, name in names {
+      if i > 0 {
+        buf.write_string(",")
+      }
+      buf.write_string("{\"name\":\"")
+      buf.write_string(name)
+      buf.write_string("\",\"category\":\"builtin\"}")
+    }
+    buf.write_string("]}")
+    buf.to_string()
+  })
+
+  // List executions
+  app.get("/api/executions", event => {
+    cors_json(event)
+    let buf = StringBuilder::new()
+    buf.write_string("{\"executions\":[")
+    for i, exec_json in executions {
+      if i > 0 {
+        buf.write_string(",")
+      }
+      buf.write_string(exec_json)
+    }
+    buf.write_string("]}")
+    buf.to_string()
+  })
+
+  // LLM proxy
+  app.post("/api/llm", event => {
+    cors_json(event)
+    let body = get_body(event)
+    let buf = StringBuilder::new()
+    buf.write_string(
+      "{\"success\":true,\"response\":{\"content\":\"LLM proxy received: ",
+    )
+    buf.write_string(@utils.escape_json(body))
+    buf.write_string("\",\"model\":\"stub\",\"tokens\":0}}")
+    buf.to_string()
+  })
+
+  println("MoonFlow server starting on port " + port.to_string())
+  app.serve(port~)
 }

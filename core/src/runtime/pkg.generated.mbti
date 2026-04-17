@@ -1,0 +1,110 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "username/moonflow/src/runtime"
+
+import {
+  "username/moonflow/src/workflow",
+}
+
+// Values
+pub fn execute_node(@workflow.Node, ExecutionContext) -> NodeResult
+
+pub fn execute_workflow(@workflow.Workflow) -> Result[WorkflowExecution, String]
+
+pub fn format_log_level(LogLevel) -> String
+
+pub fn format_node_status(NodeStatus) -> String
+
+pub fn format_workflow_status(WorkflowStatus) -> String
+
+pub fn serialize_error_to_json(String) -> String
+
+pub fn serialize_execution_to_json(WorkflowExecution) -> String
+
+pub fn value_to_string(Value) -> String
+
+// Errors
+
+// Types and methods
+pub(all) struct ExecutionContext {
+  data : Map[String, Value]
+  metadata : ExecutionMetadata
+}
+pub fn ExecutionContext::add_log(Self, LogLevel, String, String?) -> Unit
+pub fn ExecutionContext::get_node_result(Self, String) -> NodeResult?
+pub fn ExecutionContext::get_value(Self, String) -> Value?
+pub fn ExecutionContext::new(String) -> Self
+pub fn ExecutionContext::set_node_result(Self, String, NodeResult) -> Unit
+pub fn ExecutionContext::set_value(Self, String, Value) -> Unit
+
+pub(all) struct ExecutionMetadata {
+  workflow_name : String
+  start_time : Int
+  end_time : Int
+  node_results : Map[String, NodeResult]
+  logs : Array[LogEntry]
+}
+
+pub(all) struct LogEntry {
+  level : LogLevel
+  message : String
+  node_id : String?
+  timestamp : Int
+}
+
+pub(all) enum LogLevel {
+  Debug
+  Info
+  Warning
+  Error
+} derive(Eq, Show)
+
+pub(all) struct NodeResult {
+  node_id : String
+  mut status : NodeStatus
+  output : Map[String, Value]
+  error_msg : String?
+  duration_ms : Int
+} derive(Show)
+
+pub(all) enum NodeStatus {
+  Pending
+  Running
+  Success
+  Failure
+  Skipped
+} derive(Eq, Show)
+
+pub(all) struct SchedulerConfig {
+  max_parallel : Int
+  timeout_ms : Int
+}
+pub fn SchedulerConfig::default() -> Self
+
+pub(all) enum Value {
+  ValString(String)
+  ValNumber(Double)
+  ValBool(Bool)
+  ValNull
+} derive(Eq, Show)
+
+pub(all) struct WorkflowExecution {
+  execution_id : String
+  workflow_id : String?
+  mut status : WorkflowStatus
+  duration_ms : Int
+  node_results : Map[String, NodeResult]
+  mut error : String?
+}
+
+pub(all) enum WorkflowStatus {
+  WfPending
+  WfRunning
+  WfCompleted
+  WfFailed
+  WfCancelled
+} derive(Eq, Show)
+
+// Type aliases
+
+// Traits
+

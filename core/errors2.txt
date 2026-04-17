@@ -1,0 +1,816 @@
+moon : Warning: Duplicate alias `server` at "D:\Project\moonflow\core\cmd\serve
+r\moon.pkg.json". "test-import" will automatically add "import" and current pac
+kage as dependency so you don't need to add it manually. If you're test-importi
+ng a dependency with the same default alias as your current package, considerin
+g give it a different alias than the current package. Violating import: `userna
+me/moonflow/src/server`
+����λ�� ��:1 �ַ�: 1
++ moon check --target native 2>&1 | Out-String | Set-Content errors2.tx ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Warning: Duplic...low/src/server` 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+failed: C:\Users\1\.moon\bin\moonc.exe check -error-format json D:\Project\moonflow\core\src\workflow\parser.mbt D:\Project\moonflow\core\src\workflow\types.mbt D:\Project\moonflow\core\src\workflow\validator.mbt D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt -o D:\Project\moonflow\core\_build\native\debug\check\src\workflow\workflow.mi -pkg username/moonflow/src/workflow -std-path C:\Users\1\.moon\lib\core\_build\native\release\bundle -i C:\Users\1\.moon\lib\core\_build\native\release\bundle\json\json.mi:json -i C:\Users\1\.moon\lib\core\_build\native\release\bundle\prelude\prelude.mi:prelude -pkg-sources username/moonflow/src/workflow:D:\Project\moonflow\core\src\workflow -target native -workspace-path D:\Project\moonflow\core -all-pkgs D:\Project\moonflow\core\_build\native\debug\check\all_pkgs.json
+Error: [4074] Missing type annotation for the parameter .
+Warning: [0009]
+    ╭─[ D:\Project\moonflow\core\src\http\client.mbt:13:12 ]
+    �? 13 �?pub struct HttpRequest {
+    �?           ─────┬─────  
+    �?                ╰─────── Warning (struct_never_constructed): The s
+truct HttpRequest is never constructed
+────�?Warning: [0020]
+    ╭─[ D:\Project\moonflow\core\src\utils\utils.mbt:47:7 ]
+    �? 47 �?    s.substring(start~, end=end + 1)
+    �?      ────┬────  
+    �?          ╰────── Warning (deprecated): Use `str[:]` or `str[:].to_
+string()` instead
+────�?Warning: [0027]
+   ╭─[ D:\Project\moonflow\core\src\workflow\parser.mbt:6:11 ]
+   �? 6 �?pub type! ParseError String
+   �?          ─────┬────  
+   �?               ╰────── Warning (deprecated_syntax): The syntax `type
+! A` for declaring suberror type is deprecated. Use `suberror A` instead.
+───�?Warning: [0027]
+   ╭─[ D:\Project\moonflow\core\src\workflow\parser.mbt:6:22 ]
+   �? 6 �?pub type! ParseError String
+   �?                     ───┬──  
+   �?                        ╰──── Warning (deprecated_syntax): The syntax 
+`suberror E T` for declaring suberror type is deprecated. Use `suberror E { E(T
+) }` instead.
+───�?Warning: [0021]
+    ╭─[ D:\Project\moonflow\core\src\workflow\parser.mbt:51:10 ]
+    �? 51 �?    Some(Json::Number(n)) => Some(n.to_int())
+    �?         ───────┬───────  
+    �?                ╰───────── Warning (missing_pattern_arguments): 
+The argument(s) repr of constructor Number are omitted (To ignore them, add "..
+" to the end of argument list).
+────�?Warning: [0002]
+     ╭─[ D:\Project\moonflow\core\src\workflow\parser.mbt:124:7 ]
+     �? 124 �?  let config_map = parse_with_map(json.get("with"))
+     �?      ─────┬────  
+     �?           ╰────── Warning (unused_value): Unused variable 'config
+_map'
+─────�?Error: [3002]
+     ╭─[ D:\Project\moonflow\core\src\workflow\parser.mbt:134:5 ]
+     �? 134 �?    with: config_map,
+     �?    ──┬─  
+     �?      ╰─── Parse error, unexpected token `with`, you may expect id (l
+owercase start).
+─────�?Error: [4091]
+     ╭─[ D:\Project\moonflow\core\src\workflow\parser.mbt:134:5 ]
+     �? 134 �?    with: config_map,
+     �?    ──┬─  
+     �?      ╰─── The fields  is not defined in the record type Node.
+─────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\parser.mbt:145:15 ]
+     �? 145 �?  if type_str.starts_with("trigger") {
+     �?              ─────┬─────  
+     �?                   ╰─────── Warning (deprecated): `starts_with` i
+s deprecated, use `has_prefix` instead
+─────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\parser.mbt:147:22 ]
+     �? 147 �?  } else if type_str.starts_with("tool") {
+     �?                     ─────┬─────  
+     �?                          ╰─────── Warning (deprecated): `starts_
+with` is deprecated, use `has_prefix` instead
+─────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\parser.mbt:149:22 ]
+     �? 149 �?  } else if type_str.starts_with("agent") {
+     �?                     ─────┬─────  
+     �?                          ╰─────── Warning (deprecated): `starts_
+with` is deprecated, use `has_prefix` instead
+─────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\parser.mbt:151:22 ]
+     �? 151 �?  } else if type_str.starts_with("control") {
+     �?                     ─────┬─────  
+     �?                          ╰─────── Warning (deprecated): `starts_
+with` is deprecated, use `has_prefix` instead
+─────�?Warning: [0021]
+     ╭─[ D:\Project\moonflow\core\src\workflow\parser.mbt:171:7 ]
+     �? 171 �?      Json::Number(n) => result[k] = n.to_string()
+     �?      ───────┬───────  
+     �?             ╰───────── Warning (missing_pattern_arguments): Th
+e argument(s) repr of constructor Number are omitted (To ignore them, add ".." 
+to the end of argument list).
+─────�?Error: [4021]
+     ╭─[ D:\Project\moonflow\core\src\workflow\parser.mbt:187:58 ]
+     �? 187 �?    Some("exponential_backoff") | Some("exponential") => Exponent
+ialBackoff
+     �?                                                         ───────�
+�─┬────────  
+     �?                                                                  ╰──�
+�─────── The value identifier ExponentialBackoff is unbound.
+─────�?Error: [4021]
+     ╭─[ D:\Project\moonflow\core\src\workflow\parser.mbt:188:23 ]
+     �? 188 �?    Some("linear") => Linear
+     �?                      ───┬──  
+     �?                         ╰──── The value identifier Linear is unboun
+d.
+─────�?Error: [4021]
+     ╭─[ D:\Project\moonflow\core\src\workflow\parser.mbt:189:22 ]
+     �? 189 �?    Some("fixed") => Fixed
+     �?                     ──┬──  
+     �?                       ╰──── The value identifier Fixed is unbound.
+─────�?Error: [4021]
+     ╭─[ D:\Project\moonflow\core\src\workflow\parser.mbt:190:10 ]
+     �? 190 �?    _ => ExponentialBackoff
+     �?         ─────────┬────────  
+     �?                  ╰────────── The value identifier Exponential
+Backoff is unbound.
+─────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\parser.mbt:271:13 ]
+     �? 271 �?  if result.size() > 0 {
+     �?            ──┬─  
+     �?              ╰─── Warning (deprecated): `size` is deprecated, use `l
+ength` instead
+─────�?Error: [4041]
+   ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:2:3 ]
+   �? 2 �?╭─�?  | Trigger
+   �?�?  
+ 5 �?├─�?  | Control
+   �?�?                
+   �?╰───────────────── Partial type is not allowed in topleve
+l declarations.
+───�?Error: [3002]
+   ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:8:3 ]
+   �? 8 �?  | Timer
+   �?  �? 
+   �?  ╰── Parse error, unexpected token `|`, you may expect type.
+───�?Error: [4041]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:8:3 ]
+    �?  8 �?╭─�?  | Timer
+    �?�?  
+ 10 �?├─�?  | Manual
+    �?�?               
+    �?╰──────────────── Partial type is not allowed in toplevel
+ declarations.
+────�?Error: [3002]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:13:3 ]
+    �? 13 �?  | HttpGet
+    �?  �? 
+    �?  ╰── Parse error, unexpected token `|`, you may expect type.
+────�?Error: [4041]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:13:3 ]
+    �? 13 �?╭─�?  | HttpGet
+    �?�?  
+ 19 �?├─�?  | FileDelete
+    �?�?                   
+    �?╰──────────────────── Partial type is not allowed in 
+toplevel declarations.
+────�?Error: [3002]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:22:3 ]
+    �? 22 �?  | LLM
+    �?  �? 
+    �?  ╰── Parse error, unexpected token `|`, you may expect type.
+────�?Error: [4041]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:22:3 ]
+    �? 22 �?╭─�?  | LLM
+ 23 �?├─�?  | IntentClassify
+    �?�?                       
+    �?╰──────────────────────── Partial type is not all
+owed in toplevel declarations.
+────�?Error: [3002]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:26:3 ]
+    �? 26 �?  | Condition
+    �?  �? 
+    �?  ╰── Parse error, unexpected token `|`, you may expect type.
+────�?Error: [4041]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:26:3 ]
+    �? 26 �?╭─�?  | Condition
+    �?�?  
+ 29 �?├─�?  | End
+    �?�?            
+    �?╰───────────── Partial type is not allowed in toplevel decla
+rations.
+────�?Error: [3002]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:32:3 ]
+    �? 32 �?  | ExponentialBackoff
+    �?  �? 
+    �?  ╰── Parse error, unexpected token `|`, you may expect type.
+────�?Error: [4041]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:32:3 ]
+    �? 32 �?╭─�?  | ExponentialBackoff
+    �?�?  
+ 34 �?├─�?  | Fixed
+    �?�?              
+    �?╰─────────────── Partial type is not allowed in toplevel d
+eclarations.
+────�?Error: [3002]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:37:3 ]
+    �? 37 �?  | All
+    �?  �? 
+    �?  ╰── Parse error, unexpected token `|`, you may expect type.
+────�?Error: [4041]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:37:3 ]
+    �? 37 �?╭─�?  | All
+    �?�?  
+ 39 �?├─�?  | N
+    �?�?          
+    �?╰─────────── Partial type is not allowed in toplevel declarati
+ons.
+────�?Error: [3002]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:42:3 ]
+    �? 42 �?  | Success
+    �?  �? 
+    �?  ╰── Parse error, unexpected token `|`, you may expect type.
+────�?Error: [4041]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:42:3 ]
+    �? 42 �?╭─�?  | Success
+ 43 �?├─�?  | Failure
+    �?�?                
+    �?╰───────────────── Partial type is not allowed in toplev
+el declarations.
+────�?Error: [3002]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:61:3 ]
+    �? 61 �?  with: Map[String, String]
+    �?  ──┬─  
+    �?    ╰─── Parse error, unexpected token `with`, you may expect `;` or `
+}`.
+────�?Error: [3002]
+   ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:2:3 ]
+   �? 2 �?  | DuplicateNodeId(String)
+   �?  �? 
+   �?  ╰── Parse error, unexpected token `|`, you may expect type.
+───�?Error: [4041]
+   ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:2:3 ]
+   �? 2 �?╭─�?  | DuplicateNodeId(String)
+   �?�?  
+ 7 �?├─�?  | InvalidNodeType(String)
+   �?�?                                
+   �?╰───────────────────────────────── Partia
+l type is not allowed in toplevel declarations.
+───�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:42:7 ]
+    �? 42 �?      Some(_) => return Err(ValidationError::DuplicateNodeId(node.i
+d))
+    �?      ───┬───  
+    �?         ╰───── Constr Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : Bool
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:43:7 ]
+    �? 43 �?      None => { seen_ids[node.id] = true }
+    �?      ──┬─  
+    �?        ╰─── Constr Type Mismatch(constructor None)
+        has type : _/0?
+        wanted   : Bool
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:57:7 ]
+    �? 57 �?      Some(_) => ()
+    �?      ───┬───  
+    �?         ╰───── Constr Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : Bool
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:58:7 ]
+    �? 58 �?      None => return Err(ValidationError::InvalidEdgeReference(edge
+.from))
+    �?      ──┬─  
+    �?        ╰─── Constr Type Mismatch(constructor None)
+        has type : _/0?
+        wanted   : Bool
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:61:7 ]
+    �? 61 �?      Some(_) => ()
+    �?      ───┬───  
+    �?         ╰───── Constr Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : Bool
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:62:7 ]
+    �? 62 �?      None => return Err(ValidationError::InvalidEdgeReference(edge
+.to))
+    �?      ──┬─  
+    �?        ╰─── Constr Type Mismatch(constructor None)
+        has type : _/0?
+        wanted   : Bool
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:72:12 ]
+    �? 72 �?        if not is_valid_trigger_node(node) {
+    �?           ─┬─  
+    �?            ╰─── Expr Type Mismatch
+        has type : (Bool) -> Bool
+        wanted   : Bool
+────�?Warning: [0020]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:72:12 ]
+    �? 72 �?        if not is_valid_trigger_node(node) {
+    �?           ─┬─  
+    �?            ╰─── Warning (deprecated): Use !expr instead
+────�?Error: [3002]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:72:16 ]
+    �? 72 �?        if not is_valid_trigger_node(node) {
+    �?               ──────────┬──────────  
+    �?                         ╰──────────── Parse error, unexpecte
+d token id (lowercase start), you may expect `{`.
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:77:12 ]
+    �? 77 �?        if not is_valid_tool_node(node) {
+    �?           ─┬─  
+    �?            ╰─── Expr Type Mismatch
+        has type : (Bool) -> Bool
+        wanted   : Bool
+────�?Warning: [0020]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:77:12 ]
+    �? 77 �?        if not is_valid_tool_node(node) {
+    �?           ─┬─  
+    �?            ╰─── Warning (deprecated): Use !expr instead
+────�?Error: [3002]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:77:16 ]
+    �? 77 �?        if not is_valid_tool_node(node) {
+    �?               ─────────┬────────  
+    �?                        ╰────────── Parse error, unexpected tok
+en id (lowercase start), you may expect `{`.
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:82:12 ]
+    �? 82 �?        if not is_valid_agent_node(node) {
+    �?           ─┬─  
+    �?            ╰─── Expr Type Mismatch
+        has type : (Bool) -> Bool
+        wanted   : Bool
+────�?Warning: [0020]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:82:12 ]
+    �? 82 �?        if not is_valid_agent_node(node) {
+    �?           ─┬─  
+    �?            ╰─── Warning (deprecated): Use !expr instead
+────�?Error: [3002]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:82:16 ]
+    �? 82 �?        if not is_valid_agent_node(node) {
+    �?               ─────────┬─────────  
+    �?                        ╰─────────── Parse error, unexpected t
+oken id (lowercase start), you may expect `{`.
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:87:12 ]
+    �? 87 �?        if not is_valid_control_node(node) {
+    �?           ─┬─  
+    �?            ╰─── Expr Type Mismatch
+        has type : (Bool) -> Bool
+        wanted   : Bool
+────�?Warning: [0020]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:87:12 ]
+    �? 87 �?        if not is_valid_control_node(node) {
+    �?           ─┬─  
+    �?            ╰─── Warning (deprecated): Use !expr instead
+────�?Error: [3002]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:87:16 ]
+    �? 87 �?        if not is_valid_control_node(node) {
+    �?               ──────────┬──────────  
+    �?                         ╰──────────── Parse error, unexpecte
+d token id (lowercase start), you may expect `{`.
+────�?Warning: [0001]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:96:4 ]
+    �? 96 �?fn is_valid_trigger_node(node: Node) -> Bool {
+    �?   ──────────┬──────────  
+    �?             ╰──────────── Warning (unused_value): Unused fun
+ction 'is_valid_trigger_node'
+────�?Error: [4091]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:97:3 ]
+    �? 97 �?  node.with.length() > 0 || true
+    �?  ────┬────  
+    �?      ╰────── The type Node has no field with.
+────�?Warning: [0001]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:100:4 ]
+     �? 100 �?fn is_valid_tool_node(node: Node) -> Bool {
+     �?   ─────────┬────────  
+     �?            ╰────────── Warning (unused_value): Unused functio
+n 'is_valid_tool_node'
+─────�?Error: [4091]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:101:3 ]
+     �? 101 �?  node.with.length() > 0 || true
+     �?  ────┬────  
+     �?      ╰────── The type Node has no field with.
+─────�?Warning: [0001]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:104:4 ]
+     �? 104 �?fn is_valid_agent_node(node: Node) -> Bool {
+     �?   ─────────┬─────────  
+     �?            ╰─────────── Warning (unused_value): Unused funct
+ion 'is_valid_agent_node'
+─────�?Error: [4091]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:105:3 ]
+     �? 105 �?  node.with.length() > 0 || true
+     �?  ────┬────  
+     �?      ╰────── The type Node has no field with.
+─────�?Warning: [0001]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:108:4 ]
+     �? 108 �?fn is_valid_control_node(node: Node) -> Bool {
+     �?   ──────────┬──────────  
+     �?             ╰──────────── Warning (unused_value): Unused fu
+nction 'is_valid_control_node'
+─────�?Warning: [0002]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:108:26 ]
+     �? 108 �?fn is_valid_control_node(node: Node) -> Bool {
+     �?                         ──┬─  
+     �?                           ╰─── Warning (unused_value): Unused variab
+le 'node'
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:136:7 ]
+     �? 136 �?      Some(arr) => arr.push(edge.to)
+     �?      ────┬────  
+     �?          ╰────── Constr Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : Array[String]
+─────�?Warning: [0013]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:136:20 ]
+     �? 136 �?      Some(arr) => arr.push(edge.to)
+     �?                   ─┬─  
+     �?                    ╰─── Warning (unresolved_type_variable): The type
+ of this expression is _/0, which contains unresolved type variables. The type 
+variable is default to Unit.
+─────�?Error: [4015]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:136:24 ]
+     �? 136 �?      Some(arr) => arr.push(edge.to)
+     �?                       ──┬─  
+     �?                         ╰─── Type _/0 has no method push.
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:137:7 ]
+     �? 137 �?      None => graph[edge.from] = [edge.to]
+     �?      ──┬─  
+     �?        ╰─── Constr Type Mismatch(constructor None)
+        has type : _/0?
+        wanted   : Array[String]
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:147:7 ]
+     �? 147 �?      Some(_) => ()
+     �?      ───┬───  
+     �?         ╰───── Constr Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : Bool
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:148:7 ]
+     �? 148 �?      None => {
+     �?      ──┬─  
+     �?        ╰─── Constr Type Mismatch(constructor None)
+        has type : _/0?
+        wanted   : Bool
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:171:5 ]
+     �? 171 �?    Some(neighbors) => {
+     �?    ───────┬───────  
+     �?           ╰───────── Constr Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : Array[String]
+─────�?Error: [4015]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:172:23 ]
+     �? 172 �?      for neighbor in neighbors {
+     �?                      ────┬────  
+     �?                          ╰────── Type _/0 has no method iter.
+─────�?Warning: [0013]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:172:23 ]
+     �? 172 �?      for neighbor in neighbors {
+     �?                      ────┬────  
+     �?                          ╰────── Warning (unresolved_type_variabl
+e): The type of this expression is _/0, which contains unresolved type variable
+s. The type variable is default to Unit.
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:174:11 ]
+     �? 174 �?          Some(true) => {
+     �?          ─────┬────  
+     �?               ╰────── Constr Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : Bool
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:176:15 ]
+     �? 176 �?              Some(true) => {
+     �?              ─────┬────  
+     �?                   ╰────── Constr Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : Bool
+─────�?Error: [4015]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:177:40 ]
+     �? 177 �?                let cycle_start = path.find(fn(n) { n == neighbor
+ })
+     �?                                       ──┬─  
+     �?                                         ╰─── Type Array[String] has 
+no method find.
+─────�?Error: [4015]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:180:43 ]
+     �? 180 �?                    let cycle_path = path.slice(idx, path.length(
+))
+     �?                                          ──┬──  
+     �?                                            ╰──── Type Array[String]
+ has no method slice.
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:189:15 ]
+     �? 189 �?              None => ()
+     �?              ──┬─  
+     �?                ╰─── Constr Type Mismatch(constructor None)
+        has type : _/0?
+        wanted   : Bool
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:192:11 ]
+     �? 192 �?          None => {
+     �?          ──┬─  
+     �?            ╰─── Constr Type Mismatch(constructor None)
+        has type : _/0?
+        wanted   : Bool
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:201:5 ]
+     �? 201 �?    None => ()
+     �?    ──┬─  
+     �?      ╰─── Constr Type Mismatch(constructor None)
+        has type : _/0?
+        wanted   : Array[String]
+─────�?Error: [3001]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:218:48 ]
+     �? 218 �?      "Cycle detected in workflow: \{path.join(\" -> \")}"
+     �?                                               �? 
+     �?                                               ╰── Lexing error: unrec
+ognized character u32:0x5c
+─────�?Error: [3001]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:218:49 ]
+     �? 218 �?      "Cycle detected in workflow: \{path.join(\" -> \")}"
+     �?                                                �? 
+     �?                                                ╰── Lexing error: The 
+character `"` is not allowed in string interpolation. Hint: assign the expressi
+on to a variable (e.g., `let x = ...`) and refer to that variable instead.
+─────�?Error: [3001]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:218:55 ]
+     �? 218 �?      "Cycle detected in workflow: \{path.join(\" -> \")}"
+     �?                                                      �? 
+     �?                                                      ╰── Lexing error
+: The character `"` is not allowed in string interpolation. Hint: assign the ex
+pression to a variable (e.g., `let x = ...`) and refer to that variable instead
+.
+─────�?Error: [3001]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:218:57 ]
+     �? 218 �?      "Cycle detected in workflow: \{path.join(\" -> \")}"
+     �?                                                        �?
+     �?                                                        ╰─ Lexing error
+: (unterminated string literal)
+─────�?Error: [3002]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:218:57 ]
+     �? 218 �?      "Cycle detected in workflow: \{path.join(\" -> \")}"
+     �?                                                        �?
+     �?                                                        ╰─ Parse error,
+ unexpected token `end of file`, you may expect `,` or `)`.
+─────�?Error: [3002]
+   ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:9:3 ]
+   �? 9 �?  with~ : Map[String, String] = {},
+   �?  ──┬─  
+   �?    ╰─── Parse error, unexpected token `with`, you may expect parameter
+ name or label.
+───�?Error: [3001]
+   ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:9:7 ]
+   �? 9 �?  with~ : Map[String, String] = {},
+   �?      �? 
+   �?      ╰── Lexing error: unrecognized character u32:0x7e
+───�?Error: [3002]
+   ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:9:23 ]
+   �? 9 �?  with~ : Map[String, String] = {},
+   �?                      ───┬──  
+   �?                         ╰──── Parse error, unexpected token id (upper
+case start), you may expect parameter name or label.
+───�?Error: [3002]
+    ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:17:5 ]
+    �? 17 �?    with,
+    �?    ──┬─  
+    �?      ╰─── Parse error, unexpected token `with`, you may expect id (lo
+wercase start).
+────�?Error: [4091]
+    ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:17:5 ]
+    �? 17 �?    with,
+    �?    ──┬─  
+    �?      ╰─── The fields  is not defined in the record type Node.
+────�?Warning: [0020]
+    ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:98:8 ]
+    �? 98 �?    if not(visited.contains(node.id)) {
+    �?       ─┬─  
+    �?        ╰─── Warning (deprecated): Use !expr instead
+────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:121:8 ]
+     �? 121 �?    if not(visited.contains(edge.to)) {
+     �?       ─┬─  
+     �?        ╰─── Warning (deprecated): Use !expr instead
+─────�?Error: [4118]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:132:66 ]
+     �? 132 �?pub fn get_execution_order(workflow : Workflow) -> Array[String]!
+String {
+     �?                                                                 ───�
+�──  
+     �?                                                                    ╰─�
+�── The error type is mismatched:
+    wanted: String
+    has   : Error.
+─────�?Error: [4127]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:132:66 ]
+     �? 132 �?pub fn get_execution_order(workflow : Workflow) -> Array[String]!
+String {
+     �?                                                                 ───�
+�──  
+     �?                                                                    ╰─�
+�── Type String is not an error type.
+─────�?Warning: [0027]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:132:66 ]
+     �? 132 �?pub fn get_execution_order(workflow : Workflow) -> Array[String]!
+String {
+     �?                                                                 ───�
+�──  
+     �?                                                                    ╰─�
+�── Warning (deprecated_syntax): The syntax `!Err` for error type annotation 
+is deprecated. Use `raise Err` instead.
+─────�?Error: [4018]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:134:5 ]
+     �? 134 �?    raise "Workflow contains a cycle"
+     �?    ────────────────┬────────────────  
+     �?                    ╰────────────────── Type String is
+ not an error type
+─────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:143:49 ]
+     �? 143 �?    in_degree[edge.to] = in_degree.get(edge.to).or(Some(0)).unwra
+p() + 1
+     �?                                                ─�? 
+     �?                                                 ╰── Warning (deprecat
+ed): `or` is deprecated, use `unwrap_or` instead
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:143:52 ]
+     �? 143 �?    in_degree[edge.to] = in_degree.get(edge.to).or(Some(0)).unwra
+p() + 1
+     �?                                                   ───┬───  
+     �?                                                      ╰───── Constr
+ Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : Int
+─────�?Error: [4015]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:143:61 ]
+     �? 143 �?    in_degree[edge.to] = in_degree.get(edge.to).or(Some(0)).unwra
+p() + 1
+     �?                                                            ───┬── 
+ 
+     �?                                                               ╰────
+ Type Int has no method unwrap.
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:145:7 ]
+     �? 145 �?      Some(list) => list.push(edge.to)
+     �?      ─────┬────  
+     �?           ╰────── Constr Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : Array[String]
+─────�?Warning: [0013]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:145:21 ]
+     �? 145 �?      Some(list) => list.push(edge.to)
+     �?                    ──┬─  
+     �?                      ╰─── Warning (unresolved_type_variable): The ty
+pe of this expression is _/0, which contains unresolved type variables. The typ
+e variable is default to Unit.
+─────�?Error: [4015]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:145:26 ]
+     �? 145 �?      Some(list) => list.push(edge.to)
+     �?                         ──┬─  
+     �?                           ╰─── Type _/0 has no method push.
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:146:7 ]
+     �? 146 �?      None => adjacency[edge.from] = [edge.to]
+     �?      ──┬─  
+     �?        ╰─── Constr Type Mismatch(constructor None)
+        has type : _/0?
+        wanted   : Array[String]
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:160:7 ]
+     �? 160 �?      Some(neighbors) => {
+     �?      ───────┬───────  
+     �?             ╰───────── Constr Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : Array[String]
+─────�?Error: [4015]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:161:25 ]
+     �? 161 �?        for neighbor in neighbors {
+     �?                        ────┬────  
+     �?                            ╰────── Type _/0 has no method iter.
+─────�?Warning: [0013]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:161:25 ]
+     �? 161 �?        for neighbor in neighbors {
+     �?                        ────┬────  
+     �?                            ╰────── Warning (unresolved_type_varia
+ble): The type of this expression is _/0, which contains unresolved type variab
+les. The type variable is default to Unit.
+─────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:162:49 ]
+     �? 162 �?          let new_deg = in_degree.get(neighbor).or(Some(0)).unwra
+p() - 1
+     �?                                                ─�? 
+     �?                                                 ╰── Warning (deprecat
+ed): `or` is deprecated, use `unwrap_or` instead
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:162:52 ]
+     �? 162 �?          let new_deg = in_degree.get(neighbor).or(Some(0)).unwra
+p() - 1
+     �?                                                   ───┬───  
+     �?                                                      ╰───── Constr
+ Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : Int
+─────�?Error: [4015]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:162:61 ]
+     �? 162 �?          let new_deg = in_degree.get(neighbor).or(Some(0)).unwra
+p() - 1
+     �?                                                            ───┬── 
+ 
+     �?                                                               ╰────
+ Type Int has no method unwrap.
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:169:7 ]
+     �? 169 �?      None => ()
+     �?      ──┬─  
+     �?        ╰─── Constr Type Mismatch(constructor None)
+        has type : _/0?
+        wanted   : Array[String]
+─────�?Error: [4018]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:173:5 ]
+     �? 173 �?    raise "Cannot determine execution order"
+     �?    ────────────────────┬─────────────�
+�─────  
+     �?                        ╰───────────────────── Type
+ String is not an error type
+─────�?Warning: [0006]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:189:3 ]
+     �? 189 �?  SevInfo
+     �?  ───┬───  
+     �?     ╰───── Warning (unused_constructor): Variant 'SevInfo' is neve
+r constructed
+─────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:206:19 ]
+     �? 206 �?    if node.label.is_empty() {
+     �?                  ────┬───  
+     �?                      ╰───── Warning (deprecated): use `x is None` 
+instead
+─────�?Error: [4091]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:235:17 ]
+     �? 235 �?    for k, v in node.with {
+     �?                ────┬────  
+     �?                    ╰────── The type Node has no field with.
+─────�?Warning: [0013]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:236:28 ]
+     �? 236 �?      with_pairs.push("\"\{k}\": \"\{v}\"")
+     �?                           �? 
+     �?                           ╰── Warning (unresolved_type_variable): The
+ type of this expression is _/0, which contains unresolved type variables. The 
+type variable is default to Unit.
+─────�?Warning: [0013]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:236:38 ]
+     �? 236 �?      with_pairs.push("\"\{k}\": \"\{v}\"")
+     �?                                     �? 
+     �?                                     ╰── Warning (unresolved_type_vari
+able): The type of this expression is _/0, which contains unresolved type varia
+bles. The type variable is default to Unit.
+─────�?Error: [3001]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:249:115 ]
+     �? 249 �?      "{\"id\": \"\{node.id}\", \"type\": \"\{type_str}\", \"labe
+l\": \{label_json}, \"with\": {\{with_pairs.join(\", \")}}}",
+     �?                                                                        
+                                          �? 
+     �?                                                                        
+                                          ╰── Lexing error: unrecognized char
+acter u32:0x5c
+─────�?Error: [3001]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:249:116 ]
+     �? 249 �?      "{\"id\": \"\{node.id}\", \"type\": \"\{type_str}\", \"labe
+l\": \{label_json}, \"with\": {\{with_pairs.join(\", \")}}}",
+     �?                                                                        
+                                           �? 
+     �?                                                                        
+                                           ╰── Lexing error: The character `"
+` is not allowed in string interpolation. Hint: assign the expression to a vari
+able (e.g., `let x = ...`) and refer to that variable instead.
+─────�?Error: [3001]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:249:120 ]
+     �? 249 �?      "{\"id\": \"\{node.id}\", \"type\": \"\{type_str}\", \"labe
+l\": \{label_json}, \"with\": {\{with_pairs.join(\", \")}}}",
+     �?                                                                        
+                                               �? 
+     �?                                                                        
+                                               ╰── Lexing error: The characte
+r `"` is not allowed in string interpolation. Hint: assign the expression to a 
+variable (e.g., `let x = ...`) and refer to that variable instead.
+─────�?Error: [3001]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:249:122 ]
+     �? 249 �?      "{\"id\": \"\{node.id}\", \"type\": \"\{type_str}\", \"labe
+l\": \{label_json}, \"with\": {\{with_pairs.join(\", \")}}}",
+     �?                                                                        
+                                                 �?
+     �?                                                                        
+                                                 ╰─ Lexing error: (unterminate
+d string literal)
+─────�?Error: [3002]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:249:122 ]
+     �? 249 �?      "{\"id\": \"\{node.id}\", \"type\": \"\{type_str}\", \"labe
+l\": \{label_json}, \"with\": {\{with_pairs.join(\", \")}}}",
+     �?                                                                        
+                                                 �?
+     �?                                                                        
+                                                 ╰─ Parse error, unexpected to
+ken `end of file`, you may expect `,` or `)`.
+─────�?Warning: [0027]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:262:3 ]
+     �? 262 �?╭─�?  #|{
+     �?�?  
+ 268 �?├─�?  $|}
+     �?�?           
+     �?╰──────────── Warning (deprecated_syntax): Using a multiline
+ string directly, except in `let` bindings, FFI, or parentheses, is deprecated.
+ Consider using `let x = #| ...` or wrapping it in `()`.
+─────�?Failed with 36 warnings, 86 errors.
+Error: failed to run check for target Native
+
+Caused by:
+    failed when checking project
+

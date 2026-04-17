@@ -1,0 +1,350 @@
+failed: C:\Users\1\.moon\bin\moonc.exe check -error-format json D:\Project\moonflow\core\src\runtime\context.mbt D:\Project\moonflow\core\src\runtime\executor.mbt D:\Project\moonflow\core\src\runtime\scheduler.mbt D:\Project\moonflow\core\src\runtime\workflow_executor.mbt -o D:\Project\moonflow\core\_build\native\debug\check\src\runtime\runtime.mi -pkg username/moonflow/src/runtime -std-path C:\Users\1\.moon\lib\core\_build\native\release\bundle -i C:\Users\1\.moon\lib\core\_build\native\release\bundle\prelude\prelude.mi:prelude -i D:\Project\moonflow\core\_build\native\debug\check\src\workflow\workflow.mi:workflow -pkg-sources username/moonflow/src/runtime:D:\Project\moonflow\core\src\runtime -target native -workspace-path D:\Project\moonflow\core -all-pkgs D:\Project\moonflow\core\_build\native\debug\check\all_pkgs.json
+moon : Warning: [0020]
+����λ�� ��:1 �ַ�: 1
++ moon check --target native 2>&1 | Out-String | Set-Content errors5.tx ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Warning: [0020]:String) [], Remot 
+   eException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    ╭─[ D:\Project\moonflow\core\moonflow_core_test.mbt:17:15 ]
+    �? 17 �?  inspect(map.size(), content="2")
+    �?              ──┬─  
+    �?                ╰─── Warning (deprecated): `size` is deprecated, use `
+length` instead
+────�?Warning: [0009]
+    ╭─[ D:\Project\moonflow\core\src\http\client.mbt:13:12 ]
+    �? 13 �?pub struct HttpRequest {
+    �?           ─────┬─────  
+    �?                ╰─────── Warning (struct_never_constructed): The s
+truct HttpRequest is never constructed
+────�?Error: [0015]
+   ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:6:7 ]
+   �? 6 �?  mut data : Map[String, Value]
+   �?      ──┬─  
+   �?        ╰─── Error Warning (unused_mut): The mutability of field 'data'
+ is never used, try remove `mut`.
+───�?Error: [0015]
+   ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:7:7 ]
+   �? 7 �?  mut metadata : ExecutionMetadata
+   �?      ────┬───  
+   �?          ╰───── Error Warning (unused_mut): The mutability of field 
+'metadata' is never used, try remove `mut`.
+───�?Error: [0015]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:13:7 ]
+    �? 13 �?  mut start_time : Int
+    �?      ─────┬────  
+    �?           ╰────── Error Warning (unused_mut): The mutability of fi
+eld 'start_time' is never used, try remove `mut`.
+────�?Error: [0015]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:14:7 ]
+    �? 14 �?  mut end_time : Int
+    �?      ────┬───  
+    �?          ╰───── Error Warning (unused_mut): The mutability of field
+ 'end_time' is never used, try remove `mut`.
+────�?Error: [0015]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:15:7 ]
+    �? 15 �?  mut node_results : Map[String, NodeResult]
+    �?      ──────┬─────  
+    �?            ╰─────── Error Warning (unused_mut): The mutability of
+ field 'node_results' is never used, try remove `mut`.
+────�?Error: [0015]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:16:7 ]
+    �? 16 �?  mut logs : Array[LogEntry]
+    �?      ──┬─  
+    �?        ╰─── Error Warning (unused_mut): The mutability of field 'logs
+' is never used, try remove `mut`.
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:24:3 ]
+    �? 24 �?  ValNull
+    �?  ───┬───  
+    �?     ╰───── Warning (unused_constructor): Variant 'ValNull' is never
+ constructed
+────�?Error: [0015]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:31:7 ]
+    �? 31 �?  mut output : Map[String, Value]
+    �?      ───┬──  
+    �?         ╰──── Error Warning (unused_mut): The mutability of field 'o
+utput' is never used, try remove `mut`.
+────�?Error: [0015]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:32:7 ]
+    �? 32 �?  mut error_msg : String?
+    �?      ────┬────  
+    �?          ╰────── Error Warning (unused_mut): The mutability of fie
+ld 'error_msg' is never used, try remove `mut`.
+────�?Error: [0015]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:33:7 ]
+    �? 33 �?  mut duration_ms : Int
+    �?      ─────┬─────  
+    �?           ╰─────── Error Warning (unused_mut): The mutability of 
+field 'duration_ms' is never used, try remove `mut`.
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:38:3 ]
+    �? 38 �?  Pending
+    �?  ───┬───  
+    �?     ╰───── Warning (unused_constructor): Variant 'Pending' is never
+ constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:41:3 ]
+    �? 41 �?  Failure
+    �?  ───┬───  
+    �?     ╰───── Warning (unused_constructor): Variant 'Failure' is never
+ constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:42:3 ]
+    �? 42 �?  Skipped
+    �?  ───┬───  
+    �?     ╰───── Warning (unused_constructor): Variant 'Skipped' is never
+ constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:55:3 ]
+    �? 55 �?  Debug
+    �?  ──┬──  
+    �?    ╰──── Warning (unused_constructor): Variant 'Debug' is never cons
+tructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:56:3 ]
+    �? 56 �?  Info
+    �?  ──┬─  
+    �?    ╰─── Warning (unused_constructor): Variant 'Info' is never constru
+cted
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:57:3 ]
+    �? 57 �?  Warning
+    �?  ───┬───  
+    �?     ╰───── Warning (unused_constructor): Variant 'Warning' is never
+ constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:58:3 ]
+    �? 58 �?  Error
+    �?  ──┬──  
+    �?    ╰──── Warning (unused_constructor): Variant 'Error' is never cons
+tructed
+────�?Warning: [0006]
+   ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:6:3 ]
+   �? 6 �?  WfPending
+   �?  ────┬────  
+   �?      ╰────── Warning (unused_constructor): Variant 'WfPending' is n
+ever constructed
+───�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:10:3 ]
+    �? 10 �?  WfCancelled
+    �?  ─────┬─────  
+    �?       ╰─────── Warning (unused_constructor): Variant 'WfCancelled
+' is never constructed
+────�?Error: [0015]
+    ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:18:7 ]
+    �? 18 �?  mut duration_ms : Int
+    �?      ─────┬─────  
+    �?           ╰─────── Error Warning (unused_mut): The mutability of 
+field 'duration_ms' is never used, try remove `mut`.
+────�?Error: [0015]
+    ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:19:7 ]
+    �? 19 �?  mut node_results : Map[String, NodeResult]
+    �?      ──────┬─────  
+    �?            ╰─────── Error Warning (unused_mut): The mutability of
+ field 'node_results' is never used, try remove `mut`.
+────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:110:8 ]
+     �? 110 �?    if not(first) {
+     �?       ─┬─  
+     �?        ╰─── Warning (deprecated): Use !expr instead
+─────�?Warning: [0020]
+    ╭─[ D:\Project\moonflow\core\src\utils\utils.mbt:47:7 ]
+    �? 47 �?    s.substring(start~, end=end + 1)
+    �?      ────┬────  
+    �?          ╰────── Warning (deprecated): Use `str[:]` or `str[:].to_
+string()` instead
+────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\parser.mbt:273:13 ]
+     �? 273 �?  if result.size() > 0 {
+     �?            ──┬─  
+     �?              ╰─── Warning (deprecated): `size` is deprecated, use `l
+ength` instead
+─────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:14:3 ]
+    �? 14 �?  Timer
+    �?  ──┬──  
+    �?    ╰──── Warning (unused_constructor): Variant 'Timer' is never cons
+tructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:15:3 ]
+    �? 15 �?  Webhook
+    �?  ───┬───  
+    �?     ╰───── Warning (unused_constructor): Variant 'Webhook' is never
+ constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:16:3 ]
+    �? 16 �?  Manual
+    �?  ───┬──  
+    �?     ╰──── Warning (unused_constructor): Variant 'Manual' is never co
+nstructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:21:3 ]
+    �? 21 �?  HttpGet
+    �?  ───┬───  
+    �?     ╰───── Warning (unused_constructor): Variant 'HttpGet' is never
+ constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:22:3 ]
+    �? 22 �?  HttpPost
+    �?  ────┬───  
+    �?      ╰───── Warning (unused_constructor): Variant 'HttpPost' is nev
+er constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:23:3 ]
+    �? 23 �?  Email
+    �?  ──┬──  
+    �?    ╰──── Warning (unused_constructor): Variant 'Email' is never cons
+tructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:24:3 ]
+    �? 24 �?  Feishu
+    �?  ───┬──  
+    �?     ╰──── Warning (unused_constructor): Variant 'Feishu' is never co
+nstructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:25:3 ]
+    �? 25 �?  FileRead
+    �?  ────┬───  
+    �?      ╰───── Warning (unused_constructor): Variant 'FileRead' is nev
+er constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:26:3 ]
+    �? 26 �?  FileWrite
+    �?  ────┬────  
+    �?      ╰────── Warning (unused_constructor): Variant 'FileWrite' is 
+never constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:27:3 ]
+    �? 27 �?  FileDelete
+    �?  ─────┬────  
+    �?       ╰────── Warning (unused_constructor): Variant 'FileDelete' i
+s never constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:32:3 ]
+    �? 32 �?  LLM
+    �?  ─┬─  
+    �?   ╰─── Warning (unused_constructor): Variant 'LLM' is never construct
+ed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:33:3 ]
+    �? 33 �?  IntentClassify
+    �?  ───────┬──────  
+    �?         ╰──────── Warning (unused_constructor): Variant 'IntentC
+lassify' is never constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:38:3 ]
+    �? 38 �?  Condition
+    �?  ────┬────  
+    �?      ╰────── Warning (unused_constructor): Variant 'Condition' is 
+never constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:39:3 ]
+    �? 39 �?  Parallel
+    �?  ────┬───  
+    �?      ╰───── Warning (unused_constructor): Variant 'Parallel' is nev
+er constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:40:3 ]
+    �? 40 �?  Loop
+    �?  ──┬─  
+    �?    ╰─── Warning (unused_constructor): Variant 'Loop' is never constru
+cted
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:41:3 ]
+    �? 41 �?  End
+    �?  ─┬─  
+    �?   ╰─── Warning (unused_constructor): Variant 'End' is never construct
+ed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:53:3 ]
+    �? 53 �?  All
+    �?  ─┬─  
+    �?   ╰─── Warning (unused_constructor): Variant 'All' is never construct
+ed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:54:3 ]
+    �? 54 �?  Any
+    �?  ─┬─  
+    �?   ╰─── Warning (unused_constructor): Variant 'Any' is never construct
+ed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:55:3 ]
+    �? 55 �?  N
+    �?  �? 
+    �?  ╰── Warning (unused_constructor): Variant 'N' is never constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:60:3 ]
+    �? 60 �?  Success
+    �?  ───┬───  
+    �?     ╰───── Warning (unused_constructor): Variant 'Success' is never
+ constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:61:3 ]
+    �? 61 �?  Failure
+    �?  ───┬───  
+    �?     ╰───── Warning (unused_constructor): Variant 'Failure' is never
+ constructed
+────�?Warning: [0006]
+   ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:7:3 ]
+   �? 7 �?  InvalidNodeReference(String)
+   �?  ──────────┬─────────  
+   �?            ╰─────────── Warning (unused_constructor): Variant 
+'InvalidNodeReference' is never constructed
+───�?Warning: [0020]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:53:8 ]
+    �? 53 �?    if not(ids.contains(edge.from)) {
+    �?       ─┬─  
+    �?        ╰─── Warning (deprecated): Use !expr instead
+────�?Warning: [0020]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:56:8 ]
+    �? 56 �?    if not(ids.contains(edge.to)) {
+    �?       ─┬─  
+    �?        ╰─── Warning (deprecated): Use !expr instead
+────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:107:8 ]
+     �? 107 �?    if not(visited.contains(node.id)) {
+     �?       ─┬─  
+     �?        ╰─── Warning (deprecated): Use !expr instead
+─────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:132:12 ]
+     �? 132 �?        if not(visited.contains(neighbor)) {
+     �?           ─┬─  
+     �?            ╰─── Warning (deprecated): Use !expr instead
+─────�?Warning: [0006]
+   ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:7:3 ]
+   �? 7 �?  SevError
+   �?  ────┬───  
+   �?      ╰───── Warning (unused_constructor): Variant 'SevError' is neve
+r constructed
+───�?Warning: [0020]
+    ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:90:25 ]
+    �? 90 �?    let current = queue.pop_exn()
+    �?                        ───┬───  
+    �?                           ╰───── Warning (deprecated): `pop_exn` is
+ deprecated, use `unsafe_pop` instead
+────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:122:19 ]
+     �? 122 �?    if node.label.is_empty() {
+     �?                  ────┬───  
+     �?                      ╰───── Warning (deprecated): use `x is None` 
+instead
+─────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:133:24 ]
+     �? 133 �?        if node.config.size() == 0 {
+     �?                       ──┬─  
+     �?                         ╰─── Warning (deprecated): `size` is depreca
+ted, use `length` instead
+─────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:145:27 ]
+     �? 145 �?  if workflow.description.is_empty() {
+     �?                          ────┬───  
+     �?                              ╰───── Warning (deprecated): use `x i
+s None` instead
+─────�?Failed with 46 warnings, 11 errors.
+Error: failed to run check for target Native
+
+Caused by:
+    failed when checking project
+

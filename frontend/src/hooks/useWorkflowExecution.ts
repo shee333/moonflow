@@ -7,6 +7,7 @@ import {
   NodeExecutionResult,
   NodeData 
 } from '../utils/executionEngine';
+import { apiService } from '../services/apiService';
 
 export type ExecutionStatus = 'idle' | 'running' | 'completed' | 'failed';
 
@@ -218,9 +219,66 @@ export function useWorkflowExecution() {
     }));
   }, []);
 
+  const executeOnBackend = useCallback(async (workflowJson: string) => {
+    const startTime = Date.now();
+    setState(prev => ({
+      ...prev,
+      status: 'running',
+      startTime,
+      currentNodeId: null,
+      results: new Map(),
+      logs: [{
+        id: `log-start-${startTime}`,
+        timestamp: startTime,
+        type: 'info',
+        message: '通过 MoonBit 后端执行工作流...',
+      }],
+    }));
+
+    try {
+      addLog('info', '发送到 MoonBit 后端...');
+      const result = await apiService.executeWorkflow(workflowJson);
+      const endTime = Date.now();
+
+      setState(prev => ({
+        ...prev,
+        status: result.success ? 'completed' : 'failed',
+        currentNodeId: null,
+        totalDuration: endTime - startTime,
+        endTime,
+      }));
+
+      if (result.success) {
+        addLog('success', `后端执行成功! 状态: ${result.status}, 耗时: ${result.duration_ms}ms`);
+        if (result.node_results) {
+          for (const [nodeId, nr] of Object.entries(result.node_results)) {
+            addLog('info', `节点 ${nodeId}: ${nr.status} (${nr.duration_ms}ms)`, nodeId);
+          }
+        }
+      } else {
+        addLog('error', `后端执行失败: ${result.error || '未知错误'}`);
+      }
+
+      return result;
+    } catch (error) {
+      const endTime = Date.now();
+      const msg = error instanceof Error ? error.message : String(error);
+      setState(prev => ({
+        ...prev,
+        status: 'failed',
+        currentNodeId: null,
+        totalDuration: endTime - startTime,
+        endTime,
+      }));
+      addLog('error', `后端执行错误: ${msg}`);
+      return { success: false, error: msg };
+    }
+  }, [addLog]);
+
   return {
     ...state,
     execute,
+    executeOnBackend,
     executeSingleNode,
     abort,
     reset,

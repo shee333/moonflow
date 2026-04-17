@@ -1,0 +1,8 @@
+import {
+  "username/moonflow/src/workflow",
+  "username/moonflow/src/runtime",
+}
+
+options(
+  "is-main": true,
+)

@@ -1,0 +1,245 @@
+failed: D:\Dev-Cpp\MinGW64\bin\gcc.exe -o D:\Project\moonflow\core\_build\native\debug\build\cmd\server\server.exe -IC:\Users\1\.moon\include -g -fwrapv -fno-strict-aliasing -Og D:\Project\moonflow\core\_build\native\debug\build\cmd\server\server.c D:\Project\moonflow\core\_build\native\debug\build\runtime.obj D:\Project\moonflow\core\_build\native\debug\build\.mooncakes\moonbitlang\x\fs\libfs.lib D:\Project\moonflow\core\_build\native\debug\build\.mooncakes\oboard\mocket\native\libnative.lib D:\Project\moonflow\core\_build\native\debug\build\.mooncakes\oboard\mocket\libmocket.lib -lm
+moon : D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i6
+86-w64-mingw32/bin/ld.exe: D:\Project\moonflow\core\_build\native\debug\build\.
+mooncakes\oboard\mocket\libmocket.lib(mongoose.obj): in function `setlocaddr':
+所在位置 行:1 字符: 1
++ moon build --target native 2>&1 | Out-String | Set-Content build1.txt ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (D:/Dev-Cpp/MinG...n `setlocaddr': 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.c:8830:(.text+0x8a82
+): undefined reference to `_imp__getsockname@12'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:\Project\moonflow\core\_build\native\debug\build\.mooncak
+es\oboard\mocket\libmocket.lib(mongoose.obj): in function `setsockopts':
+D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.c:9126:(.text+0x8ae2
+): undefined reference to `_imp__setsockopt@20'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:\Project\moonflow\core\_build\native\debug\build\.mooncak
+es\oboard\mocket\libmocket.lib(mongoose.obj): in function `mg_set_non_blocking_
+mode':
+D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.c:8894:(.text+0x8b39
+): undefined reference to `_imp__ioctlsocket@12'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:\Project\moonflow\core\_build\native\debug\build\.mooncak
+es\oboard\mocket\libmocket.lib(mongoose.obj): in function `raccept':
+D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.c:9179:(.text+0x8b79
+): undefined reference to `_imp__accept@12'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9180:(.text+0x8b89): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:\Project\moonflow\core\_build\native\debug\build\.mooncak
+es\oboard\mocket\libmocket.lib(mongoose.obj): in function `mg_wakeup':
+D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.c:9460:(.text+0xcd88
+): undefined reference to `_imp__send@16'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:\Project\moonflow\core\_build\native\debug\build\.mooncak
+es\oboard\mocket\libmocket.lib(mongoose.obj): in function `wufn':
+D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.c:9426:(.text+0xd603
+): undefined reference to `_imp__closesocket@4'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:\Project\moonflow\core\_build\native\debug\build\.mooncak
+es\oboard\mocket\libmocket.lib(mongoose.obj): in function `mg_iotest':
+D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.c:9352:(.text+0x108c
+0): undefined reference to `_imp__select@20'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9373:(.text+0x10950): undefined reference to `__WSAFDIsSet@8'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9364:(.text+0x109bb): undefined reference to `__WSAFDIsSet@8'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9372:(.text+0x109e5): undefined reference to `__WSAFDIsSet@8'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:\Project\moonflow\core\_build\native\debug\build\.mooncak
+es\oboard\mocket\libmocket.lib(mongoose.obj): in function `mg_mgr_init':
+D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.c:4137:(.text+0x118f
+3): undefined reference to `_imp__WSAStartup@8'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:\Project\moonflow\core\_build\native\debug\build\.mooncak
+es\oboard\mocket\libmocket.lib(mongoose.obj): in function `mg_io_send':
+D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.c:8865:(.text+0x119b
+3): undefined reference to `_imp__sendto@24'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:8868:(.text+0x119e9): undefined reference to `_imp__send@16'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:8870:(.text+0x11a5c): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:8871:(.text+0x11a64): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:8871:(.text+0x11a71): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:8871:(.text+0x11a7e): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:8872:(.text+0x11a8b): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:\Project\moonflow\core\_build\native\debug\build\.mooncak
+es\oboard\mocket\libmocket.lib(mongoose.obj): in function `mg_connect_resolved'
+:
+D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.c:9138:(.text+0x11c7
+1): undefined reference to `_imp__socket@12'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9141:(.text+0x11cf4): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9160:(.text+0x11d57): undefined reference to `_imp__connect@12'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9165:(.text+0x11dc9): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9165:(.text+0x11df4): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9165:(.text+0x11e01): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9169:(.text+0x11e0e): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:\Project\moonflow\core\_build\native\debug\build\.mooncak
+es\oboard\mocket\libmocket.lib(mongoose.obj): in function `recv_raw':
+D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.c:9012:(.text+0x11eb
+6): undefined reference to `_imp__recvfrom@24'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9015:(.text+0x11ef3): undefined reference to `_imp__recv@16'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9017:(.text+0x11f67): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9018:(.text+0x11f6f): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9018:(.text+0x11f7c): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9018:(.text+0x11f89): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9019:(.text+0x11f96): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:\Project\moonflow\core\_build\native\debug\build\.mooncak
+es\oboard\mocket\libmocket.lib(mongoose.obj): in function `mg_open_listener':
+D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.c:8959:(.text+0x1434
+c): undefined reference to `_imp__socket@12'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:8960:(.text+0x143ac): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:8962:(.text+0x143ef): undefined reference to `_imp__setsockopt@20'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:8965:(.text+0x14465): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:8988:(.text+0x14480): undefined reference to `_imp__bind@12'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:8989:(.text+0x144ed): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:8991:(.text+0x14523): undefined reference to `_imp__listen@8'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:8994:(.text+0x14590): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9003:(.text+0x1459f): undefined reference to `_imp__closesocket@4'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:\Project\moonflow\core\_build\native\debug\build\.mooncak
+es\oboard\mocket\libmocket.lib(mongoose.obj): in function `mg_multicast_add':
+D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.c:8937:(.text+0x148a
+e): undefined reference to `_imp__inet_addr@4'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:8939:(.text+0x148f5): undefined reference to `_imp__setsockopt@20'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:\Project\moonflow\core\_build\native\debug\build\.mooncak
+es\oboard\mocket\libmocket.lib(mongoose.obj): in function `mg_socketpair':
+D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.c:9390:(.text+0x1497
+d): undefined reference to `_imp__socket@12'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9391:(.text+0x149d4): undefined reference to `_imp__socket@12'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9392:(.text+0x149f6): undefined reference to `_imp__bind@12'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9393:(.text+0x14a18): undefined reference to `_imp__bind@12'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9394:(.text+0x14a3a): undefined reference to `_imp__getsockname@12'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9395:(.text+0x14a5d): undefined reference to `_imp__getsockname@12'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9396:(.text+0x14a7f): undefined reference to `_imp__connect@12'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9397:(.text+0x14aa2): undefined reference to `_imp__connect@12'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9401:(.text+0x14ac0): undefined reference to `_imp__closesocket@4'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9402:(.text+0x14ad1): undefined reference to `_imp__closesocket@4'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:\Project\moonflow\core\_build\native\debug\build\.mooncak
+es\oboard\mocket\libmocket.lib(mongoose.obj): in function `mg_wakeup_init':
+D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.c:9441:(.text+0x1501
+d): undefined reference to `_imp__closesocket@4'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:\Project\moonflow\core\_build\native\debug\build\.mooncak
+es\oboard\mocket\libmocket.lib(mongoose.obj): in function `accept_conn':
+D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.c:9196:(.text+0x150f
+6): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.
+c:9205:(.text+0x15259): undefined reference to `_imp__closesocket@4'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:\Project\moonflow\core\_build\native\debug\build\.mooncak
+es\oboard\mocket\libmocket.lib(mongoose.obj): in function `mg_send':
+D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.c:8880:(.text+0x16a5
+0): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:\Project\moonflow\core\_build\native\debug\build\.mooncak
+es\oboard\mocket\libmocket.lib(mongoose.obj): in function `write_conn':
+D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.c:9082:(.text+0x19f5
+5): undefined reference to `_imp__WSAGetLastError@0'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:\Project\moonflow\core\_build\native\debug\build\.mooncak
+es\oboard\mocket\libmocket.lib(mongoose.obj): in function `close_conn':
+D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.c:9093:(.text+0x1a82
+6): undefined reference to `_imp__closesocket@4'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:\Project\moonflow\core\_build\native\debug\build\.mooncak
+es\oboard\mocket\libmocket.lib(mongoose.obj): in function `connect_conn':
+D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.c:9105:(.text+0x1c2e
+f): undefined reference to `_imp__getpeername@12'
+D:/Dev-Cpp/MinGW64/bin/../lib/gcc/i686-w64-mingw32/13.3.0/../../../../i686-w64-
+mingw32/bin/ld.exe: D:\Project\moonflow\core\_build\native\debug\build\.mooncak
+es\oboard\mocket\libmocket.lib(mongoose.obj): in function `read_conn':
+D:/Project/moonflow/core/.mooncakes/oboard/mocket/mongoose.c:9072:(.text+0x1c50
+9): undefined reference to `_imp__WSAGetLastError@0'
+collect2.exe: error: ld returned 1 exit status
+Failed with 0 warnings, 0 errors.
+Error: failed to run build for target Native
+
+Caused by:
+    failed when building project
+

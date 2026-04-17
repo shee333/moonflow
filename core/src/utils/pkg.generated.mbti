@@ -1,0 +1,16 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "username/moonflow/src/utils"
+
+// Values
+pub fn escape_json(String) -> String
+
+pub fn join_strings(Array[String], String) -> String
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

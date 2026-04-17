@@ -1,70 +1,86 @@
+///|
+/// MoonFlow Demo
 fn main {
   println("===========================================")
-  println("MoonFlow Demo - Starting...")
+  println("  MoonFlow Demo")
   println("===========================================")
   println("")
 
-  println("1. Creating demo workflow programmatically...")
-  println("   - Node 1: start (Trigger)")
-  println("   - Node 2: step1 (Tool)")
-  println("   - Node 3: step2 (Tool)")
-  println("   - Node 4: end (Control)")
+  println("[1] Creating workflow...")
+  let nodes : Array[@workflow.Node] = [
+    @workflow.create_node(
+      id="start",
+      node_type=@workflow.Trigger,
+      label=Some("Manual Trigger"),
+    ),
+    @workflow.create_node(
+      id="fetch",
+      node_type=@workflow.Tool,
+      label=Some("HTTP Fetch"),
+    ),
+    @workflow.create_node(
+      id="process",
+      node_type=@workflow.Agent,
+      label=Some("LLM Process"),
+    ),
+    @workflow.create_node(
+      id="done",
+      node_type=@workflow.Control,
+      label=Some("End"),
+    ),
+  ]
+  let edges : Array[@workflow.Edge] = [
+    @workflow.create_edge(from="start", to="fetch"),
+    @workflow.create_edge(from="fetch", to="process"),
+    @workflow.create_edge(from="process", to="done"),
+  ]
+  let wf = @workflow.create_workflow(name="demo_workflow", nodes~, edges~)
+  println("  Name: " + wf.name)
+  println("  Nodes: " + wf.nodes.length().to_string())
+  println("  Edges: " + wf.edges.length().to_string())
   println("")
-  println("   Workflow edges:")
-  println("   - start -> step1")
-  println("   - step1 -> step2")
-  println("   - step2 -> end")
+
+  println("[2] Validating...")
+  match @workflow.validate_workflow(wf) {
+    Ok(_) => println("  Validation passed")
+    Err(e) =>
+      println("  Validation failed: " + @workflow.format_validation_error(e))
+  }
   println("")
-  println("   Name: demo_workflow")
-  println("   Nodes: 4")
-  println("   Edges: 3")
+
+  println("[3] Executing...")
+  match @runtime.execute_workflow(wf) {
+    Ok(result) => {
+      println("  Status: " + @runtime.format_workflow_status(result.status))
+      println("  Nodes executed: " + result.node_results.length().to_string())
+    }
+    Err(e) => println("  Failed: " + e)
+  }
+  println("")
+
+  println("[4] Parsing from JSON...")
+  let json_str = "{\"version\":\"1.0\",\"name\":\"json_test\",\"nodes\":[{\"id\":\"a\",\"type\":\"trigger\",\"label\":\"Start\"},{\"id\":\"b\",\"type\":\"tool\",\"label\":\"Process\"},{\"id\":\"c\",\"type\":\"control\",\"label\":\"End\"}],\"edges\":[{\"from\":\"a\",\"to\":\"b\"},{\"from\":\"b\",\"to\":\"c\"}]}"
+  let parsed = @workflow.parse_workflow_json(json_str) catch {
+    e => {
+      println("  Parse error: " + e.to_string())
+      return
+    }
+  }
+  println(
+    "  Parsed: " +
+    parsed.name +
+    " (" +
+    parsed.nodes.length().to_string() +
+    " nodes)",
+  )
 
   println("")
-  println("2. Validating workflow...")
-  println("   Checking for duplicate node IDs...")
-  println("   Checking edge references...")
-  println("   ✓ Workflow validation passed")
-
-  println("")
-  println("3. Creating DAG...")
-  println("   - Adding 4 nodes to DAG")
-  println("   - Adding 3 edges to DAG")
-  println("   - Computing in-degrees")
-  println("   ✓ DAG created")
-
-  println("")
-  println("4. Topological sort (Kahn's algorithm)...")
-  println("   Initial queue: [start]")
-  println("   Processing: start (in-degree: 0)")
-  println("   Processing: step1 (in-degree: 0)")
-  println("   Processing: step2 (in-degree: 0)")
-  println("   Processing: end (in-degree: 0)")
-  println("   ✓ Execution order determined")
-  println("   Order: start -> step1 -> step2 -> end")
-
-  println("")
-  println("5. Executing workflow nodes:")
-
-  println("")
-  println("   [start] Trigger executed: Manual trigger")
-  println("   [start] Output: { triggered: true, timestamp: 1234567890 }")
-
-  println("")
-  println("   [step1] Tool: Echo")
-  println("   [step1] Input: { message: \"Hello from MoonFlow!\" }")
-  println("   [step1] Tool output: Hello from MoonFlow!")
-
-  println("")
-  println("   [step2] Tool: Process")
-  println("   [step2] Input: { data: \"This is step 2\" }")
-  println("   [step2] Tool output: Processed successfully")
-
-  println("")
-  println("   [end] Control: End")
-  println("   [end] Output: { status: \"success\" }")
+  println("[5] Serializing...")
+  let output = @workflow.serialize_workflow_to_json(wf)
+  println("  " + output)
 
   println("")
   println("===========================================")
-  println("MoonFlow Demo - Completed Successfully!")
+  println("  Demo completed!")
   println("===========================================")
 }

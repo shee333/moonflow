@@ -1,0 +1,8 @@
+import {
+  "username/moonflow/src/server",
+}
+
+options(
+  "is-main": true,
+  link: { "native": { "cc-flags": "-lws2_32" } },
+)

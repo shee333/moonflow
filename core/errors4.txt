@@ -1,0 +1,1134 @@
+moon : Warning: Duplicate alias `server` at "D:\Project\moonflow\core\cmd\serve
+r\moon.pkg.json". "test-import" will automatically add "import" and current pac
+kage as dependency so you don't need to add it manually. If you're test-importi
+ng a dependency with the same default alias as your current package, considerin
+g give it a different alias than the current package. Violating import: `userna
+me/moonflow/src/server`
+����λ�� ��:1 �ַ�: 1
++ moon check --target native 2>&1 | Out-String | Set-Content errors4.tx ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Warning: Duplic...low/src/server` 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+failed: C:\Users\1\.moon\bin\moonc.exe check -error-format json D:\Project\moonflow\core\src\runtime\context.mbt D:\Project\moonflow\core\src\runtime\executor.mbt D:\Project\moonflow\core\src\runtime\scheduler.mbt D:\Project\moonflow\core\src\runtime\workflow_executor.mbt -o D:\Project\moonflow\core\_build\native\debug\check\src\runtime\runtime.mi -pkg username/moonflow/src/runtime -std-path C:\Users\1\.moon\lib\core\_build\native\release\bundle -i C:\Users\1\.moon\lib\core\_build\native\release\bundle\prelude\prelude.mi:prelude -i D:\Project\moonflow\core\_build\native\debug\check\src\workflow\workflow.mi:workflow -pkg-sources username/moonflow/src/runtime:D:\Project\moonflow\core\src\runtime -target native -workspace-path D:\Project\moonflow\core -all-pkgs D:\Project\moonflow\core\_build\native\debug\check\all_pkgs.json
+Error: [4074] Missing type annotation for the parameter .
+Warning: [0009]
+    ╭─[ D:\Project\moonflow\core\src\http\client.mbt:13:12 ]
+    �? 13 �?pub struct HttpRequest {
+    �?           ─────┬─────  
+    �?                ╰─────── Warning (struct_never_constructed): The s
+truct HttpRequest is never constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:23:3 ]
+    �? 23 �?  Bool(Bool)
+    �?  ──┬─  
+    �?    ╰─── Warning (unused_constructor): Variant 'Bool' is never constru
+cted
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:24:3 ]
+    �? 24 �?  Array(Array[Value])
+    �?  ──┬──  
+    �?    ╰──── Warning (unused_constructor): Variant 'Array' is never cons
+tructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:26:3 ]
+    �? 26 �?  Null
+    �?  ──┬─  
+    �?    ╰─── Warning (unused_constructor): Variant 'Null' is never constru
+cted
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:41:3 ]
+    �? 41 �?  Pending
+    �?  ───┬───  
+    �?     ╰───── Warning (unused_constructor): Variant 'Pending' is never
+ constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:42:3 ]
+    �? 42 �?  Running
+    �?  ───┬───  
+    �?     ╰───── Warning (unused_constructor): Variant 'Running' is never
+ constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:45:3 ]
+    �? 45 �?  Skipped
+    �?  ───┬───  
+    �?     ╰───── Warning (unused_constructor): Variant 'Skipped' is never
+ constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:60:3 ]
+    �? 60 �?  Warning
+    �?  ───┬───  
+    �?     ╰───── Warning (unused_constructor): Variant 'Warning' is never
+ constructed
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:85:3 ]
+    �? 85 �?  self.data[key]
+    �?  ────┬────  
+    �?      ╰────── Expr Type Mismatch
+        has type : Map[String, Value]
+        wanted   : Map[String, Value?]
+────�?Error: [4031]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:91:5 ]
+    �? 91 �?    Some(Value::String(s)) => Some(s)
+    �?    ──┬─  
+    �?      ╰─── The type Value does not have the constructor Some.
+────�?Error: [4031]
+    ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:99:5 ]
+    �? 99 �?    Some(Value::Number(n)) => Some(n)
+    �?    ──┬─  
+    �?      ╰─── The type Value does not have the constructor Some.
+────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:122:3 ]
+     �? 122 �?  self.metadata.node_results[node_id]
+     �?  ─────────────┬────────────  
+     �?               ╰────────────── Expr Type Mismatch
+        has type : Map[String, NodeResult]
+        wanted   : Map[String, NodeResult?]
+─────�?Error: [3001]
+     ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:167:22 ]
+     �? 167 �?      "[\{items.join(", ")}]"
+     �?                     �? 
+     �?                     ╰── Lexing error: The character `"` is not allowe
+d in string interpolation. Hint: assign the expression to a variable (e.g., `le
+t x = ...`) and refer to that variable instead.
+─────�?Error: [3001]
+     ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:167:25 ]
+     �? 167 �?      "[\{items.join(", ")}]"
+     �?                        �? 
+     �?                        ╰── Lexing error: The character `"` is not all
+owed in string interpolation. Hint: assign the expression to a variable (e.g., 
+`let x = ...`) and refer to that variable instead.
+─────�?Error: [3001]
+     ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:174:22 ]
+     �? 174 �?      "{\{pairs.join(\", \")}}"
+     �?                     �? 
+     �?                     ╰── Lexing error: unrecognized character u32:0x5c
+─────�?Error: [3001]
+     ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:174:23 ]
+     �? 174 �?      "{\{pairs.join(\", \")}}"
+     �?                      �? 
+     �?                      ╰── Lexing error: The character `"` is not allow
+ed in string interpolation. Hint: assign the expression to a variable (e.g., `l
+et x = ...`) and refer to that variable instead.
+─────�?Error: [3001]
+     ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:174:27 ]
+     �? 174 �?      "{\{pairs.join(\", \")}}"
+     �?                          �? 
+     �?                          ╰── Lexing error: The character `"` is not a
+llowed in string interpolation. Hint: assign the expression to a variable (e.g.
+, `let x = ...`) and refer to that variable instead.
+─────�?Error: [3001]
+     ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:174:29 ]
+     �? 174 �?      "{\{pairs.join(\", \")}}"
+     �?                            �?
+     �?                            ╰─ Lexing error: (unterminated string liter
+al)
+─────�?Error: [3002]
+     ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:174:29 ]
+     �? 174 �?      "{\{pairs.join(\", \")}}"
+     �?                            �?
+     �?                            ╰─ Parse error, unexpected token `end of fi
+le`, you may expect `,` or `)`.
+─────�?Error: [4051]
+     ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:200:12 ]
+     �? 200 �?pub struct ExecutionContext {
+     �?           ────────┬───────  
+     �?                   ╰───────── The type ExecutionContext is decl
+ared twice: it was previously defined at D:\Project\moonflow\core\src\runtime\c
+ontext.mbt:5:1.
+─────�?Error: [3002]
+     ╭─[ D:\Project\moonflow\core\src\runtime\context.mbt:200:30 ]
+     �? 200 �?pub struct ExecutionContext {
+     �?                             �?
+     �?                             ╰─ Parse error, unexpected token `end of f
+ile`, you may expect id (lowercase start).
+─────�?Warning: [0027]
+   ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:5:11 ]
+   �? 5 �?pub type! ExecutorError {
+   �?          ──────┬──────  
+   �?                ╰──────── Warning (deprecated_syntax): The syntax 
+`type! A` for declaring suberror type is deprecated. Use `suberror A` instead.
+───�?Warning: [0006]
+   ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:6:3 ]
+   �? 6 �?  Timeout
+   �?  ───┬───  
+   �?     ╰───── Warning (unused_constructor): Variant 'Timeout' is never 
+constructed
+───�?Warning: [0006]
+   ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:7:3 ]
+   �? 7 �?  NetworkError(String)
+   �?  ──────┬─────  
+   �?        ╰─────── Warning (unused_constructor): Variant 'NetworkErro
+r' is never constructed
+───�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:10:3 ]
+    �? 10 �?  RateLimitError
+    �?  ───────┬──────  
+    �?         ╰──────── Warning (unused_constructor): Variant 'RateLim
+itError' is never constructed
+────�?Error: [4015]
+    ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:29:47 ]
+    �? 29 �?  let base_delay = retry_config.initial_delay.or(Some(1000)).unwrap
+()
+    �?                                              ─�? 
+    �?                                               ╰── Type Int has no meth
+od or.
+────�?Error: [4015]
+    ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:30:39 ]
+    �? 30 �?  let max = retry_config.max_attempts.or(Some(3)).unwrap()
+    �?                                      ─�? 
+    �?                                       ╰── Type Int has no method or.
+────�?Error: [4021]
+    ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:86:19 ]
+    �? 86 �?  let tool_name = detect_tool_name(node)
+    �?                  ────────┬───────  
+    �?                          ╰───────── The value identifier detect
+_tool_name is unbound.
+────�?Error: [4021]
+    ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:91:17 ]
+    �? 91 �?    "feishu" => execute_feishu_tool(node, ctx)
+    �?                ─────────┬─────────  
+    �?                         ╰─────────── The value identifier exe
+cute_feishu_tool is unbound.
+────�?Error: [4021]
+    ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:92:51 ]
+    �? 92 �?    "file_read" | "file_write" | "file_delete" => execute_file_tool
+(node, ctx, tool_name)
+    �?                                                  ────────┬───
+─────  
+    �?                                                          ╰───────
+─── The value identifier execute_file_tool is unbound.
+────�?Error: [4021]
+     ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:100:23 ]
+     �? 100 �?            "params": map_to_value(node.config),
+     �?                      ──────┬─────  
+     �?                            ╰─────── The value identifier map_to_
+value is unbound.
+─────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:113:40 ]
+     �? 113 �?  let model = node.config.get("model").or(Some("unknown")).unwrap
+()
+     �?                                       ─�? 
+     �?                                        ╰── Warning (deprecated): `or`
+ is deprecated, use `unwrap_or` instead
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:113:43 ]
+     �? 113 �?  let model = node.config.get("model").or(Some("unknown")).unwrap
+()
+     �?                                          ───────┬─────── 
+ 
+     �?                                                 ╰───────── Con
+str Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : String
+─────�?Error: [4015]
+     ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:113:60 ]
+     �? 113 �?  let model = node.config.get("model").or(Some("unknown")).unwrap
+()
+     �?                                                           ───┬──  
+     �?                                                              ╰──── 
+Type String has no method unwrap.
+─────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:114:42 ]
+     �? 114 �?  let prompt = node.config.get("prompt").or(Some("")).unwrap()
+     �?                                         ─�? 
+     �?                                          ╰── Warning (deprecated): `o
+r` is deprecated, use `unwrap_or` instead
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:114:45 ]
+     �? 114 �?  let prompt = node.config.get("prompt").or(Some("")).unwrap()
+     �?                                            ────┬───  
+     �?                                                ╰───── Constr Type 
+Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : String
+─────�?Error: [4015]
+     ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:114:55 ]
+     �? 114 �?  let prompt = node.config.get("prompt").or(Some("")).unwrap()
+     �?                                                      ───┬──  
+     �?                                                         ╰──── Type 
+String has no method unwrap.
+─────�?Error: [4021]
+     ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:141:22 ]
+     �? 141 �?  let control_name = detect_control_name(node)
+     �?                     ─────────┬─────────  
+     �?                              ╰─────────── The value identifi
+er detect_control_name is unbound.
+─────�?Warning: [0035]
+     ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:158:3 ]
+     �? 158 �?  method : String
+     �?  ───┬──  
+     �?     ╰──── Warning (reserved_keyword): The word `method` is reserved
+ for possible future use. Please consider using another name.
+─────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:160:36 ]
+     �? 160 �?  let url = node.config.get("url").or(Some("")).unwrap()
+     �?                                   ─�? 
+     �?                                    ╰── Warning (deprecated): `or` is 
+deprecated, use `unwrap_or` instead
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:160:39 ]
+     �? 160 �?  let url = node.config.get("url").or(Some("")).unwrap()
+     �?                                      ────┬───  
+     �?                                          ╰───── Constr Type Mismat
+ch(constructor Some)
+        has type : _/0?
+        wanted   : String
+─────�?Error: [4015]
+     ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:160:49 ]
+     �? 160 �?  let url = node.config.get("url").or(Some("")).unwrap()
+     �?                                                ───┬──  
+     �?                                                   ╰──── Type String
+ has no method unwrap.
+─────�?Warning: [0035]
+     ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:164:27 ]
+     �? 164 �?  ctx.log(message="HTTP \{method} \{url}")
+     �?                          ───┬──  
+     �?                             ╰──── Warning (reserved_keyword): The w
+ord `method` is reserved for possible future use. Please consider using another
+ name.
+─────�?Warning: [0035]
+     ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:169:33 ]
+     �? 169 �?        "method": Value::String(method),
+     �?                                ───┬──  
+     �?                                   ╰──── Warning (reserved_keyword):
+ The word `method` is reserved for possible future use. Please consider using a
+nother name.
+─────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:184:34 ]
+     �? 184 �?  let to = node.config.get("to").or(Some("")).unwrap()
+     �?                                 ─�? 
+     �?                                  ╰── Warning (deprecated): `or` is de
+precated, use `unwrap_or` instead
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:184:37 ]
+     �? 184 �?  let to = node.config.get("to").or(Some("")).unwrap()
+     �?                                    ────┬───  
+     �?                                        ╰───── Constr Type Mismatch
+(constructor Some)
+        has type : _/0?
+        wanted   : String
+─────�?Error: [4015]
+     ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:184:47 ]
+     �? 184 �?  let to = node.config.get("to").or(Some("")).unwrap()
+     �?                                              ───┬──  
+     �?                                                 ╰──── Type String h
+as no method unwrap.
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:188:3 ]
+     �? 188 �?  ctx.log(message="Sending email to \{to}")
+     �?  ────────────────────┬──────────────�
+�─────  
+     �?                      ╰────────────────────── Expr
+ Type Mismatch
+        has type : Unit
+        wanted   : Result[Value, ExecutorError]
+─────�?Error: [3002]
+     ╭─[ D:\Project\moonflow\core\src\runtime\executor.mbt:188:44 ]
+     �? 188 �?  ctx.log(message="Sending email to \{to}")
+     �?                                           �?
+     �?                                           ╰─ Parse error, unexpected t
+oken `end of file`, you may expect `;` or `}`.
+─────�?Warning: [0006]
+   ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:6:3 ]
+   �? 6 �?  SchedulerPending
+   �?  ────────┬───────  
+   �?          ╰───────── Warning (unused_constructor): Variant 'Sched
+ulerPending' is never constructed
+───�?Warning: [0006]
+   ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:7:3 ]
+   �? 7 �?  SchedulerRunning
+   �?  ────────┬───────  
+   �?          ╰───────── Warning (unused_constructor): Variant 'Sched
+ulerRunning' is never constructed
+───�?Warning: [0006]
+   ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:8:3 ]
+   �? 8 �?  SchedulerCompleted
+   �?  ─────────┬────────  
+   �?           ╰────────── Warning (unused_constructor): Variant 'Sc
+hedulerCompleted' is never constructed
+───�?Warning: [0006]
+   ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:9:3 ]
+   �? 9 �?  SchedulerFailed
+   �?  ───────┬───────  
+   �?         ╰───────── Warning (unused_constructor): Variant 'Schedu
+lerFailed' is never constructed
+───�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:10:3 ]
+    �? 10 �?  SchedulerCancelled
+    �?  ─────────┬────────  
+    �?           ╰────────── Warning (unused_constructor): Variant 'S
+chedulerCancelled' is never constructed
+────�?Warning: [0009]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:14:12 ]
+    �? 14 �?pub struct NodeExecution {
+    �?           ──────┬──────  
+    �?                 ╰──────── Warning (struct_never_constructed): Th
+e struct NodeExecution is never constructed
+────�?Error: [0015]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:16:7 ]
+    �? 16 �?  mut state : SchedulerState
+    �?      ──┬──  
+    �?        ╰──── Error Warning (unused_mut): The mutability of field 'st
+ate' is never used, try remove `mut`.
+────�?Error: [0015]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:17:7 ]
+    �? 17 �?  mut result : String?
+    �?      ───┬──  
+    �?         ╰──── Error Warning (unused_mut): The mutability of field 'r
+esult' is never used, try remove `mut`.
+────�?Error: [0015]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:18:7 ]
+    �? 18 �?  mut start_time : Int?
+    �?      ─────┬────  
+    �?           ╰────── Error Warning (unused_mut): The mutability of fi
+eld 'start_time' is never used, try remove `mut`.
+────�?Error: [0015]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:19:7 ]
+    �? 19 �?  mut end_time : Int?
+    �?      ────┬───  
+    �?          ╰───── Error Warning (unused_mut): The mutability of field
+ 'end_time' is never used, try remove `mut`.
+────�?Error: [0015]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:20:7 ]
+    �? 20 �?  mut error : String?
+    �?      ──┬──  
+    �?        ╰──── Error Warning (unused_mut): The mutability of field 'er
+ror' is never used, try remove `mut`.
+────�?Error: [0015]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:21:7 ]
+    �? 21 �?  mut retry_count : Int
+    �?      ─────┬─────  
+    �?           ╰─────── Error Warning (unused_mut): The mutability of 
+field 'retry_count' is never used, try remove `mut`.
+────�?Warning: [0009]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:25:12 ]
+    �? 25 �?pub struct SchedulerContext {
+    �?           ────────┬───────  
+    �?                   ╰───────── Warning (struct_never_constructed)
+: The struct SchedulerContext is never constructed
+────�?Error: [0015]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:31:7 ]
+    �? 31 �?  mut end_time : Int?
+    �?      ────┬───  
+    �?          ╰───── Error Warning (unused_mut): The mutability of field
+ 'end_time' is never used, try remove `mut`.
+────�?Error: [0015]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:41:7 ]
+    �? 41 �?  mut in_degree : Int
+    �?      ────┬────  
+    �?          ╰────── Error Warning (unused_mut): The mutability of fie
+ld 'in_degree' is never used, try remove `mut`.
+────�?Error: [0015]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:42:7 ]
+    �? 42 �?  mut out_degree : Int
+    �?      ─────┬────  
+    �?           ╰────── Error Warning (unused_mut): The mutability of fi
+eld 'out_degree' is never used, try remove `mut`.
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:75:7 ]
+    �? 75 �?      Some(arr) => arr.push(edge.to)
+    �?      ────┬────  
+    �?          ╰────── Constr Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : Array[String]
+────�?Warning: [0013]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:75:20 ]
+    �? 75 �?      Some(arr) => arr.push(edge.to)
+    �?                   ─┬─  
+    �?                    ╰─── Warning (unresolved_type_variable): The type 
+of this expression is _/0, which contains unresolved type variables. The type v
+ariable is default to Unit.
+────�?Error: [4015]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:75:24 ]
+    �? 75 �?      Some(arr) => arr.push(edge.to)
+    �?                       ──┬─  
+    �?                         ╰─── Type _/0 has no method push.
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:76:7 ]
+    �? 76 �?      None => dag.adjacency_list[edge.from] = [edge.to]
+    �?      ──┬─  
+    �?        ╰─── Constr Type Mismatch(constructor None)
+        has type : _/0?
+        wanted   : Array[String]
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:79:7 ]
+    �? 79 �?      Some(arr) => arr.push(edge.from)
+    �?      ────┬────  
+    �?          ╰────── Constr Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : Array[String]
+────�?Warning: [0013]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:79:20 ]
+    �? 79 �?      Some(arr) => arr.push(edge.from)
+    �?                   ─┬─  
+    �?                    ╰─── Warning (unresolved_type_variable): The type 
+of this expression is _/0, which contains unresolved type variables. The type v
+ariable is default to Unit.
+────�?Error: [4015]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:79:24 ]
+    �? 79 �?      Some(arr) => arr.push(edge.from)
+    �?                       ──┬─  
+    �?                         ╰─── Type _/0 has no method push.
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:80:7 ]
+    �? 80 �?      None => dag.reverse_adjacency_list[edge.to] = [edge.from]
+    �?      ──┬─  
+    �?        ╰─── Constr Type Mismatch(constructor None)
+        has type : _/0?
+        wanted   : Array[String]
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:83:7 ]
+    �? 83 �?      Some(dag_node) => {
+    �?      ───────┬──────  
+    �?             ╰──────── Constr Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : DAGNode
+────�?Warning: [0013]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:84:9 ]
+    �? 84 �?        dag_node.dependents.push(edge.to)
+    �?        ────┬───  
+    �?            ╰───── Warning (unresolved_type_variable): The type of t
+his expression is _/0, which contains unresolved type variables. The type varia
+ble is default to Unit.
+────�?Error: [4028]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:84:9 ]
+    �? 84 �?        dag_node.dependents.push(edge.to)
+    �?        ─────────┬─────────  
+    �?                 ╰─────────── This expression has type _/0, wh
+ich is a unknown type and not a struct.
+────�?Error: [4028]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:85:9 ]
+    �? 85 �?        dag_node.out_degree = dag_node.out_degree + 1
+    �?        ──────────────────────┬──────────
+────────────  
+    �?                              ╰─────────────────────
+─── This expression has type _/0, which is a unknown type and not a struct.
+────�?Error: [4028]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:85:31 ]
+    �? 85 �?        dag_node.out_degree = dag_node.out_degree + 1
+    �?                              ─────────┬─────────  
+    �?                                       ╰─────────── This expre
+ssion has type _/0, which is a unknown type and not a struct.
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:87:7 ]
+    �? 87 �?      None => ()
+    �?      ──┬─  
+    �?        ╰─── Constr Type Mismatch(constructor None)
+        has type : _/0?
+        wanted   : DAGNode
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:90:7 ]
+    �? 90 �?      Some(dag_node) => {
+    �?      ───────┬──────  
+    �?             ╰──────── Constr Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : DAGNode
+────�?Warning: [0013]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:91:9 ]
+    �? 91 �?        dag_node.dependencies.push(edge.from)
+    �?        ────┬───  
+    �?            ╰───── Warning (unresolved_type_variable): The type of t
+his expression is _/0, which contains unresolved type variables. The type varia
+ble is default to Unit.
+────�?Error: [4028]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:91:9 ]
+    �? 91 �?        dag_node.dependencies.push(edge.from)
+    �?        ──────────┬──────────  
+    �?                  ╰──────────── This expression has type _/0,
+ which is a unknown type and not a struct.
+────�?Error: [4028]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:92:9 ]
+    �? 92 �?        dag_node.in_degree = dag_node.in_degree + 1
+    �?        ─────────────────────┬───────────
+──────────  
+    �?                             ╰─────────────────────�
+�─ This expression has type _/0, which is a unknown type and not a struct.
+────�?Error: [4028]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:92:30 ]
+    �? 92 �?        dag_node.in_degree = dag_node.in_degree + 1
+    �?                             ─────────┬────────  
+    �?                                      ╰────────── This expressi
+on has type _/0, which is a unknown type and not a struct.
+────�?Error: [4014]
+    ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:94:7 ]
+    �? 94 �?      None => ()
+    �?      ──┬─  
+    �?        ╰─── Constr Type Mismatch(constructor None)
+        has type : _/0?
+        wanted   : DAGNode
+────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:115:7 ]
+     �? 115 �?      Some(neighbors) => {
+     �?      ───────┬───────  
+     �?             ╰───────── Constr Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : Array[String]
+─────�?Error: [4015]
+     ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:116:25 ]
+     �? 116 �?        for neighbor in neighbors {
+     �?                        ────┬────  
+     �?                            ╰────── Type _/0 has no method iter.
+─────�?Warning: [0013]
+     ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:116:25 ]
+     �? 116 �?        for neighbor in neighbors {
+     �?                        ────┬────  
+     �?                            ╰────── Warning (unresolved_type_varia
+ble): The type of this expression is _/0, which contains unresolved type variab
+les. The type variable is default to Unit.
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:118:13 ]
+     �? 118 �?            Some(degree) => {
+     �?            ──────┬─────  
+     �?                  ╰─────── Constr Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : Int
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:125:13 ]
+     �? 125 �?            None => ()
+     �?            ──┬─  
+     �?              ╰─── Constr Type Mismatch(constructor None)
+        has type : _/0?
+        wanted   : Int
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:129:7 ]
+     �? 129 �?      None => ()
+     �?      ──┬─  
+     �?        ╰─── Constr Type Mismatch(constructor None)
+        has type : _/0?
+        wanted   : Array[String]
+─────�?Error: [4104]
+     ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:144:7 ]
+     �? 144 �?      continue node_id
+     �?      ────────┬───────  
+     �?              ╰───────── Current loop expects 0 arguments, but 
+`continue` is supplied with 1 arguments
+─────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:148:10 ]
+     �? 148 �?      if not(completed_nodes.contains(dep)) {
+     �?         ─┬─  
+     �?          ╰─── Warning (deprecated): Use !expr instead
+─────�?Error: [4074]
+     ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:160:8 ]
+     �? 160 �?pub fn create_scheduler_context(
+     �?       ────────────┬───────────  
+     �?                   ╰───────────── Missing type annotation f
+or the return value.
+─────�?Warning: [0002]
+     ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:161:3 ]
+     �? 161 �?  workflow_id : String,
+     �?  ─────┬─────  
+     �?       ╰─────── Warning (unused_value): Unused variable 'workflow
+_id'
+─────�?Error: [3002]
+     ╭─[ D:\Project\moonflow\core\src\runtime\scheduler.mbt:161:24 ]
+     �? 161 �?  workflow_id : String,
+     �?                       �?
+     �?                       ╰─ Parse error, unexpected token `end of file`, 
+you may expect parameter name or label.
+─────�?Warning: [0027]
+   ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:6:25 ]
+   �? 6 �?pub type WorkflowResult Result[WorkflowExecution, WorkflowError]
+   �?                        ────────────────────┬────�
+�──────────────  
+   �?                                            ╰──────────────�
+�────── Warning (deprecated_syntax): The syntax `type T A` for newtype is
+ deprecated. Use `struct T(A)` instead.
+───�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:22:3 ]
+    �? 22 �?  WfPending
+    �?  ────┬────  
+    �?      ╰────── Warning (unused_constructor): Variant 'WfPending' is 
+never constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:23:3 ]
+    �? 23 �?  WfRunning
+    �?  ────┬────  
+    �?      ╰────── Warning (unused_constructor): Variant 'WfRunning' is 
+never constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:25:3 ]
+    �? 25 �?  WfFailed
+    �?  ────┬───  
+    �?      ╰───── Warning (unused_constructor): Variant 'WfFailed' is nev
+er constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:26:3 ]
+    �? 26 �?  WfCancelled
+    �?  ─────┬─────  
+    �?       ╰─────── Warning (unused_constructor): Variant 'WfCancelled
+' is never constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:33:3 ]
+    �? 33 �?  WfTimeout
+    �?  ────┬────  
+    �?      ╰────── Warning (unused_constructor): Variant 'WfTimeout' is 
+never constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:34:3 ]
+    �? 34 �?  WfCancelled
+    �?  ─────┬─────  
+    �?       ╰─────── Warning (unused_constructor): Variant 'WfCancelled
+' is never constructed
+────�?Error: [3001]
+    ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:60:56 ]
+    �? 60 �?  ctx.log(message="Execution order: \{order_names.join(\" -> \")}")
+    �?                                                       �? 
+    �?                                                       ╰── Lexing error
+: unrecognized character u32:0x5c
+────�?Error: [3001]
+    ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:60:57 ]
+    �? 60 �?  ctx.log(message="Execution order: \{order_names.join(\" -> \")}")
+    �?                                                        �? 
+    �?                                                        ╰── Lexing erro
+r: The character `"` is not allowed in string interpolation. Hint: assign the e
+xpression to a variable (e.g., `let x = ...`) and refer to that variable instea
+d.
+────�?Error: [3001]
+    ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:60:63 ]
+    �? 60 �?  ctx.log(message="Execution order: \{order_names.join(\" -> \")}")
+    �?                                                              �? 
+    �?                                                              ╰── Lexin
+g error: The character `"` is not allowed in string interpolation. Hint: assign
+ the expression to a variable (e.g., `let x = ...`) and refer to that variable 
+instead.
+────�?Error: [3001]
+    ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:60:65 ]
+    �? 60 �?  ctx.log(message="Execution order: \{order_names.join(\" -> \")}")
+    �?                                                                �?
+    �?                                                                ╰─ Lexin
+g error: (unterminated string literal)
+────�?Error: [3002]
+    ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:60:65 ]
+    �? 60 �?  ctx.log(message="Execution order: \{order_names.join(\" -> \")}")
+    �?                                                                �?
+    �?                                                                ╰─ Parse
+ error, unexpected token `end of file`, you may expect `,` or `)`.
+────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:141:49 ]
+     �? 141 �?    in_degree[edge.to] = in_degree.get(edge.to).or(Some(0)).unwra
+p() + 1
+     �?                                                ─�? 
+     �?                                                 ╰── Warning (deprecat
+ed): `or` is deprecated, use `unwrap_or` instead
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:141:52 ]
+     �? 141 �?    in_degree[edge.to] = in_degree.get(edge.to).or(Some(0)).unwra
+p() + 1
+     �?                                                   ───┬───  
+     �?                                                      ╰───── Constr
+ Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : Int
+─────�?Error: [4015]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:141:61 ]
+     �? 141 �?    in_degree[edge.to] = in_degree.get(edge.to).or(Some(0)).unwra
+p() + 1
+     �?                                                            ───┬── 
+ 
+     �?                                                               ╰────
+ Type Int has no method unwrap.
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:143:7 ]
+     �? 143 �?      Some(arr) => arr.push(edge.to)
+     �?      ────┬────  
+     �?          ╰────── Constr Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : Array[String]
+─────�?Warning: [0013]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:143:20 ]
+     �? 143 �?      Some(arr) => arr.push(edge.to)
+     �?                   ─┬─  
+     �?                    ╰─── Warning (unresolved_type_variable): The type
+ of this expression is _/0, which contains unresolved type variables. The type 
+variable is default to Unit.
+─────�?Error: [4015]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:143:24 ]
+     �? 143 �?      Some(arr) => arr.push(edge.to)
+     �?                       ──┬─  
+     �?                         ╰─── Type _/0 has no method push.
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:144:7 ]
+     �? 144 �?      None => adjacency[edge.from] = [edge.to]
+     �?      ──┬─  
+     �?        ╰─── Constr Type Mismatch(constructor None)
+        has type : _/0?
+        wanted   : Array[String]
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:158:7 ]
+     �? 158 �?      Some(node) => result.push(node)
+     �?      ─────┬────  
+     �?           ╰────── Constr Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : @username/moonflow/src/workflow.Node
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:159:7 ]
+     �? 159 �?      None => ()
+     �?      ──┬─  
+     �?        ╰─── Constr Type Mismatch(constructor None)
+        has type : _/0?
+        wanted   : @username/moonflow/src/workflow.Node
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:162:7 ]
+     �? 162 �?      Some(targets) => {
+     �?      ──────┬──────  
+     �?            ╰──────── Constr Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : Array[String]
+─────�?Error: [4015]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:163:23 ]
+     �? 163 �?        for target in targets {
+     �?                      ───┬───  
+     �?                         ╰───── Type _/0 has no method iter.
+─────�?Warning: [0013]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:163:23 ]
+     �? 163 �?        for target in targets {
+     �?                      ───┬───  
+     �?                         ╰───── Warning (unresolved_type_variable):
+ The type of this expression is _/0, which contains unresolved type variables. 
+The type variable is default to Unit.
+─────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:164:50 ]
+     �? 164 �?          let new_degree = in_degree.get(target).or(Some(0)).unwr
+ap() - 1
+     �?                                                 ─�? 
+     �?                                                  ╰── Warning (depreca
+ted): `or` is deprecated, use `unwrap_or` instead
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:164:53 ]
+     �? 164 �?          let new_degree = in_degree.get(target).or(Some(0)).unwr
+ap() - 1
+     �?                                                    ───┬───  
+     �?                                                       ╰───── Const
+r Type Mismatch(constructor Some)
+        has type : _/0?
+        wanted   : Int
+─────�?Error: [4015]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:164:62 ]
+     �? 164 �?          let new_degree = in_degree.get(target).or(Some(0)).unwr
+ap() - 1
+     �?                                                             ───┬──
+  
+     �?                                                                ╰───�
+� Type Int has no method unwrap.
+─────�?Error: [4014]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:171:7 ]
+     �? 171 �?      None => ()
+     �?      ──┬─  
+     �?        ╰─── Constr Type Mismatch(constructor None)
+        has type : _/0?
+        wanted   : Array[String]
+─────�?Warning: [0027]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:238:3 ]
+     �? 238 �?╭─�?  #|{
+     �?�?  
+ 248 �?├─�?  $|}
+     �?�?          
+     �?╰─────────── Warning (deprecated_syntax): Using a multiline s
+tring directly, except in `let` bindings, FFI, or parentheses, is deprecated. C
+onsider using `let x = #| ...` or wrapping it in `()`.
+─────�?Warning: [0002]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:254:7 ]
+     �? 254 �?  let msg = format_workflow_error(err)
+     �?      ─┬─  
+     �?       ╰─── Warning (unused_value): Unused variable 'msg'
+─────�?Warning: [0027]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:255:3 ]
+     �? 255 �?  #|{"success": false, "error": "\{msg}"}
+     �?  ───────────────────┬───────────────�
+�───  
+     �?                     ╰───────────────────── Warning
+ (deprecated_syntax): Using a multiline string directly, except in `let` bindin
+gs, FFI, or parentheses, is deprecated. Consider using `let x = #| ...` or wrap
+ping it in `()`.
+─────�?Error: [4051]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:257:10 ]
+     �? 257 �?pub type WorkflowResult = Result[WorkflowExecution, WorkflowError
+]
+     �?         ───────┬──────  
+     �?                ╰──────── The type WorkflowResult is declared tw
+ice: it was previously defined at D:\Project\moonflow\core\src\runtime\workflow
+_executor.mbt:6:1.
+─────�?Error: [4051]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:259:12 ]
+     �? 259 �?pub struct WorkflowExecution {
+     �?           ────────┬────────  
+     �?                   ╰────────── The type WorkflowExecution is d
+eclared twice: it was previously defined at D:\Project\moonflow\core\src\runtim
+e\workflow_executor.mbt:9:1.
+─────�?Error: [4051]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:270:10 ]
+     �? 270 �?pub enum WorkflowStatus {
+     �?         ───────┬──────  
+     �?                ╰──────── The type WorkflowStatus is declared tw
+ice: it was previously defined at D:\Project\moonflow\core\src\runtime\workflow
+_executor.mbt:21:1.
+─────�?Error: [4051]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:278:10 ]
+     �? 278 �?pub enum WorkflowError {
+     �?         ──────┬──────  
+     �?               ╰──────── The type WorkflowError is declared twic
+e: it was previously defined at D:\Project\moonflow\core\src\runtime\workflow_e
+xecutor.mbt:30:1.
+─────�?Error: [4051]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:285:8 ]
+     �? 285 �?pub fn execute_workflow(
+     �?       ────────┬───────  
+     �?               ╰───────── The toplevel identifier execute_workf
+low is declared twice: it was previously defined at D:\Project\moonflow\core\sr
+c\runtime\workflow_executor.mbt:38:8.
+─────�?Error: [3001]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:310:59 ]
+     �? 310 �?    message="Execution order: \{execution_order.map(fn(n) { n.id 
+}).join(\" -> \")}"
+     �?                                                          �? 
+     �?                                                          ╰── Lexing e
+rror: The character `{` is not allowed in string interpolation. Hint: assign th
+e expression to a variable (e.g., `let x = ...`) and refer to that variable ins
+tead.
+─────�?Error: [3002]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:310:65 ]
+     �? 310 �?    message="Execution order: \{execution_order.map(fn(n) { n.id 
+}).join(\" -> \")}"
+     �?                                                                �?
+     �?                                                                ╰─ Pars
+e error, unexpected token `end of file`, you may expect `;` or `}`.
+─────�?Error: [4108]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:313:3 ]
+     �? 313 �?╭─�?  for node in execution_order {
+     �?�?  
+ 322 �?├─�?          node_id: node.id,
+     �?�?                               
+     �?╰──────────────────────────────── The fo
+r loop is expected to yield a value of type WorkflowResult, please add an `else
+` branch.
+─────�?Warning: [0002]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:319:10 ]
+     �? 319 �?      Ok(output) => {
+     �?         ───┬──  
+     �?            ╰──── Warning (unused_value): Unused variable 'output'
+─────�?Warning: [0002]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:320:13 ]
+     �? 320 �?        let duration = get_timestamp() - start_time
+     �?            ────┬───  
+     �?                ╰───── Warning (unused_value): Unused variable 'dur
+ation'
+─────�?Warning: [0002]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:321:13 ]
+     �? 321 �?        let result = {
+     �?            ───┬──  
+     �?               ╰──── Warning (unused_value): Unused variable 'result
+'
+─────�?Error: [4033]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:321:22 ]
+     �? 321 �?╭─�?        let result = {
+ 322 �?├─�?          node_id: node.id,
+     �?�?                               
+     �?╰──────────────────────────────── There 
+is no record definition with the fields: node_id, .
+─────�?Error: [3002]
+     ╭─[ D:\Project\moonflow\core\src\runtime\workflow_executor.mbt:322:28 ]
+     �? 322 �?          node_id: node.id,
+     �?                           �?
+     �?                           ╰─ Parse error, unexpected token `end of fil
+e`, you may expect id (lowercase start).
+─────�?Warning: [0020]
+    ╭─[ D:\Project\moonflow\core\src\utils\utils.mbt:47:7 ]
+    �? 47 �?    s.substring(start~, end=end + 1)
+    �?      ────┬────  
+    �?          ╰────── Warning (deprecated): Use `str[:]` or `str[:].to_
+string()` instead
+────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\parser.mbt:273:13 ]
+     �? 273 �?  if result.size() > 0 {
+     �?            ──┬─  
+     �?              ╰─── Warning (deprecated): `size` is deprecated, use `l
+ength` instead
+─────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:14:3 ]
+    �? 14 �?  Timer
+    �?  ──┬──  
+    �?    ╰──── Warning (unused_constructor): Variant 'Timer' is never cons
+tructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:15:3 ]
+    �? 15 �?  Webhook
+    �?  ───┬───  
+    �?     ╰───── Warning (unused_constructor): Variant 'Webhook' is never
+ constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:16:3 ]
+    �? 16 �?  Manual
+    �?  ───┬──  
+    �?     ╰──── Warning (unused_constructor): Variant 'Manual' is never co
+nstructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:21:3 ]
+    �? 21 �?  HttpGet
+    �?  ───┬───  
+    �?     ╰───── Warning (unused_constructor): Variant 'HttpGet' is never
+ constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:22:3 ]
+    �? 22 �?  HttpPost
+    �?  ────┬───  
+    �?      ╰───── Warning (unused_constructor): Variant 'HttpPost' is nev
+er constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:23:3 ]
+    �? 23 �?  Email
+    �?  ──┬──  
+    �?    ╰──── Warning (unused_constructor): Variant 'Email' is never cons
+tructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:24:3 ]
+    �? 24 �?  Feishu
+    �?  ───┬──  
+    �?     ╰──── Warning (unused_constructor): Variant 'Feishu' is never co
+nstructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:25:3 ]
+    �? 25 �?  FileRead
+    �?  ────┬───  
+    �?      ╰───── Warning (unused_constructor): Variant 'FileRead' is nev
+er constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:26:3 ]
+    �? 26 �?  FileWrite
+    �?  ────┬────  
+    �?      ╰────── Warning (unused_constructor): Variant 'FileWrite' is 
+never constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:27:3 ]
+    �? 27 �?  FileDelete
+    �?  ─────┬────  
+    �?       ╰────── Warning (unused_constructor): Variant 'FileDelete' i
+s never constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:32:3 ]
+    �? 32 �?  LLM
+    �?  ─┬─  
+    �?   ╰─── Warning (unused_constructor): Variant 'LLM' is never construct
+ed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:33:3 ]
+    �? 33 �?  IntentClassify
+    �?  ───────┬──────  
+    �?         ╰──────── Warning (unused_constructor): Variant 'IntentC
+lassify' is never constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:38:3 ]
+    �? 38 �?  Condition
+    �?  ────┬────  
+    �?      ╰────── Warning (unused_constructor): Variant 'Condition' is 
+never constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:39:3 ]
+    �? 39 �?  Parallel
+    �?  ────┬───  
+    �?      ╰───── Warning (unused_constructor): Variant 'Parallel' is nev
+er constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:40:3 ]
+    �? 40 �?  Loop
+    �?  ──┬─  
+    �?    ╰─── Warning (unused_constructor): Variant 'Loop' is never constru
+cted
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:41:3 ]
+    �? 41 �?  End
+    �?  ─┬─  
+    �?   ╰─── Warning (unused_constructor): Variant 'End' is never construct
+ed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:53:3 ]
+    �? 53 �?  All
+    �?  ─┬─  
+    �?   ╰─── Warning (unused_constructor): Variant 'All' is never construct
+ed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:54:3 ]
+    �? 54 �?  Any
+    �?  ─┬─  
+    �?   ╰─── Warning (unused_constructor): Variant 'Any' is never construct
+ed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:55:3 ]
+    �? 55 �?  N
+    �?  �? 
+    �?  ╰── Warning (unused_constructor): Variant 'N' is never constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:60:3 ]
+    �? 60 �?  Success
+    �?  ───┬───  
+    �?     ╰───── Warning (unused_constructor): Variant 'Success' is never
+ constructed
+────�?Warning: [0006]
+    ╭─[ D:\Project\moonflow\core\src\workflow\types.mbt:61:3 ]
+    �? 61 �?  Failure
+    �?  ───┬───  
+    �?     ╰───── Warning (unused_constructor): Variant 'Failure' is never
+ constructed
+────�?Warning: [0006]
+   ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:7:3 ]
+   �? 7 �?  InvalidNodeReference(String)
+   �?  ──────────┬─────────  
+   �?            ╰─────────── Warning (unused_constructor): Variant 
+'InvalidNodeReference' is never constructed
+───�?Warning: [0020]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:53:8 ]
+    �? 53 �?    if not(ids.contains(edge.from)) {
+    �?       ─┬─  
+    �?        ╰─── Warning (deprecated): Use !expr instead
+────�?Warning: [0020]
+    ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:56:8 ]
+    �? 56 �?    if not(ids.contains(edge.to)) {
+    �?       ─┬─  
+    �?        ╰─── Warning (deprecated): Use !expr instead
+────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:107:8 ]
+     �? 107 �?    if not(visited.contains(node.id)) {
+     �?       ─┬─  
+     �?        ╰─── Warning (deprecated): Use !expr instead
+─────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\validator.mbt:132:12 ]
+     �? 132 �?        if not(visited.contains(neighbor)) {
+     �?           ─┬─  
+     �?            ╰─── Warning (deprecated): Use !expr instead
+─────�?Warning: [0006]
+   ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:7:3 ]
+   �? 7 �?  SevError
+   �?  ────┬───  
+   �?      ╰───── Warning (unused_constructor): Variant 'SevError' is neve
+r constructed
+───�?Warning: [0020]
+    ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:90:25 ]
+    �? 90 �?    let current = queue.pop_exn()
+    �?                        ───┬───  
+    �?                           ╰───── Warning (deprecated): `pop_exn` is
+ deprecated, use `unsafe_pop` instead
+────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:122:19 ]
+     �? 122 �?    if node.label.is_empty() {
+     �?                  ────┬───  
+     �?                      ╰───── Warning (deprecated): use `x is None` 
+instead
+─────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:133:24 ]
+     �? 133 �?        if node.config.size() == 0 {
+     �?                       ──┬─  
+     �?                         ╰─── Warning (deprecated): `size` is depreca
+ted, use `length` instead
+─────�?Warning: [0020]
+     ╭─[ D:\Project\moonflow\core\src\workflow\workflow_helpers.mbt:145:27 ]
+     �? 145 �?  if workflow.description.is_empty() {
+     �?                          ────┬───  
+     �?                              ╰───── Warning (deprecated): use `x i
+s None` instead
+─────�?Failed with 83 warnings, 91 errors.
+Error: failed to run check for target Native
+
+Caused by:
+    failed when checking project
+
