@@ -72,21 +72,24 @@ export function ImageGenerator({ onClose }: ImageGeneratorProps) {
     }
   };
 
+  const buildFilename = (index: number) => `microsoft-culture-${Date.now()}-${index + 1}.png`;
+
   const handleDownload = async (url: string, index: number) => {
+    const filename = buildFilename(index);
     try {
       const res = await fetch(url);
       const blob = await res.blob();
       const objectUrl = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = objectUrl;
-      a.download = `microsoft-culture-${Date.now()}-${index + 1}.png`;
+      a.download = filename;
       a.click();
       URL.revokeObjectURL(objectUrl);
     } catch {
       const a = document.createElement('a');
       a.href = url;
       a.target = '_blank';
-      a.download = `microsoft-culture-${Date.now()}-${index + 1}.png`;
+      a.download = filename;
       a.click();
     }
   };
@@ -333,7 +336,11 @@ export function ImageGenerator({ onClose }: ImageGeneratorProps) {
                 </div>
                 <div className="img-gen-history-info">
                   <div className="img-gen-history-timestamp">{item.timestamp.toLocaleString()}</div>
-                  <div className="img-gen-history-prompt">{item.request.prompt.substring(0, 80)}...</div>
+                  <div className="img-gen-history-prompt">
+                    {item.request.prompt.length > 80
+                      ? `${item.request.prompt.substring(0, 80)}...`
+                      : item.request.prompt}
+                  </div>
                 </div>
               </div>
             ))}
