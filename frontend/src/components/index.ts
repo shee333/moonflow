@@ -5,5 +5,6 @@ export { CodeEditor } from './CodeEditor';
 export { WorkflowIDE } from './WorkflowIDE';
 export { ExecutionPanel } from './ExecutionPanel';
 export { NodeConfigPanel } from './NodeConfigPanel';
+export { ImageGenerator } from './ImageGenerator';
 export type { ExecutionStatus, ExecutionLog } from './ExecutionPanel';
 export * from './types';

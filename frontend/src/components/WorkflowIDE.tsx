@@ -7,6 +7,7 @@ import { WorkflowManager } from './WorkflowManager';
 import { KeyboardShortcutsHelp } from './KeyboardShortcutsHelp';
 import { AnalyticsDashboard } from './AnalyticsDashboard';
 import { LLMTester } from './LLMTester';
+import { ImageGenerator } from './ImageGenerator';
 import { generateMoonBitCode, validateWorkflow } from '../utils/codeGenerator';
 import { Workflow } from './types';
 import { useTheme } from '../context';
@@ -20,6 +21,7 @@ export function WorkflowIDE() {
   const [viewMode, setViewMode] = useState<ViewMode>('split');
   const [showExecutionPanel, setShowExecutionPanel] = useState(true);
   const [showLLMTester, setShowLLMTester] = useState(false);
+  const [showImageGenerator, setShowImageGenerator] = useState(false);
   const [validationResult, setValidationResult] = useState<{ valid: boolean; errors: string[] } | null>(null);
   const { theme, toggleTheme } = useTheme();
   const { nodes, edges, addNode } = useWorkflow();
@@ -278,6 +280,13 @@ export function WorkflowIDE() {
             🤖 LLM 测试
           </button>
           <button
+            onClick={() => setShowImageGenerator(!showImageGenerator)}
+            className={showImageGenerator ? 'active' : ''}
+            title="微软 Culture 图片生成器"
+          >
+            🖼️ Culture 图片
+          </button>
+          <button
             onClick={toggleTheme}
             className="secondary"
             title={`切换到 ${theme === 'dark' ? '浅色' : '深色'} 主题`}
@@ -369,6 +378,12 @@ export function WorkflowIDE() {
                 setShowLLMTester(false);
               }}
             />
+          </div>
+        )}
+
+        {showImageGenerator && (
+          <div className="llm-tester-container">
+            <ImageGenerator onClose={() => setShowImageGenerator(false)} />
           </div>
         )}
       </div>
